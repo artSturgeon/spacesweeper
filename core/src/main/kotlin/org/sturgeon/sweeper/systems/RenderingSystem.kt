@@ -47,8 +47,11 @@ class RenderingSystem: EntitySystem() {
     private fun drawTextures(q: List<Entity>) {
         for (texture in textures) {
             var vc = Mappers.visualMapper.get(texture)
+
             var pc = Mappers.positionMapper.get(texture)
-            batch.draw(vc.region, pc.x, pc.y)
+            //SpriteBatch.draw(textureRegion, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
+            //batch.draw(vc.region, pc.x, pc.y)
+            batch.draw(vc.region, pc.x, pc.y, pc.originX(), pc.originY(), pc.width, pc.height, 1f, 1f, pc.angle)
         }
     }
 }

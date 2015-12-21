@@ -1,6 +1,7 @@
 package org.sturgeon.sweeper
 
 import com.badlogic.ashley.core.ComponentMapper
+import org.sturgeon.sweeper.components.MovementComponent
 import org.sturgeon.sweeper.components.PositionComponent
 import org.sturgeon.sweeper.components.VisualComponent
 
@@ -10,4 +11,5 @@ import org.sturgeon.sweeper.components.VisualComponent
 object Mappers {
     val visualMapper = ComponentMapper.getFor(VisualComponent::class.java)
     val positionMapper = ComponentMapper.getFor(PositionComponent::class.java)
+    val movementMapper = ComponentMapper.getFor(MovementComponent::class.java)
 }
