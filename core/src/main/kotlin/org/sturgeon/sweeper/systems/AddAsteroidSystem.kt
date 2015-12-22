@@ -7,9 +7,7 @@ import com.badlogic.gdx.math.MathUtils
 import org.sturgeon.sweeper.Assets
 import org.sturgeon.sweeper.components.*
 
-/**
- * Created by henri on 22/12/2015.
- */
+
 class AddAsteroidSystem(var i:Float) : IntervalSystem(i) {
 
     override fun updateInterval() {

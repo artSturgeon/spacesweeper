@@ -1,6 +1,8 @@
 package org.sturgeon.sweeper
 
+import aurelienribon.tweenengine.Tween
 import com.badlogic.ashley.core.Entity
+import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.ScreenAdapter
@@ -11,27 +13,68 @@ import org.sturgeon.sweeper.systems.*
 
 
 class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
+
+    var alwaysSystems = arrayOf(RenderingSystem(), TweenSystem())
+    var attractSystems:Array<EntitySystem> = arrayOf(AddAsteroidSystem(2f))
+    var playSystems = arrayOf(MovementSystem()
+                    ,FiringSystem()
+                    ,AddAsteroidSystem(1f)
+                    ,CollisionSystem())
+
+    val ATTRACT = 1
+    val PLAYING = 2
+
+    var mode = 1
+
     companion object {
         var firing = false
     }
+
     private var turret:Entity
 
     init {
         turret = Entity()
-        createWorld()
+        //setPlaying()
+        setAttract()
     }
 
     //private val TURRET_ID = 100
-
 
     override fun render(delta: Float) {
         keyListener()
         game.engine.update(delta)
     }
 
-    private fun createWorld() {
+    private fun setAttract() {
+        println("set attract")
+        addSystems(attractSystems)
 
-        addSystems()
+        var logo = Entity()
+        var t = Texture(Assets.LOGO)
+        var pc = PositionComponent(1100f, 100f, t.width.toFloat(), t.height.toFloat())
+
+        logo.add(pc)
+        logo.add(VisualComponent(t))
+        game.engine.addEntity(logo)
+
+        var tween = Tween.to(pc, 1, 2f).target(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT - 400f)
+        game.engine.getSystem(TweenSystem::class.java).addTween(tween)
+
+
+        var startText = Entity()
+        startText.add(PositionComponent(100f, 100f))
+        startText.add(TextComponent("Press any key to start"))
+        game.engine.addEntity(startText)
+
+
+
+    }
+
+    private fun setPlaying() {
+
+        mode = PLAYING
+
+        addSystems(playSystems)
         var station = Entity()
         var t = Texture(Assets.STATION)
 
@@ -52,12 +95,21 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
     }
 
-    private fun addSystems() {
-        game.engine.addSystem(RenderingSystem())
-        game.engine.addSystem(MovementSystem())
-        game.engine.addSystem(FiringSystem())
-        game.engine.addSystem(AddAsteroidSystem(1f))
-        game.engine.addSystem(CollisionSystem())
+    private fun addSystems(systems:Array<EntitySystem>) {
+
+        for (system in game.engine.systems) {
+            game.engine.removeSystem(system)
+        }
+        game.engine.removeAllEntities()
+
+        for (system in alwaysSystems) {
+            game.engine.addSystem(system)
+        }
+
+        for (system in systems) {
+            game.engine.addSystem(system)
+        }
+
     }
 
     private fun keyListener() {
@@ -68,6 +120,12 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
             } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 var pc = turret.getComponent(PositionComponent::class.java)
                 pc.angle -= 2f
+            }
+        }
+
+        if (mode == ATTRACT) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
+                setPlaying()
             }
         }
         /*
