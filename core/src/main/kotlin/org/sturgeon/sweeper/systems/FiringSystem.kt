@@ -47,6 +47,7 @@ class FiringSystem : IteratingSystem(Family.all(FiringComponent::class.java).get
 
         bullet.add(MovementComponent(100f * cos(rad), 100f * sin(rad)))
         bullet.add(BoundsCheckComponent())
+        bullet.add(BulletComponent())
 
         engine.addEntity(bullet)
     }

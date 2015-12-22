@@ -7,9 +7,7 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Texture
 import org.sturgeon.sweeper.components.*
-import org.sturgeon.sweeper.systems.FiringSystem
-import org.sturgeon.sweeper.systems.MovementSystem
-import org.sturgeon.sweeper.systems.RenderingSystem
+import org.sturgeon.sweeper.systems.*
 
 
 class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
@@ -33,10 +31,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
     private fun createWorld() {
 
-        game.engine.addSystem(RenderingSystem())
-        game.engine.addSystem(MovementSystem())
-        game.engine.addSystem(FiringSystem())
-
+        addSystems()
         var station = Entity()
         var t = Texture(Assets.STATION)
 
@@ -57,6 +52,13 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
     }
 
+    private fun addSystems() {
+        game.engine.addSystem(RenderingSystem())
+        game.engine.addSystem(MovementSystem())
+        game.engine.addSystem(FiringSystem())
+        game.engine.addSystem(AddAsteroidSystem(1f))
+        game.engine.addSystem(CollisionSystem())
+    }
 
     private fun keyListener() {
         if (!firing) {
