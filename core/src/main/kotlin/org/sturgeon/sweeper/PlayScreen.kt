@@ -11,10 +11,9 @@ import com.badlogic.gdx.graphics.Texture
 import org.sturgeon.sweeper.components.*
 import org.sturgeon.sweeper.systems.*
 
-
 class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
-    var alwaysSystems = arrayOf(RenderingSystem(), TweenSystem(), MovementSystem())
+    var alwaysSystems = arrayOf(RenderingSystem(), TweenSystem(), MovementSystem(), BoundsCheckSystem())
     var attractSystems:Array<EntitySystem> = arrayOf(StarfieldSystem(0.1f))
     var playSystems = arrayOf(FiringSystem()
                     ,AddAsteroidSystem(1f)
