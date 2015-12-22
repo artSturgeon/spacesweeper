@@ -14,10 +14,9 @@ import org.sturgeon.sweeper.systems.*
 
 class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
-    var alwaysSystems = arrayOf(RenderingSystem(), TweenSystem())
-    var attractSystems:Array<EntitySystem> = arrayOf(AddAsteroidSystem(2f))
-    var playSystems = arrayOf(MovementSystem()
-                    ,FiringSystem()
+    var alwaysSystems = arrayOf(RenderingSystem(), TweenSystem(), MovementSystem())
+    var attractSystems:Array<EntitySystem> = arrayOf(StarfieldSystem(0.1f))
+    var playSystems = arrayOf(FiringSystem()
                     ,AddAsteroidSystem(1f)
                     ,CollisionSystem())
 
@@ -57,16 +56,14 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         logo.add(VisualComponent(t))
         game.engine.addEntity(logo)
 
-        var tween = Tween.to(pc, 1, 2f).target(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT - 400f)
+        var tween = Tween.to(pc, 1, 2f).target(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT - 200f)
         game.engine.getSystem(TweenSystem::class.java).addTween(tween)
 
 
         var startText = Entity()
-        startText.add(PositionComponent(100f, 100f))
-        startText.add(TextComponent("Press any key to start"))
+        startText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, 100f))
+        startText.add(TextComponent("Press any key to start", true))
         game.engine.addEntity(startText)
-
-
 
     }
 

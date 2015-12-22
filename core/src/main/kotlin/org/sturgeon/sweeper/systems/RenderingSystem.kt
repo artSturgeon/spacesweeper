@@ -31,6 +31,7 @@ class RenderingSystem: EntitySystem() {
     init {
         camera.position.set(Assets.VIEWPORT_WIDTH/2, Assets.VIEWPORT_HEIGHT/2, 0f)
         viewport = FitViewport(Assets.VIEWPORT_WIDTH, Assets.VIEWPORT_HEIGHT, camera)
+        bitmapFont.data.setScale(2.0f)
     }
 
     override fun addedToEngine(engine: Engine?) {
@@ -60,7 +61,12 @@ class RenderingSystem: EntitySystem() {
             var pc = Mappers.positionMapper.get(texture)
             //SpriteBatch.draw(textureRegion, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
             //batch.draw(vc.region, pc.x, pc.y)
-            batch.draw(vc.region, pc.x, pc.y, pc.originX(), pc.originY(), pc.width, pc.height, 1f, 1f, pc.angle)
+            batch.draw(vc.region,               // texture region
+                    pc.x, pc.y,                 // x, y position
+                    pc.originX(), pc.originY(), // origin
+                    pc.width, pc.height,        // width and height
+                    pc.scaleX, pc.scaleY,                     // scale
+                    pc.angle)                   //angle
         }
     }
 

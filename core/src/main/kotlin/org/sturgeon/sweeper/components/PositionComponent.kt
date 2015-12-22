@@ -13,6 +13,9 @@ class PositionComponent(x: Float, y: Float, width: Float = 100f, height: Float =
     var originX = -1f
     var originY = -1f
 
+    var scaleX = 1f
+    var scaleY = 1f
+
     fun originX(): Float {
         if (originX >= 0)
             return originX
