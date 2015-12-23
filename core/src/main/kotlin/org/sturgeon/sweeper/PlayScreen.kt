@@ -34,8 +34,8 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
     init {
         turret = Entity()
-        setPlaying()
-        //setAttract()
+        //setPlaying()
+        setAttract()
     }
 
     //private val TURRET_ID = 100
@@ -103,7 +103,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         // add health
         var healthText = Entity()
         healthText.add(PositionComponent(10f, Assets.VIEWPORT_HEIGHT - 80))
-        
+
         fun updateHealth() = { "health: " + station.getComponent(HealthComponent::class.java).health  }
         station.add(HealthComponent(100, { setGameOver() }))
         healthText.add(UpdatingTextComponent("health : " + 100, false, updateHealth() ))
