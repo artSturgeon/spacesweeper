@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport
 import org.sturgeon.sweeper.Assets
 import org.sturgeon.sweeper.Mappers
 import org.sturgeon.sweeper.components.TextComponent
+import org.sturgeon.sweeper.components.UpdatingTextComponent
 import org.sturgeon.sweeper.components.VisualComponent
 
 class RenderingSystem: EntitySystem() {
@@ -23,6 +24,7 @@ class RenderingSystem: EntitySystem() {
     lateinit private var viewport: Viewport
     lateinit private var textures: ImmutableArray<Entity>
     lateinit private var fonts:ImmutableArray<Entity>
+    lateinit private var updatingFonts:ImmutableArray<Entity>
     lateinit private var queue: List<Entity>
 
     private var bitmapFont = BitmapFont()
@@ -37,6 +39,7 @@ class RenderingSystem: EntitySystem() {
     override fun addedToEngine(engine: Engine?) {
         textures = engine!!.getEntitiesFor(Family.all(VisualComponent::class.java).get())
         fonts = engine!!.getEntitiesFor(Family.all(TextComponent::class.java).get())
+        updatingFonts = engine!!.getEntitiesFor(Family.all(UpdatingTextComponent::class.java).get())
         queue = textures.sortedBy { it.getComponent(VisualComponent::class.java).zOrder }
     }
 
@@ -75,8 +78,28 @@ class RenderingSystem: EntitySystem() {
             var tx = Mappers.textMapper.get(font)
             var pc = Mappers.positionMapper.get(font)
 
-            glyphLayout.setText(bitmapFont, tx.text)
-            bitmapFont.draw(batch, glyphLayout, pc.x - glyphLayout.width/2, pc.y)
+            drawText(tx.text, tx.center, pc.x, pc.y)
+        }
+
+        for (font in updatingFonts) {
+            var tx = Mappers.updatingTextMapper.get(font)
+            var pc = Mappers.positionMapper.get(font)
+
+            var txt = tx.updateText()
+            drawText(txt, tx.center, pc.x, pc.y)
         }
     }
+
+    private fun drawText(txt:String, center:Boolean, x:Float, y:Float) {
+        glyphLayout.setText(bitmapFont, txt)
+
+        var pcx = x
+        if (center) pcx -= glyphLayout.width / 2
+
+        bitmapFont.draw(batch, glyphLayout, pcx, y)
+    }
+
+
+
+
 }

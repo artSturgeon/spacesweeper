@@ -11,7 +11,7 @@ class PositionAccessor: TweenAccessor<PositionComponent> {
     override fun getValues(pc: PositionComponent?, type: Int, returns: FloatArray?): Int {
         when(type) {
             POSITION -> { returns!![0] = pc!!.x
-                returns!![1] = pc!!.y }
+                returns[1] = pc!!.y }
         }
         return 2 // two values in array
     }

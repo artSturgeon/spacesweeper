@@ -1,10 +1,7 @@
 package org.sturgeon.sweeper
 
 import com.badlogic.ashley.core.ComponentMapper
-import org.sturgeon.sweeper.components.MovementComponent
-import org.sturgeon.sweeper.components.PositionComponent
-import org.sturgeon.sweeper.components.TextComponent
-import org.sturgeon.sweeper.components.VisualComponent
+import org.sturgeon.sweeper.components.*
 
 /**
  * Created by henri on 20/12/2015.
@@ -14,4 +11,5 @@ object Mappers {
     val positionMapper = ComponentMapper.getFor(PositionComponent::class.java)
     val movementMapper = ComponentMapper.getFor(MovementComponent::class.java)
     val textMapper = ComponentMapper.getFor(TextComponent::class.java)
+    val updatingTextMapper = ComponentMapper.getFor(UpdatingTextComponent::class.java)
 }

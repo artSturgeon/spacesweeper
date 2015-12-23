@@ -7,10 +7,10 @@ import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.Rectangle
-import org.sturgeon.sweeper.components.AsteroidComponent
-import org.sturgeon.sweeper.components.BulletComponent
-import org.sturgeon.sweeper.components.PlayerComponent
-import org.sturgeon.sweeper.components.PositionComponent
+import javafx.scene.shape.HLineTo
+import org.sturgeon.sweeper.PlayScreen
+import org.sturgeon.sweeper.World
+import org.sturgeon.sweeper.components.*
 
 
 class CollisionSystem : EntitySystem() {
@@ -20,21 +20,42 @@ class CollisionSystem : EntitySystem() {
     lateinit private var asteroids: ImmutableArray<Entity>
 
     override fun addedToEngine(engine: Engine?) {
-
         players = engine!!.getEntitiesFor(Family.all(PlayerComponent::class.java).get())
         bullets = engine!!.getEntitiesFor(Family.all(BulletComponent::class.java).get())
         asteroids = engine!!.getEntitiesFor(Family.all(AsteroidComponent::class.java).get())
-
     }
 
 
     override fun update(deltaTime: Float) {
 
         //if (players.size() < 1) return
-        if (bullets.size() < 1 || asteroids.size() < 1) return
+        if (players.size() > 0 && asteroids.size() > 0) stationAndAsteroids()
+        if (bullets.size() > 0 && asteroids.size() > 0) bulletsAndAsteroids()
 
-        bulletsAndAsteroids()
     }
+
+
+    private fun stationAndAsteroids() {
+        var station = players.get(0)
+        var stationPC = station.getComponent(PositionComponent::class.java)
+
+        for (asteroid in asteroids) {
+            var asteroidPC = asteroid.getComponent(PositionComponent::class.java)
+            var r = Rectangle()
+            Intersector.intersectRectangles(stationPC.rect(), asteroidPC.rect(), r)
+            if (r.width > 0) {
+                engine.removeEntity(asteroid)
+                var hc = station.getComponent(HealthComponent::class.java)
+                hc.health -= 50
+
+                if (hc.health <= 0) {
+                    // game over
+                    hc.func()
+                }
+            }
+        }
+    }
+
 
     private fun bulletsAndAsteroids() {
 
@@ -48,6 +69,7 @@ class CollisionSystem : EntitySystem() {
                 Intersector.intersectRectangles(bulletPC.rect(), asteroidPC.rect(), r)
 
                 if (r.width > 0) {
+                    World.score += 10
                     engine.removeEntity(asteroid)
                     engine.removeEntity(bullet)
                 }

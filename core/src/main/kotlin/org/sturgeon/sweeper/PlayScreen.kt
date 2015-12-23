@@ -6,7 +6,6 @@ import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.ScreenAdapter
-import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Texture
 import org.sturgeon.sweeper.components.*
 import org.sturgeon.sweeper.systems.*
@@ -17,23 +16,26 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     var attractSystems:Array<EntitySystem> = arrayOf(StarfieldSystem(0.1f))
     var playSystems = arrayOf(FiringSystem()
                     ,AddAsteroidSystem(1f)
-                    ,CollisionSystem())
+                    ,CollisionSystem()
+                    ,ScoreSystem(), HealthSystem())
+    //var gameOverSystems = arrayOf()
+
+    private var turret:Entity
 
     val ATTRACT = 1
     val PLAYING = 2
+    val GAME_OVER = 3
 
-    var mode = 1
+    var mode = ATTRACT
 
     companion object {
         var firing = false
     }
 
-    private var turret:Entity
-
     init {
         turret = Entity()
-        //setPlaying()
-        setAttract()
+        setPlaying()
+        //setAttract()
     }
 
     //private val TURRET_ID = 100
@@ -44,7 +46,8 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     }
 
     private fun setAttract() {
-        println("set attract")
+
+        mode = ATTRACT
         addSystems(attractSystems)
 
         var logo = Entity()
@@ -71,16 +74,17 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         mode = PLAYING
 
         addSystems(playSystems)
+
+        // add station
         var station = Entity()
         var t = Texture(Assets.STATION)
-
         station.add(PositionComponent(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT/2 - t.height/2, t.width.toFloat(), t.height.toFloat()))
         station.add(VisualComponent(t))
+        station.add(PlayerComponent())
         game.engine.addEntity(station)
 
-
+        // add turret
         var t2 = Texture(Assets.TURRET)
-
         var pc = PositionComponent(Assets.VIEWPORT_WIDTH/2 - t2.width/2, Assets.VIEWPORT_HEIGHT/2 - t2.height/2, t2.width.toFloat(), t2.height.toFloat())
         pc.originX = 38f
         pc.originY = 38f
@@ -88,6 +92,40 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         turret.add(VisualComponent(t2))
         turret.add(FiringComponent())
         game.engine.addEntity(turret)
+
+        // add score
+        var scoreText = Entity()
+        scoreText.add(PositionComponent(10f, Assets.VIEWPORT_HEIGHT - 40))
+        scoreText.add(TextComponent("score : " + World.score))
+        scoreText.add(ScoreComponent())
+        game.engine.addEntity(scoreText)
+
+        // add health
+        var healthText = Entity()
+        healthText.add(PositionComponent(10f, Assets.VIEWPORT_HEIGHT - 80))
+        
+        fun updateHealth() = { "health: " + station.getComponent(HealthComponent::class.java).health  }
+        station.add(HealthComponent(100, { setGameOver() }))
+        healthText.add(UpdatingTextComponent("health : " + 100, false, updateHealth() ))
+        game.engine.addEntity(healthText)
+    }
+
+     fun setGameOver() {
+        println("game over")
+        mode = GAME_OVER
+
+        game.engine.removeSystem(game.engine.getSystem(MovementSystem::class.java))
+        game.engine.removeSystem(game.engine.getSystem(CollisionSystem::class.java))
+
+        var gameOverText = Entity()
+        gameOverText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, Assets.VIEWPORT_HEIGHT/2))
+        gameOverText.add(TextComponent("Game Over !", true))
+        game.engine.addEntity(gameOverText)
+
+        var startText = Entity()
+        startText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, 100f))
+        startText.add(TextComponent("Press any key to start", true))
+        game.engine.addEntity(startText)
 
     }
 
@@ -123,7 +161,13 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
             if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
                 setPlaying()
             }
+        } else if (mode == GAME_OVER) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
+                setAttract()
+            }
         }
+
+
         /*
         if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
             shoot()
