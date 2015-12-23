@@ -13,7 +13,6 @@ import org.sturgeon.sweeper.components.VisualComponent
 
 class StarfieldSystem(var i:Float) : IntervalSystem(i) {
 
-
     override fun updateInterval() {
         var star = Entity()
 
@@ -34,8 +33,5 @@ class StarfieldSystem(var i:Float) : IntervalSystem(i) {
         star.add(BoundsCheckComponent())
 
         engine.addEntity(star)
-
     }
-
-
 }
