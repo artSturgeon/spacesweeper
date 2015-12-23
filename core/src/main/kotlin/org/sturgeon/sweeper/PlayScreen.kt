@@ -1,12 +1,14 @@
 package org.sturgeon.sweeper
 
 import aurelienribon.tweenengine.Tween
+import aurelienribon.tweenengine.equations.Bounce
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.Texture
+import org.sturgeon.sweeper.Accessors.PositionAccessor
 import org.sturgeon.sweeper.components.*
 import org.sturgeon.sweeper.systems.*
 
@@ -52,21 +54,23 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
         var logo = Entity()
         var t = Texture(Assets.LOGO)
-        var pc = PositionComponent(1100f, 100f, t.width.toFloat(), t.height.toFloat())
-
+        var pc = PositionComponent(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT+ 200, t.width.toFloat(), t.height.toFloat())
+        pc.scaleX = 0.1f
+        pc.scaleY = 0.1f
         logo.add(pc)
         logo.add(VisualComponent(t))
         game.engine.addEntity(logo)
 
-        var tween = Tween.to(pc, 1, 2f).target(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT - 200f)
-        game.engine.getSystem(TweenSystem::class.java).addTween(tween)
+        var tweenPos = Tween.to(pc, PositionAccessor.POSITION, 2f).target(pc.x, Assets.VIEWPORT_HEIGHT - 200f).ease(Bounce.OUT)
+        var tweenScale = Tween.to(pc, PositionAccessor.SCALE, 2f).target(1f, 1f)
 
+        game.engine.getSystem(TweenSystem::class.java).addTween(tweenPos)
+        game.engine.getSystem(TweenSystem::class.java).addTween(tweenScale)
 
         var startText = Entity()
         startText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, 100f))
         startText.add(TextComponent("Press any key to start", true))
         game.engine.addEntity(startText)
-
     }
 
     private fun setPlaying() {
@@ -147,13 +151,15 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     }
 
     private fun keyListener() {
-        if (!firing) {
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                var pc = turret.getComponent(PositionComponent::class.java)
-                pc.angle += 2f
-            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                var pc = turret.getComponent(PositionComponent::class.java)
-                pc.angle -= 2f
+        if (mode == PLAYING) {
+            if (!firing) {
+                if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                    var pc = turret.getComponent(PositionComponent::class.java)
+                    pc.angle += 2f
+                } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                    var pc = turret.getComponent(PositionComponent::class.java)
+                    pc.angle -= 2f
+                }
             }
         }
 

@@ -40,10 +40,12 @@ class RenderingSystem: EntitySystem() {
         textures = engine!!.getEntitiesFor(Family.all(VisualComponent::class.java).get())
         fonts = engine!!.getEntitiesFor(Family.all(TextComponent::class.java).get())
         updatingFonts = engine!!.getEntitiesFor(Family.all(UpdatingTextComponent::class.java).get())
-        queue = textures.sortedBy { it.getComponent(VisualComponent::class.java).zOrder }
+        //queue = textures.sortedBy { it.getComponent(VisualComponent::class.java).zOrder }
     }
 
     override fun update(deltaTime: Float) {
+
+        queue = textures.sortedBy { it.getComponent(VisualComponent::class.java).zOrder }
 
         camera.update()
         batch.projectionMatrix = camera.combined
@@ -58,7 +60,7 @@ class RenderingSystem: EntitySystem() {
     }
 
     private fun drawTextures(q: List<Entity>) {
-        for (texture in textures) {
+        for (texture in q) {
             var vc = Mappers.visualMapper.get(texture)
 
             var pc = Mappers.positionMapper.get(texture)

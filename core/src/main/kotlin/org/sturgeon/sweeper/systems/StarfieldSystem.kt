@@ -29,7 +29,7 @@ class StarfieldSystem(var i:Float) : IntervalSystem(i) {
 
         star.add(pc)
 
-        star.add(VisualComponent(t))
+        star.add(VisualComponent(t, 0))
         star.add(MovementComponent(MathUtils.random(-300f, -100f), 0f))
         star.add(BoundsCheckComponent())
 

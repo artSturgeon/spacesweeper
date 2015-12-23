@@ -24,19 +24,25 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994948"
-     inkscape:cx="-1958.1247"
-     inkscape:cy="937.07341"
+     inkscape:zoom="3.9597979"
+     inkscape:cx="-627.17436"
+     inkscape:cy="1348.2747"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      showborder="false"
      inkscape:showpageshadow="false"
      inkscape:window-width="1958"
      inkscape:window-height="1060"
      inkscape:window-x="296"
      inkscape:window-y="92"
-     inkscape:window-maximized="0" />
+     inkscape:window-maximized="0"
+     inkscape:snap-global="true"
+     inkscape:snap-grids="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3025" />
+  </sodipodi:namedview>
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -128,7 +134,7 @@
        sodipodi:type="star" />
     <path
        sodipodi:type="star"
-       style="fill:#8f563b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="fill:#663931;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="path2997"
        sodipodi:sides="8"
        sodipodi:cx="-871.42859"
@@ -141,7 +147,7 @@
        inkscape:rounded="1.0408341e-17"
        inkscape:randomized="0"
        d="m -774.28574,129.50504 -93.10224,41.91156 -95.46918,-36.19728 -41.91154,-93.10224 36.19726,-95.469177 93.10224,-41.911563 95.46918,36.197277 41.91156,93.102242 z"
-       transform="matrix(0.31498395,0,0,0.31498395,-622.15778,-280.60822)"
+       transform="matrix(0.31498395,0,0,0.31498395,-493.86841,-303.84173)"
        inkscape:export-filename="/Users/henri/projects/spacesweeper/core/assets/asteroid1.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
@@ -313,6 +319,41 @@
        y="1539.0859"
        transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,0,0)"
        inkscape:export-filename="/Users/henri/projects/spacesweeper/core/assets/star1.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#663931;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       d="m -555.14531,-230.92811 -29.32571,13.20147 -30.07126,-11.40156 -13.20146,-29.32571 11.40155,-30.07126 29.32571,-13.20147 30.07126,11.40156 13.20147,29.32571 z"
+       id="path3015"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/Users/henri/projects/spacesweeper/core/assets/asteroid1.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#8f563b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       d="m -692.63491,-337.86942 -15.46214,8.47547 -17.93238,-1.84683 -8.19846,-17.14452 11.07143,-30.35714 29.74785,-13.47547 -2.60334,21.66826 8.38285,15.63298 z"
+       id="path3018"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccc"
+       inkscape:export-filename="/Users/henri/projects/spacesweeper/core/assets/asteroid_segment1.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#8f563b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       d="m -567.34681,-345.95022 -11.68238,30.32069 -25.576,-33.09789 -8.89994,-16.47139 2.57978,-21.59943 30.08613,11.31505 z"
+       id="path3020"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccc"
+       inkscape:export-filename="/Users/henri/projects/spacesweeper/core/assets/asteroid_segment2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#8f563b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       d="m -667.02531,-204.86998 -30.55387,-11.67666 -4.95181,-11.14555 18.60252,1.21341 14.43707,-7.91973 5.38601,-17.05645 26.01076,33.61046 c -9.58378,4.24226 -19.41758,8.57719 -28.93068,12.97452 z"
+       id="path3022"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccc"
+       inkscape:export-filename="/Users/henri/projects/spacesweeper/core/assets/asteroid_segment3.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
   </g>
