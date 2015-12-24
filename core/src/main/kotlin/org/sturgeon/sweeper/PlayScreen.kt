@@ -82,6 +82,16 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         startText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, 100f))
         startText.add(TextComponent("Press any key to start", true))
         game.engine.addEntity(startText)
+
+        var theWorld = Entity()
+        var worldTex = Texture(Assets.WORLD)
+        var worldPC = PositionComponent(Assets.VIEWPORT_WIDTH/2 - worldTex.width/2, -800f,
+                worldTex.width.toFloat(), worldTex.height.toFloat())
+        theWorld.add(worldPC)
+        theWorld.add(VisualComponent(worldTex))
+        theWorld.add(MovementComponent(0f, 0f, 6f))
+        game.engine.addEntity(theWorld)
+
     }
 
     private fun setPlaying() {

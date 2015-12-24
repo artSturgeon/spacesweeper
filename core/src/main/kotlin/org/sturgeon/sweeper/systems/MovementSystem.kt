@@ -16,5 +16,7 @@ class MovementSystem : IteratingSystem(Family.all(MovementComponent::class.java,
 
         pc.x += mc.velocityX * deltaTime
         pc.y += mc.velocityY * deltaTime
+
+        pc.angle += mc.velocityAngular * deltaTime
     }
 }
