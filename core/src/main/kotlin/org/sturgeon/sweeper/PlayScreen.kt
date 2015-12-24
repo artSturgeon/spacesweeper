@@ -22,6 +22,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
                     ,ScoreSystem(), HealthSystem())
     //var gameOverSystems = arrayOf()
 
+    private var station = Entity()
     private var turret:Entity
 
     val ATTRACT = 1
@@ -92,7 +93,11 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         theWorld.add(MovementComponent(0f, 0f, 6f))
         game.engine.addEntity(theWorld)
 
+        addStation()
+
     }
+
+
 
     private fun setPlaying() {
 
@@ -100,13 +105,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
         addSystems(playSystems)
 
-        // add station
-        var station = Entity()
-        var t = Texture(Assets.STATION)
-        station.add(PositionComponent(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT/2 - t.height/2, t.width.toFloat(), t.height.toFloat()))
-        station.add(VisualComponent(t))
-        station.add(PlayerComponent())
-        game.engine.addEntity(station)
+
 
         // add turret
         var t2 = Texture(Assets.TURRET)
@@ -156,6 +155,16 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         World.score = 0
         if (World.lastScore > World.highScore) World.highScore = World.lastScore
 
+    }
+
+    fun addStation() {
+        // add station
+
+        var t = Texture(Assets.STATION)
+        station.add(PositionComponent(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT/2 - t.height/2, t.width.toFloat(), t.height.toFloat()))
+        station.add(VisualComponent(t))
+        station.add(PlayerComponent())
+        game.engine.addEntity(station)
     }
 
     private fun addSystems(systems:Array<EntitySystem>) {
