@@ -1,5 +1,6 @@
 package org.sturgeon.sweeper.systems
 
+import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.systems.IntervalIteratingSystem
@@ -21,5 +22,11 @@ class ScoreSystem : IntervalIteratingSystem(Family.all(ScoreComponent::class.jav
         tx.text = "Score : " + currentScore
 
         if (currentScore == World.score) lastScore = currentScore
+    }
+
+    override fun addedToEngine(engine: Engine?) {
+        super.addedToEngine(engine)
+        lastScore = 0
+        currentScore = 0
     }
 }

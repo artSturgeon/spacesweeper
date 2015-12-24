@@ -67,6 +67,17 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         game.engine.getSystem(TweenSystem::class.java).addTween(tweenPos)
         game.engine.getSystem(TweenSystem::class.java).addTween(tweenScale)
 
+
+        var lastScoreText = Entity()
+        lastScoreText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, 300f))
+        lastScoreText.add(TextComponent("Last score : " + World.lastScore, true))
+        game.engine.addEntity(lastScoreText)
+
+        var highScoreText = Entity()
+        highScoreText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, 350f))
+        highScoreText.add(TextComponent("High score : " + World.highScore, true))
+        game.engine.addEntity(highScoreText)
+
         var startText = Entity()
         startText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, 100f))
         startText.add(TextComponent("Press any key to start", true))
@@ -130,6 +141,10 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         startText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, 100f))
         startText.add(TextComponent("Press any key to start", true))
         game.engine.addEntity(startText)
+
+        World.lastScore = World.score
+        World.score = 0
+        if (World.lastScore > World.highScore) World.highScore = World.lastScore
 
     }
 
