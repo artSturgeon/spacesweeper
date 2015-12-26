@@ -12,4 +12,5 @@ object Mappers {
     val movementMapper = ComponentMapper.getFor(MovementComponent::class.java)
     val textMapper = ComponentMapper.getFor(TextComponent::class.java)
     val updatingTextMapper = ComponentMapper.getFor(UpdatingTextComponent::class.java)
+    val animationMapper = ComponentMapper.getFor(AnimationComponent::class.java)
 }

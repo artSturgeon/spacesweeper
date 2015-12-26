@@ -12,9 +12,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import org.sturgeon.sweeper.Assets
 import org.sturgeon.sweeper.Mappers
-import org.sturgeon.sweeper.components.TextComponent
-import org.sturgeon.sweeper.components.UpdatingTextComponent
-import org.sturgeon.sweeper.components.VisualComponent
+import org.sturgeon.sweeper.components.*
 
 class RenderingSystem: EntitySystem() {
 
@@ -24,27 +22,19 @@ class RenderingSystem: EntitySystem() {
     lateinit private var textures: ImmutableArray<Entity>
     lateinit private var fonts:ImmutableArray<Entity>
     lateinit private var updatingFonts:ImmutableArray<Entity>
+    lateinit private var animations: ImmutableArray<Entity>
+
     lateinit private var queue: List<Entity>
 
     private var bitmapFont = BitmapFont()
     private var glyphLayout = GlyphLayout()
 
     var stateTime = 0f
-    var firingAnimation: Animation
 
     init {
         camera.position.set(Assets.VIEWPORT_WIDTH/2, Assets.VIEWPORT_HEIGHT/2, 0f)
         viewport = FitViewport(Assets.VIEWPORT_WIDTH, Assets.VIEWPORT_HEIGHT, camera)
         bitmapFont.data.setScale(2.0f)
-
-        // Texture with all frames
-        var firing = Texture(Assets.TURRET_ANIMATION)
-        // 2d array with frames split by width/height
-        var tmp = TextureRegion.split(firing, firing.width, firing.height/10)
-        // 1d array with consecutive frames
-        var firingFrames = Array<TextureRegion>(10, { i -> tmp[i][0] })
-        // animation, constructor takes varargs, so using Kotlin spread operator *
-        firingAnimation = com.badlogic.gdx.graphics.g2d.Animation(0.02f, *firingFrames)
     }
 
 
@@ -52,6 +42,7 @@ class RenderingSystem: EntitySystem() {
         textures = engine!!.getEntitiesFor(Family.all(VisualComponent::class.java).get())
         fonts = engine!!.getEntitiesFor(Family.all(TextComponent::class.java).get())
         updatingFonts = engine!!.getEntitiesFor(Family.all(UpdatingTextComponent::class.java).get())
+        animations = engine!!.getEntitiesFor(Family.all(AnimationComponent::class.java, PositionComponent::class.java).get())
         //queue = textures.sortedBy { it.getComponent(VisualComponent::class.java).zOrder }
     }
 
@@ -67,6 +58,7 @@ class RenderingSystem: EntitySystem() {
         batch.begin()
 
         drawTextures(queue)
+        drawAnimations(deltaTime)
         drawFonts()
 
 
@@ -75,13 +67,25 @@ class RenderingSystem: EntitySystem() {
 
     }
 
-    private fun drawAnimations() {
+    private fun drawAnimations(deltaTime: Float) {
 
-        stateTime += deltaTime
+        for (animation in animations) {
+            var ac = Mappers.animationMapper.get(animation)
+            var pc = Mappers.positionMapper.get(animation)
 
-        var currentFrame = firingAnimation.getKeyFrame(stateTime, true)
+            if (ac.running)
+                stateTime += deltaTime
 
-        batch.draw(currentFrame, 100f, 100f)
+            var currentFrame = ac.anim.getKeyFrame(stateTime, true)
+
+            //batch.draw(currentFrame, pc.x, pc.y)
+            batch.draw(currentFrame,               // texture region
+                    pc.x, pc.y,                 // x, y position
+                    pc.originX(), pc.originY(), // origin
+                    pc.width, pc.height,        // width and height
+                    pc.scaleX, pc.scaleY,                     // scale
+                    pc.angle)                   //angle
+        }
 
     }
 

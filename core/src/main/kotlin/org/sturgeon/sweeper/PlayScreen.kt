@@ -25,7 +25,8 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     //var gameOverSystems = arrayOf()
 
     private var station = Entity()
-    private var turret:Entity
+    private var turret = Entity()
+    private var testAnim = Entity()
 
     val ATTRACT = 1
     val PLAYING = 2
@@ -38,9 +39,8 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     }
 
     init {
-        turret = Entity()
-        //setPlaying()
-        setAttract()
+        setPlaying()
+        //setAttract()
     }
 
     //private val TURRET_ID = 100
@@ -52,7 +52,40 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
     var stateTime = 0f
 
+    private fun addTurret() {
 
+        // add turret
+        //var t2 = Texture(Assets.TURRET)
+
+        // Texture with all frames
+        var firing = Texture(Assets.TURRET_ANIMATION)
+        // 2d array with frames split by width/height
+        var tmp = TextureRegion.split(firing, firing.width, firing.height/10)
+        // 1d array with consecutive frames
+        var firingFrames = Array<TextureRegion>(10, { i -> tmp[i][0] })
+        // animation, constructor takes varargs, so using Kotlin spread operator *
+        var firingAnimation = Animation(0.05f, *firingFrames)
+
+        var width = firingFrames[0].regionWidth
+        var height = firingFrames[0].regionHeight
+        var pc = PositionComponent(Assets.VIEWPORT_WIDTH/2 - width/2,
+                Assets.VIEWPORT_HEIGHT/2 - height/2,
+                width.toFloat(), height.toFloat())
+
+        //var pc = PositionComponent(100f, 100f, firingFrames[0].regionWidth.toFloat(), firingFrames[0].regionHeight.toFloat())
+
+        //pc.originX = 38f
+        //pc.originY = 38f
+        pc.originX = 64f;
+        pc.originY = 64f;
+        turret.add(pc)
+        //turret.add(VisualComponent(t2))
+        turret.add(AnimationComponent(firingAnimation))
+        turret.add(FiringComponent())
+        game.engine.addEntity(turret)
+
+        //game.engine.addEntity(testAnim)
+    }
 
     private fun setAttract() {
 
@@ -100,10 +133,8 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         game.engine.addEntity(theWorld)
 
         addStation()
-
+        //animTest()
     }
-
-
 
     private fun setPlaying() {
 
@@ -111,17 +142,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
         addSystems(playSystems)
 
-
-
-        // add turret
-        var t2 = Texture(Assets.TURRET)
-        var pc = PositionComponent(Assets.VIEWPORT_WIDTH/2 - t2.width/2, Assets.VIEWPORT_HEIGHT/2 - t2.height/2, t2.width.toFloat(), t2.height.toFloat())
-        pc.originX = 38f
-        pc.originY = 38f
-        turret.add(pc)
-        turret.add(VisualComponent(t2))
-        turret.add(FiringComponent())
-        game.engine.addEntity(turret)
+        addTurret()
 
         // add score
         var scoreText = Entity()
@@ -204,8 +225,20 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         }
 
         if (mode == ATTRACT) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
-                setPlaying()
+            if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
+                //setPlaying()
+                testAnim.getComponent(AnimationComponent::class.java).running = true
+
+            } else {
+                testAnim.getComponent(AnimationComponent::class.java).running = false
+            }
+            // testing turret animation
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                var pc = testAnim.getComponent(PositionComponent::class.java)
+                pc.angle += 2f
+            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                var pc = testAnim.getComponent(PositionComponent::class.java)
+                pc.angle -= 2f
             }
         } else if (mode == GAME_OVER) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
