@@ -8,6 +8,8 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.Animation
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import org.sturgeon.sweeper.Accessors.PositionAccessor
 import org.sturgeon.sweeper.components.*
 import org.sturgeon.sweeper.systems.*
@@ -47,6 +49,10 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         keyListener()
         game.engine.update(delta)
     }
+
+    var stateTime = 0f
+
+
 
     private fun setAttract() {
 

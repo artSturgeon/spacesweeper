@@ -6,9 +6,8 @@ import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.g2d.BitmapFont
-import com.badlogic.gdx.graphics.g2d.GlyphLayout
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.*
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import org.sturgeon.sweeper.Assets
@@ -30,11 +29,24 @@ class RenderingSystem: EntitySystem() {
     private var bitmapFont = BitmapFont()
     private var glyphLayout = GlyphLayout()
 
+    var stateTime = 0f
+    var firingAnimation: Animation
+
     init {
         camera.position.set(Assets.VIEWPORT_WIDTH/2, Assets.VIEWPORT_HEIGHT/2, 0f)
         viewport = FitViewport(Assets.VIEWPORT_WIDTH, Assets.VIEWPORT_HEIGHT, camera)
         bitmapFont.data.setScale(2.0f)
+
+        // Texture with all frames
+        var firing = Texture(Assets.TURRET_ANIMATION)
+        // 2d array with frames split by width/height
+        var tmp = TextureRegion.split(firing, firing.width, firing.height/10)
+        // 1d array with consecutive frames
+        var firingFrames = Array<TextureRegion>(10, { i -> tmp[i][0] })
+        // animation, constructor takes varargs, so using Kotlin spread operator *
+        firingAnimation = com.badlogic.gdx.graphics.g2d.Animation(0.02f, *firingFrames)
     }
+
 
     override fun addedToEngine(engine: Engine?) {
         textures = engine!!.getEntitiesFor(Family.all(VisualComponent::class.java).get())
@@ -44,16 +56,20 @@ class RenderingSystem: EntitySystem() {
     }
 
     override fun update(deltaTime: Float) {
-
+        stateTime += deltaTime
         queue = textures.sortedBy { it.getComponent(VisualComponent::class.java).zOrder }
 
         camera.update()
         batch.projectionMatrix = camera.combined
 
+        var currentFrame = firingAnimation.getKeyFrame(stateTime, true)
+
         batch.begin()
 
         drawTextures(queue)
         drawFonts()
+
+        batch.draw(currentFrame, 100f, 100f)
 
         batch.end()
 
