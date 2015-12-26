@@ -56,24 +56,35 @@ class RenderingSystem: EntitySystem() {
     }
 
     override fun update(deltaTime: Float) {
-        stateTime += deltaTime
+
         queue = textures.sortedBy { it.getComponent(VisualComponent::class.java).zOrder }
 
         camera.update()
         batch.projectionMatrix = camera.combined
 
-        var currentFrame = firingAnimation.getKeyFrame(stateTime, true)
+
 
         batch.begin()
 
         drawTextures(queue)
         drawFonts()
 
-        batch.draw(currentFrame, 100f, 100f)
+
 
         batch.end()
 
     }
+
+    private fun drawAnimations() {
+
+        stateTime += deltaTime
+
+        var currentFrame = firingAnimation.getKeyFrame(stateTime, true)
+
+        batch.draw(currentFrame, 100f, 100f)
+
+    }
+
 
     private fun drawTextures(q: List<Entity>) {
         for (texture in q) {
