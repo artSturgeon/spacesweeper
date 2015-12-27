@@ -18,7 +18,7 @@ object Assets {
     val ASTEROID_SEGMENT_2 = Gdx.files.internal("asteroid_segment2.png")
     val ASTEROID_SEGMENT_3 = Gdx.files.internal("asteroid_segment3.png")
 
-    var TURRET_ANIMATION = Gdx.files.internal("turret_firing1.png")
+    var TURRET_ANIMATION = Gdx.files.internal("turret_firing2.png")
 
     val LOGO = Gdx.files.internal("logo1.png")
     var STAR = Gdx.files.internal("star1.png")

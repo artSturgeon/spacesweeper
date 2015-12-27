@@ -1,57 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r5">
     <folder id="0">
-        <file id="0" name="turret_base.png" width="118" height="118" pivot_x="0" pivot_y="1"/>
-        <file id="1" name="turret_left.png" width="87" height="26" pivot_x="0" pivot_y="1"/>
-        <file id="2" name="turret_right.png" width="87" height="26" pivot_x="0" pivot_y="1"/>
-        <file id="3" name="turret_top.png" width="87" height="87" pivot_x="0" pivot_y="1"/>
+        <file id="0" name="turret_base.png" width="368" height="368" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="turret_left.png" width="301" height="59" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="turret_right.png" width="301" height="59" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="turret_top.png" width="219" height="251" pivot_x="0" pivot_y="1"/>
     </folder>
     <entity id="0" name="entity_000">
-        <animation id="0" name="firing1" length="1000" interval="100">
+        <animation id="0" name="NewAnimation" length="1000" interval="100">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
                     <object_ref id="1" timeline="2" key="0" z_index="1"/>
                     <object_ref id="2" timeline="3" key="0" z_index="2"/>
-                    <object_ref id="3" timeline="0" key="0" z_index="3"/>
+                    <object_ref id="3" timeline="1" key="0" z_index="3"/>
                 </key>
-                <key id="1" time="450">
-                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
-                    <object_ref id="1" timeline="2" key="1" z_index="1"/>
-                    <object_ref id="2" timeline="3" key="0" z_index="2"/>
-                    <object_ref id="3" timeline="0" key="0" z_index="3"/>
+                <key id="1" time="438">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="3" key="1" z_index="2"/>
+                    <object_ref id="3" timeline="1" key="0" z_index="3"/>
                 </key>
-                <key id="2" time="452">
-                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                <key id="2" time="449">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
                     <object_ref id="1" timeline="2" key="1" z_index="1"/>
                     <object_ref id="2" timeline="3" key="1" z_index="2"/>
-                    <object_ref id="3" timeline="0" key="0" z_index="3"/>
+                    <object_ref id="3" timeline="1" key="0" z_index="3"/>
+                </key>
+                <key id="3" time="959">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="3" key="1" z_index="2"/>
+                    <object_ref id="3" timeline="1" key="0" z_index="3"/>
                 </key>
             </mainline>
-            <timeline id="0" name="turret_top">
+            <timeline id="0" name="turret_base">
                 <key id="0" spin="0">
-                    <object folder="0" file="3" x="-83.168317" y="51.485149"/>
+                    <object folder="0" file="0" x="0.75188" y="367.669173"/>
                 </key>
             </timeline>
-            <timeline id="1" name="turret_base">
+            <timeline id="1" name="turret_top">
                 <key id="0" spin="0">
-                    <object folder="0" file="0" x="-99.339934" y="66.666667"/>
+                    <object folder="0" file="3" x="97.6087" y="309.73913"/>
                 </key>
             </timeline>
             <timeline id="2" name="turret_left">
                 <key id="0" spin="0">
-                    <object folder="0" file="1" x="-31.023102" y="35.973597"/>
+                    <object folder="0" file="1" x="190.95652" y="276.82609"/>
                 </key>
-                <key id="1" time="450" spin="0">
-                    <object folder="0" file="1" x="-48.844884" y="35.973597"/>
+                <key id="1" time="449" spin="0">
+                    <object folder="0" file="1" x="305.95652" y="276.82609"/>
                 </key>
             </timeline>
             <timeline id="3" name="turret_right">
                 <key id="0" spin="0">
-                    <object folder="0" file="2" x="-47.91672" y="9.056818"/>
+                    <object folder="0" file="2" x="311.21739" y="152.47826"/>
                 </key>
-                <key id="1" time="452" spin="0">
-                    <object folder="0" file="2" x="-28.122375" y="9.056818"/>
+                <key id="1" time="438" spin="0">
+                    <object folder="0" file="2" x="191.21739" y="152.47826"/>
                 </key>
             </timeline>
         </animation>

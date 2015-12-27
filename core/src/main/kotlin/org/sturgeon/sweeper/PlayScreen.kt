@@ -76,8 +76,13 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
         //pc.originX = 38f
         //pc.originY = 38f
-        pc.originX = 64f;
-        pc.originY = 64f;
+        //pc.originX = 64f;
+        //pc.originY = 64f;
+
+        pc.originX = 47f;
+        pc.originY = 47f;
+
+
         turret.add(pc)
         //turret.add(VisualComponent(t2))
         turret.add(AnimationComponent(firingAnimation))
