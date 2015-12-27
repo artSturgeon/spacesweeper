@@ -10,8 +10,10 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.math.MathUtils
 import org.sturgeon.sweeper.Accessors.PositionAccessor
 import org.sturgeon.sweeper.components.*
+import org.sturgeon.sweeper.entities.Star
 import org.sturgeon.sweeper.systems.*
 
 class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
@@ -39,8 +41,8 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     }
 
     init {
-        setPlaying()
-        //setAttract()
+        //setPlaying()
+        setAttract()
     }
 
     //private val TURRET_ID = 100
@@ -59,6 +61,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
         // Texture with all frames
         var firing = Texture(Assets.TURRET_ANIMATION)
+        firing.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
         // 2d array with frames split by width/height
         var tmp = TextureRegion.split(firing, firing.width, firing.height/10)
         // 1d array with consecutive frames
@@ -97,6 +100,8 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         mode = ATTRACT
         addSystems(attractSystems)
 
+        addInitialStars()
+
         var logo = Entity()
         var t = Texture(Assets.LOGO)
         var pc = PositionComponent(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT+ 200, t.width.toFloat(), t.height.toFloat())
@@ -112,7 +117,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         game.engine.getSystem(TweenSystem::class.java).addTween(tweenPos)
         game.engine.getSystem(TweenSystem::class.java).addTween(tweenScale)
 
-/*
+
         var lastScoreText = Entity()
         lastScoreText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, 300f))
         lastScoreText.add(TextComponent("Last score : " + World.lastScore, true))
@@ -122,7 +127,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         highScoreText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, 350f))
         highScoreText.add(TextComponent("High score : " + World.highScore, true))
         game.engine.addEntity(highScoreText)
-*/
+
         var startText = Entity()
         startText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, 100f))
         startText.add(TextComponent("Press any key to start", true))
@@ -137,7 +142,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         theWorld.add(MovementComponent(0f, 0f, 6f))
         game.engine.addEntity(theWorld)
 
-        addStation()
+        //addStation()
         //animTest()
     }
 
@@ -147,6 +152,8 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
         addSystems(playSystems)
 
+        addInitialStars()
+        addStation()
         addTurret()
 
         // add score
@@ -193,10 +200,19 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         // add station
 
         var t = Texture(Assets.STATION)
-        station.add(PositionComponent(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT/2 - t.height/2, t.width.toFloat(), t.height.toFloat()))
+        station.add(PositionComponent(Assets.VIEWPORT_WIDTH/2 - 800, Assets.VIEWPORT_HEIGHT/2 - t.height/2, t.width.toFloat(), t.height.toFloat()))
+        //station.add(PositionComponent(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT/2 - t.height/2, t.width.toFloat(), t.height.toFloat()))
         station.add(VisualComponent(t))
         station.add(PlayerComponent())
         game.engine.addEntity(station)
+    }
+
+    fun addInitialStars() {
+
+        for (i in 1..30) {
+            var star = Star(MathUtils.random(0f, Assets.VIEWPORT_WIDTH), MathUtils.random(0f, Assets.VIEWPORT_HEIGHT))
+            game.engine.addEntity(star)
+        }
     }
 
     private fun addSystems(systems:Array<EntitySystem>) {
@@ -230,20 +246,8 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         }
 
         if (mode == ATTRACT) {
-            if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
-                //setPlaying()
-                testAnim.getComponent(AnimationComponent::class.java).running = true
-
-            } else {
-                testAnim.getComponent(AnimationComponent::class.java).running = false
-            }
-            // testing turret animation
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                var pc = testAnim.getComponent(PositionComponent::class.java)
-                pc.angle += 2f
-            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                var pc = testAnim.getComponent(PositionComponent::class.java)
-                pc.angle -= 2f
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
+                setPlaying()
             }
         } else if (mode == GAME_OVER) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
