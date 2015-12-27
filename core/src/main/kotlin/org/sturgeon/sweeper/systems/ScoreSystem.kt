@@ -9,7 +9,7 @@ import org.sturgeon.sweeper.World
 import org.sturgeon.sweeper.components.ScoreComponent
 
 
-class ScoreSystem : IntervalIteratingSystem(Family.all(ScoreComponent::class.java).get(), 0.1f) {
+class ScoreSystem : IntervalIteratingSystem(Family.all(ScoreComponent::class.java).get(), 0.02f) {
 
     var lastScore = 0
     var currentScore = 0

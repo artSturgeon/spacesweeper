@@ -5,6 +5,8 @@
         <file id="1" name="turret_left.png" width="301" height="59" pivot_x="0" pivot_y="1"/>
         <file id="2" name="turret_right.png" width="301" height="59" pivot_x="0" pivot_y="1"/>
         <file id="3" name="turret_top.png" width="219" height="251" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="solar_panel1.png" width="65" height="190" pivot_x="0" pivot_y="1"/>
+        <file id="5" name="turret_firing_1.png" width="156" height="1180" pivot_x="0" pivot_y="1"/>
     </folder>
     <entity id="0" name="entity_000">
         <animation id="0" name="NewAnimation" length="1000" interval="100">
@@ -58,6 +60,39 @@
                 </key>
                 <key id="1" time="438" spin="0">
                     <object folder="0" file="2" x="191.21739" y="152.47826"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="1" name="entity_001">
+        <obj_info name="bone_000" type="bone" w="102.739" h="10"/>
+        <animation id="0" name="NewAnimation" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <bone_ref id="0" timeline="1" key="0"/>
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="451">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="453">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="solar_panel1">
+                <key id="0" spin="0">
+                    <object folder="0" file="4" x="-32.299704" y="94.91513"/>
+                </key>
+                <key id="1" time="451" spin="0">
+                    <object folder="0" file="4" x="-25.574276" y="94.91513" scale_x="0.783429"/>
+                </key>
+                <key id="2" time="453" spin="0">
+                    <object folder="0" file="4" x="-25.576173" y="95.171309" scale_x="0.783873" scale_y="1.001345"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="0" name="bone_000" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="-2.784628" y="45.722368" angle="274.232174" scale_x="0.96449" scale_y="5.410943"/>
                 </key>
             </timeline>
         </animation>

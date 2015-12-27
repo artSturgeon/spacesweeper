@@ -13,6 +13,7 @@ object Assets {
     val BULLET = Gdx.files.internal("bullet1.png")
     val ASTEROID = Gdx.files.internal("asteroid1.png")
     val WORLD = Gdx.files.internal("world1.png")
+    val SOLAR_PANEL = Gdx.files.internal("solar_panel1.png")
 
     val ASTEROID_SEGMENT_1 = Gdx.files.internal("asteroid_segment1.png")
     val ASTEROID_SEGMENT_2 = Gdx.files.internal("asteroid_segment2.png")
