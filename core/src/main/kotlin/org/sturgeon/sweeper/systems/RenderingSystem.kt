@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.utils.ImmutableArray
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.*
@@ -34,7 +35,8 @@ class RenderingSystem: EntitySystem() {
     init {
         camera.position.set(Assets.VIEWPORT_WIDTH/2, Assets.VIEWPORT_HEIGHT/2, 0f)
         viewport = FitViewport(Assets.VIEWPORT_WIDTH, Assets.VIEWPORT_HEIGHT, camera)
-        bitmapFont.data.setScale(2.0f)
+        createFont()
+        //bitmapFont.data.setScale(2.0f)
     }
 
 
@@ -132,7 +134,11 @@ class RenderingSystem: EntitySystem() {
         bitmapFont.draw(batch, glyphLayout, pcx, y)
     }
 
-
+    fun createFont() {
+        var t = Texture(Assets.FONT_IMAGE)
+        bitmapFont = BitmapFont(Assets.FONT_FILE, TextureRegion(t))
+        bitmapFont.color = Color.WHITE
+    }
 
 
 }

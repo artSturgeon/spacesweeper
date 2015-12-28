@@ -62,7 +62,7 @@ class FiringSystem : IteratingSystem(Family.all(FiringComponent::class.java).get
         pc.originX = 6f
         pc.originY = 3f
         pc.angle = turretPC.angle
-        
+
         bullet.add(pc)
         bullet.add(VisualComponent(texture, 1000))
 
