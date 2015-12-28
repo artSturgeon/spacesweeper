@@ -226,12 +226,14 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
         var width = firingFrames[0].regionWidth
         var height = firingFrames[0].regionHeight
-        var pc = PositionComponent(Assets.VIEWPORT_WIDTH/2 - width/2,
-                Assets.VIEWPORT_HEIGHT/2 - height/2,
-                width.toFloat(), height.toFloat())
 
-        pc.originX = 47f;
-        pc.originY = 47f;
+        var x = station.getComponent(PositionComponent::class.java).x + 825
+        var y = station.getComponent(PositionComponent::class.java).y + 72
+
+        var pc = PositionComponent(x, y, width.toFloat(), height.toFloat())
+
+        pc.originX = 25f;
+        pc.originY = 25f;
 
         turret.add(pc)
         turret.add(AnimationComponent(firingAnimation))

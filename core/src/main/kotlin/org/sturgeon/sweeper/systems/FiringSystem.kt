@@ -50,17 +50,19 @@ class FiringSystem : IteratingSystem(Family.all(FiringComponent::class.java).get
 
         var texture = Texture(Assets.BULLET)
 
-        var adjust = 0.2f
+        var adjust = 0.1f
         if (left) adjust *= -1
 
         //var x = (turretPC.x + turretPC.width/2f - texture.width/2) + 90f * cos(rad+adjust) // +0.35f
         //var y = (turretPC.y + turretPC.height/2f - texture.height/2) + 90f * sin(rad+adjust)
-        var x = (turretPC.x + turretPC.originX - texture.width/2) + 94f * cos(rad+adjust) // +0.35f
-        var y = (turretPC.y + turretPC.originY - texture.height/2) + 94f * sin(rad+adjust)
+        var x = (turretPC.x + turretPC.originX - texture.width/2) + 80f * cos(rad+adjust) // +0.35f
+        var y = (turretPC.y + turretPC.originY - texture.height/2) + 80f * sin(rad+adjust)
 
         var pc = PositionComponent(x, y, texture.width.toFloat(), texture.height.toFloat())
-        pc.originX = 8f
-        pc.originY = 8f
+        pc.originX = 6f
+        pc.originY = 3f
+        pc.angle = turretPC.angle
+        
         bullet.add(pc)
         bullet.add(VisualComponent(texture, 1000))
 
