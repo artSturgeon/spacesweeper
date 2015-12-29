@@ -123,9 +123,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="-2546.5546"
-     inkscape:cy="-1598.4325"
+     inkscape:zoom="2.8284272"
+     inkscape:cx="-637.36634"
+     inkscape:cy="1340.0646"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -133,8 +133,8 @@
      inkscape:showpageshadow="false"
      inkscape:window-width="1762"
      inkscape:window-height="1257"
-     inkscape:window-x="373"
-     inkscape:window-y="17"
+     inkscape:window-x="355"
+     inkscape:window-y="21"
      inkscape:window-maximized="0"
      inkscape:snap-global="false"
      inkscape:snap-grids="false">
@@ -3036,7 +3036,10 @@
     </g>
     <g
        id="g4769"
-       transform="translate(59.999998,8.9999997)">
+       transform="translate(127.88225,629.13263)"
+       inkscape:export-filename="/Users/henri/projects/spacesweeper/core/assets/station3.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <rect
          style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
          id="rect4217"
@@ -3441,7 +3444,7 @@
          sodipodi:type="star" />
       <path
          transform="matrix(0,0.19379845,-0.1953125,0,-1612.9016,2828.2908)"
-         d="m -951,3312.3621 a 64.5,64 0 1 1 -129,0 64.5,64 0 1 1 129,0 z"
+         d="m -951,3312.3621 c 0,35.3462 -28.87763,64 -64.5,64 -35.6224,0 -64.5,-28.6538 -64.5,-64 0,-35.3463 28.8776,-64 64.5,-64 35.62237,0 64.5,28.6537 64.5,64 z"
          sodipodi:ry="64"
          sodipodi:rx="64.5"
          sodipodi:cy="3312.3621"
@@ -3709,5 +3712,24 @@
          y="2715.6121"
          ry="1.0625" />
     </g>
+    <path
+       sodipodi:type="star"
+       style="fill:#8f563b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="path3464"
+       sodipodi:sides="6"
+       sodipodi:cx="-639.57806"
+       sodipodi:cy="-371.04373"
+       sodipodi:r1="7.5663729"
+       sodipodi:r2="6.990417"
+       sodipodi:arg1="0.65284663"
+       sodipodi:arg2="1.1764454"
+       inkscape:flatsided="true"
+       inkscape:rounded="1.0408341e-17"
+       inkscape:randomized="0"
+       d="m -633.56766,-366.44754 -6.98562,2.90707 -6.01041,-4.59619 0.97522,-7.50327 6.98562,-2.90706 6.01041,4.59619 z"
+       transform="matrix(0.42945337,0,0,0.39982607,-371.3696,-222.0766)"
+       inkscape:export-filename="/Users/henri/projects/spacesweeper/orig_assets/asteroid_particle1.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
 </svg>

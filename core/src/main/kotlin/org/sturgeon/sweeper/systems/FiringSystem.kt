@@ -21,7 +21,7 @@ class FiringSystem : IteratingSystem(Family.all(FiringComponent::class.java).get
     private var left = true
 
     init {
-        laserSound = Gdx.audio.newSound(Assets.LASER)
+        laserSound = Gdx.audio.newSound(Assets.SND_LASER)
     }
 
     override fun processEntity(entity: Entity?, deltaTime: Float) {

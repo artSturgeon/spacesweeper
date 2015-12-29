@@ -49,6 +49,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     init {
         addSystems(alwaysSystems)
         setAttract()
+        addTheWorld()
         //setPlaying()
     }
 
@@ -71,13 +72,13 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         logo.add(pc)
         logo.add(VisualComponent(t))
         game.engine.addEntity(logo)
+        entitiesToRemove.add(logo)
 
         var tweenPos = Tween.to(pc, PositionAccessor.POSITION, 2f).target(pc.x, Assets.VIEWPORT_HEIGHT - 200f).ease(Bounce.OUT)
         var tweenScale = Tween.to(pc, PositionAccessor.SCALE, 2f).target(1f, 1f)
 
         game.engine.getSystem(TweenSystem::class.java).addTween(tweenPos)
         game.engine.getSystem(TweenSystem::class.java).addTween(tweenScale)
-
 
         var lastScoreText = Entity()
         lastScoreText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, 300f))
@@ -97,13 +98,6 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         game.engine.addEntity(startText)
         entitiesToRemove.add(startText)
 
-        var worldTex = Texture(Assets.WORLD)
-        var worldPC = PositionComponent(Assets.VIEWPORT_WIDTH/2 - worldTex.width/2, -800f,
-                worldTex.width.toFloat(), worldTex.height.toFloat())
-        theWorld.add(worldPC)
-        theWorld.add(VisualComponent(worldTex))
-        theWorld.add(MovementComponent(0f, 0f, 6f))
-        game.engine.addEntity(theWorld)
     }
 
     private fun setPlaying() {
@@ -113,52 +107,58 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         addSystems(playSystems)
 
         //addInitialStars()
-        addTurret()
+        //addTurret()
         addPanels()
         // add score
         var scoreText = Entity()
-        scoreText.add(PositionComponent(10f, Assets.VIEWPORT_HEIGHT - 40))
+        scoreText.add(PositionComponent(Assets.VIEWPORT_WIDTH - 250, Assets.VIEWPORT_HEIGHT - 40))
         scoreText.add(TextComponent("score : " + World.score))
         scoreText.add(ScoreComponent())
         game.engine.addEntity(scoreText)
+        entitiesToRemove.add(scoreText)
 
         // add health
         var healthText = Entity()
-        healthText.add(PositionComponent(10f, Assets.VIEWPORT_HEIGHT - 80))
-
+        healthText.add(PositionComponent(Assets.VIEWPORT_WIDTH - 250, Assets.VIEWPORT_HEIGHT - 80))
         fun updateHealth() = { "health: " + station.getComponent(HealthComponent::class.java).health  }
         station.add(HealthComponent(100, { setGameOver() }))
         healthText.add(UpdatingTextComponent("health : " + 100, false, updateHealth() ))
         game.engine.addEntity(healthText)
+        entitiesToRemove.add(healthText)
     }
 
      fun setGameOver() {
         mode = GAME_OVER
 
-        game.engine.removeSystem(game.engine.getSystem(MovementSystem::class.java))
+        //game.engine.removeSystem(game.engine.getSystem(MovementSystem::class.java))
+        game.engine.getSystem(MovementSystem::class.java).setProcessing(false)
         game.engine.removeSystem(game.engine.getSystem(CollisionSystem::class.java))
+        game.engine.removeSystem(game.engine.getSystem(ScoreSystem::class.java))
+        game.engine.removeSystem(game.engine.getSystem(IncidentalSystem::class.java))
+        game.engine.removeSystem(game.engine.getSystem(AddAsteroidSystem::class.java))
 
         var gameOverText = Entity()
-        gameOverText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, Assets.VIEWPORT_HEIGHT/2))
+        gameOverText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, Assets.VIEWPORT_HEIGHT/2 + 200))
         gameOverText.add(TextComponent("Game Over !", true))
         game.engine.addEntity(gameOverText)
+        entitiesToRemove.add(gameOverText)
 
         var startText = Entity()
         startText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, 100f))
-        startText.add(TextComponent("Press any key to start", true))
+        startText.add(TextComponent("Press any key", true))
         game.engine.addEntity(startText)
+        entitiesToRemove.add(startText)
 
         World.lastScore = World.score
         World.score = 0
         if (World.lastScore > World.highScore) World.highScore = World.lastScore
-
     }
 
     fun attractToPlaying() {
         // Text off
         for (entity in entitiesToRemove)
             game.engine.removeEntity(entity)
-
+        entitiesToRemove.clear()
         // Logo out
         var logoPC = logo.getComponent(PositionComponent::class.java)
         var tweenPos = Tween.to(logoPC, PositionAccessor.POSITION, 2f).target(logoPC.x, Assets.VIEWPORT_HEIGHT + 200f).ease(Bounce.OUT)
@@ -173,9 +173,14 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
         // Station in
         addStation()
+        addTurret()
         var stationPC = station.getComponent(PositionComponent::class.java)
-        var moveTween = Tween.to(stationPC, PositionAccessor.POSITION, 2f).target(Assets.VIEWPORT_WIDTH/2 - 850, stationPC.y).ease(Sine.OUT)
-        game.engine.getSystem(TweenSystem::class.java).addTween(moveTween)
+        var stationMoveTween = Tween.to(stationPC, PositionAccessor.POSITION, 2f).target(Assets.VIEWPORT_WIDTH/2 - 850, stationPC.y).ease(Sine.OUT)
+        game.engine.getSystem(TweenSystem::class.java).addTween(stationMoveTween)
+
+        var turretPC = turret.getComponent(PositionComponent::class.java)
+        var turretMoveTween = Tween.to(turretPC, PositionAccessor.POSITION, 2f).target(Assets.VIEWPORT_WIDTH/2 -850 + 825,turretPC.y).ease(Sine.OUT)
+        game.engine.getSystem(TweenSystem::class.java).addTween(turretMoveTween)
 
         // Set systems up
         tweenPos.setCallback(object: TweenCallback {
@@ -186,7 +191,23 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
             }
         })
     }
-    
+
+    fun gameOverToAttract() {
+        for (entity in entitiesToRemove)
+            game.engine.removeEntity(entity)
+        entitiesToRemove.clear()
+        game.engine.removeEntity(station)
+        game.engine.removeEntity(turret)
+
+        // move the world back up
+        var worldPC = theWorld.getComponent(PositionComponent::class.java)
+        var worldMove = Tween.to(worldPC, PositionAccessor.POSITION, 2f).target(worldPC.x, worldPC.y + 100)
+        game.engine.getSystem(TweenSystem::class.java).addTween(worldMove)
+
+        game.engine.getSystem(MovementSystem::class.java).setProcessing(true)
+        setAttract()
+    }
+
     fun addStation() {
         var t = Texture(Assets.STATION)
         station.add(PositionComponent(Assets.VIEWPORT_WIDTH + 100, Assets.VIEWPORT_HEIGHT/2 - t.height/2, t.width.toFloat(), t.height.toFloat()))
@@ -197,9 +218,10 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     }
 
     fun addPanels() {
-        addPanel(station.getComponent(PositionComponent::class.java).x + 480, station.getComponent(PositionComponent::class.java).y + 193f)
-        addPanel(station.getComponent(PositionComponent::class.java).x + 630, station.getComponent(PositionComponent::class.java).y + 193f)
-        addPanel(station.getComponent(PositionComponent::class.java).x + 570, station.getComponent(PositionComponent::class.java).y - 172f)
+        addPanel(station.getComponent(PositionComponent::class.java).x + 492, station.getComponent(PositionComponent::class.java).y + 193f)
+        addPanel(station.getComponent(PositionComponent::class.java).x + 640, station.getComponent(PositionComponent::class.java).y + 193f)
+        addPanel(station.getComponent(PositionComponent::class.java).x + 580, station.getComponent(PositionComponent::class.java).y - 172f)
+        game.engine.addSystem(IncidentalSystem())
     }
 
     fun addPanel(x:Float, y:Float) {
@@ -208,8 +230,20 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         panel.add(PositionComponent(x, y
                                     ,
                                     t.width.toFloat(), t.height.toFloat()))
-        panel.add(VisualComponent(t))
+        panel.add(VisualComponent(t, 20))
+        panel.add(PanelComponent())
         game.engine.addEntity(panel)
+        entitiesToRemove.add(panel)
+    }
+
+    fun addTheWorld() {
+        var worldTex = Texture(Assets.WORLD)
+        var worldPC = PositionComponent(Assets.VIEWPORT_WIDTH/2 - worldTex.width/2, -800f,
+                worldTex.width.toFloat(), worldTex.height.toFloat())
+        theWorld.add(worldPC)
+        theWorld.add(VisualComponent(worldTex))
+        theWorld.add(MovementComponent(0f, 0f, 6f))
+        game.engine.addEntity(theWorld)
     }
 
     private fun addTurret() {
@@ -285,7 +319,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
             }
         } else if (mode == GAME_OVER) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
-                setAttract()
+                gameOverToAttract()
             }
         }
 

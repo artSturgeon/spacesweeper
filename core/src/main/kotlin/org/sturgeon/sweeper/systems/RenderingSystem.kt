@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport
 import org.sturgeon.sweeper.Assets
 import org.sturgeon.sweeper.Mappers
 import org.sturgeon.sweeper.components.*
+import java.util.*
 
 class RenderingSystem: EntitySystem() {
 
@@ -62,7 +63,7 @@ class RenderingSystem: EntitySystem() {
         drawTextures(queue)
         drawAnimations(deltaTime)
         drawFonts()
-
+        drawPes(deltaTime)
 
 
         batch.end()
@@ -107,6 +108,25 @@ class RenderingSystem: EntitySystem() {
                     pc.angle)                   //angle
         }
     }
+
+    fun drawPes(deltaTime:Float) {
+        var toRemove = ArrayList<ParticleEffect>()
+        for (pe in pes) {
+            pe.update(deltaTime)
+            pe.draw(batch)
+
+            if (pe.isComplete) {
+                toRemove.add(pe)
+
+            }
+        }
+
+        for (pe in toRemove) {
+            pes.remove(pe)
+        }
+    }
+
+    var pes = ArrayList<ParticleEffect>()
 
     private fun drawFonts() {
         for (font in fonts) {

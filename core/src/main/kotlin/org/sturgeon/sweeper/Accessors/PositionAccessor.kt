@@ -7,22 +7,27 @@ class PositionAccessor: TweenAccessor<PositionComponent> {
     companion object TweenTypes {
         val POSITION = 1
         val SCALE = 2
+        val WIDTH = 3
     }
 
     override fun getValues(pc: PositionComponent?, type: Int, returns: FloatArray?): Int {
+        var count = 2
         when(type) {
             POSITION -> {
                 returns!![0] = pc!!.x
                 returns[1] = pc!!.y
-                        }
+            }
             SCALE -> {
                 returns!![0] = pc!!.scaleX
                 returns!![1] = pc!!.scaleY
             }
-
+            WIDTH -> {
+                returns!![0] = pc!!.width
+                count = 1
+            }
         }
 
-        return 2 // two values in array
+        return count
     }
 
     override fun setValues(pc: PositionComponent?, type: Int, newValues: FloatArray?) {
@@ -34,6 +39,9 @@ class PositionAccessor: TweenAccessor<PositionComponent> {
             SCALE -> {
                 pc!!.scaleX = newValues!![0]
                 pc!!.scaleY = newValues!![1]
+            }
+            WIDTH -> {
+                pc!!.width = newValues!![0]
             }
         }
     }

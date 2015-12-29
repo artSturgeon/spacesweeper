@@ -27,6 +27,6 @@ object Assets {
     val LOGO = Gdx.files.internal("logo2.png")
     var STAR = Gdx.files.internal("star1.png")
 
-    val LASER = Gdx.files.internal("laser1.mp3")
-
+    val SND_LASER = Gdx.files.internal("laser1.mp3")
+    val SND_EXPLOSION = Gdx.files.internal("explosion1.mp3")
 }

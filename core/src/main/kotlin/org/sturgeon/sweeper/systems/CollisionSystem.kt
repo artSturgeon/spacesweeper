@@ -5,7 +5,10 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.utils.ImmutableArray
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.ParticleEffect
 import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
@@ -21,6 +24,12 @@ class CollisionSystem : EntitySystem() {
     lateinit private var players: ImmutableArray<Entity>
     lateinit private var bullets: ImmutableArray<Entity>
     lateinit private var asteroids: ImmutableArray<Entity>
+
+    var explosion: Sound
+
+    init {
+        explosion = Gdx.audio.newSound(Assets.SND_EXPLOSION)
+    }
 
     override fun addedToEngine(engine: Engine?) {
         players = engine!!.getEntitiesFor(Family.all(PlayerComponent::class.java).get())
@@ -44,7 +53,18 @@ class CollisionSystem : EntitySystem() {
             var r = Rectangle()
             Intersector.intersectRectangles(stationPC.rect(), asteroidPC.rect(), r)
             if (r.width > 0) {
+
+                // splode
+                var pe = ParticleEffect()
+                pe.load(Gdx.files.internal("particles1.part"), Gdx.files.internal(""))
+                for (emitter in pe.emitters)
+                    emitter.setPosition(asteroidPC.x + asteroidPC.width/2, asteroidPC.y + asteroidPC.height/2)
+                pe.start()
+                explosion.play()
+                engine.getSystem(RenderingSystem::class.java).pes.add(pe)
+
                 engine.removeEntity(asteroid)
+
                 var hc = station.getComponent(HealthComponent::class.java)
                 hc.health -= World.ASTEROID_DAMAGE
 
