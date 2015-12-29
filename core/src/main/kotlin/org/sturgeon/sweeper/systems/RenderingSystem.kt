@@ -56,18 +56,16 @@ class RenderingSystem: EntitySystem() {
         camera.update()
         batch.projectionMatrix = camera.combined
 
-
-
         batch.begin()
 
+        drawFonts()
         drawTextures(queue)
         drawAnimations(deltaTime)
-        drawFonts()
+
         drawPes(deltaTime)
 
 
         batch.end()
-
     }
 
     private fun drawAnimations(deltaTime: Float) {
@@ -129,9 +127,13 @@ class RenderingSystem: EntitySystem() {
     var pes = ArrayList<ParticleEffect>()
 
     private fun drawFonts() {
+
         for (font in fonts) {
             var tx = Mappers.textMapper.get(font)
             var pc = Mappers.positionMapper.get(font)
+
+            bitmapFont.data.setScale(tx.scale)
+            bitmapFont.color = tx.colour
 
             drawText(tx.text, tx.center, pc.x, pc.y)
         }
@@ -139,6 +141,9 @@ class RenderingSystem: EntitySystem() {
         for (font in updatingFonts) {
             var tx = Mappers.updatingTextMapper.get(font)
             var pc = Mappers.positionMapper.get(font)
+
+            bitmapFont.data.setScale(1.0f)
+            bitmapFont.color = Color.WHITE
 
             var txt = tx.updateText()
             drawText(txt, tx.center, pc.x, pc.y)

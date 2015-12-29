@@ -13,11 +13,14 @@ class BoundsCheckSystem : IteratingSystem(Family.all(BoundsCheckComponent::class
 
     override fun processEntity(entity: Entity?, deltaTime: Float) {
         var pc = Mappers.positionMapper.get(entity)
+        var bc = Mappers.boundsCheckMapper.get(entity)
 
-        if (pc.x > Assets.VIEWPORT_WIDTH + BORDER
-                || pc.x < -BORDER
-                || pc.y > Assets.VIEWPORT_HEIGHT + BORDER
-                || pc.y < -BORDER) {
+        var border = BORDER + bc.override
+
+        if (pc.x > Assets.VIEWPORT_WIDTH + border
+                || pc.x < -border
+                || pc.y > Assets.VIEWPORT_HEIGHT + border
+                || pc.y < -border) {
             engine.removeEntity(entity)
         }
 
