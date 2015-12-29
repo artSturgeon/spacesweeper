@@ -17,6 +17,7 @@ import org.sturgeon.sweeper.Assets
 import org.sturgeon.sweeper.PlayScreen
 import org.sturgeon.sweeper.World
 import org.sturgeon.sweeper.components.*
+import org.sturgeon.sweeper.entities.Particle
 
 
 class CollisionSystem : EntitySystem() {
@@ -53,8 +54,11 @@ class CollisionSystem : EntitySystem() {
             var r = Rectangle()
             Intersector.intersectRectangles(stationPC.rect(), asteroidPC.rect(), r)
             if (r.width > 0) {
-
                 // splode
+                var particle = Particle(asteroidPC.x + asteroidPC.width/2,
+                        asteroidPC.y + asteroidPC.height/2, Assets.PART_ALL)
+                engine.addEntity(particle)
+                /*
                 var pe = ParticleEffect()
                 pe.load(Gdx.files.internal("particles1.part"), Gdx.files.internal(""))
                 for (emitter in pe.emitters)
@@ -62,7 +66,8 @@ class CollisionSystem : EntitySystem() {
                 pe.start()
                 explosion.play()
                 engine.getSystem(RenderingSystem::class.java).pes.add(pe)
-
+                */
+                explosion.play()
                 engine.removeEntity(asteroid)
 
                 var hc = station.getComponent(HealthComponent::class.java)
@@ -89,6 +94,9 @@ class CollisionSystem : EntitySystem() {
 
                 if (r.width > 0) {
                     World.score += asteroidAC.points
+                    var particle = Particle(asteroidPC.x + asteroidPC.width/2,
+                            asteroidPC.y + asteroidPC.height/2, Assets.PART_ASTEROID)
+                    engine.addEntity(particle)
                     engine.removeEntity(asteroid)
                     engine.removeEntity(bullet)
                     if (asteroidAC.stage == 1) asteroidShot(asteroidPC, asteroidMC)

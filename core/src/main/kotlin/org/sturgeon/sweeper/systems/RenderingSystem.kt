@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport
 import org.sturgeon.sweeper.Assets
 import org.sturgeon.sweeper.Mappers
 import org.sturgeon.sweeper.components.*
+import org.sturgeon.sweeper.entities.Particle
 import java.util.*
 
 class RenderingSystem: EntitySystem() {
@@ -22,9 +23,10 @@ class RenderingSystem: EntitySystem() {
     private val camera: OrthographicCamera by lazy { OrthographicCamera(Assets.VIEWPORT_WIDTH, Assets.VIEWPORT_HEIGHT) }
     lateinit private var viewport: Viewport
     lateinit private var textures: ImmutableArray<Entity>
-    lateinit private var fonts:ImmutableArray<Entity>
+    lateinit private var allFonts:ImmutableArray<Entity>
     lateinit private var updatingFonts:ImmutableArray<Entity>
     lateinit private var animations: ImmutableArray<Entity>
+    lateinit private var particles: ImmutableArray<Entity>
 
     lateinit private var queue: List<Entity>
 
@@ -40,12 +42,12 @@ class RenderingSystem: EntitySystem() {
         //bitmapFont.data.setScale(2.0f)
     }
 
-
     override fun addedToEngine(engine: Engine?) {
         textures = engine!!.getEntitiesFor(Family.all(VisualComponent::class.java).get())
-        fonts = engine!!.getEntitiesFor(Family.all(TextComponent::class.java).get())
+        allFonts = engine!!.getEntitiesFor(Family.all(TextComponent::class.java).get())
         updatingFonts = engine!!.getEntitiesFor(Family.all(UpdatingTextComponent::class.java).get())
         animations = engine!!.getEntitiesFor(Family.all(AnimationComponent::class.java, PositionComponent::class.java).get())
+        particles = engine!!.getEntitiesFor(Family.all(ParticleComponent::class.java).get())
         //queue = textures.sortedBy { it.getComponent(VisualComponent::class.java).zOrder }
     }
 
@@ -53,17 +55,19 @@ class RenderingSystem: EntitySystem() {
 
         queue = textures.sortedBy { it.getComponent(VisualComponent::class.java).zOrder }
 
+        var frontFonts = allFonts.filter { font -> font.getComponent(TextComponent::class.java).front }
+        var backFonts = allFonts.filter { font -> !font.getComponent(TextComponent::class.java).front }
+
         camera.update()
         batch.projectionMatrix = camera.combined
 
         batch.begin()
 
-        drawFonts()
+        drawFonts(backFonts)
         drawTextures(queue)
         drawAnimations(deltaTime)
-
         drawPes(deltaTime)
-
+        drawFonts(frontFonts)
 
         batch.end()
     }
@@ -108,25 +112,23 @@ class RenderingSystem: EntitySystem() {
     }
 
     fun drawPes(deltaTime:Float) {
-        var toRemove = ArrayList<ParticleEffect>()
-        for (pe in pes) {
-            pe.update(deltaTime)
-            pe.draw(batch)
+        //var toRemove = ArrayList<ParticleEffect>()
+        for (particle in particles) {
+            if (particle is Particle) {
+                var particleEffect = particle.particleEffect
+                particleEffect.update(deltaTime)
+                particleEffect.draw(batch)
 
-            if (pe.isComplete) {
-                toRemove.add(pe)
-
+                if (particleEffect.isComplete) {
+                    engine.removeEntity(particle)
+                }
             }
-        }
-
-        for (pe in toRemove) {
-            pes.remove(pe)
         }
     }
 
-    var pes = ArrayList<ParticleEffect>()
 
-    private fun drawFonts() {
+
+    private fun drawFonts(fonts: List<Entity>) {
 
         for (font in fonts) {
             var tx = Mappers.textMapper.get(font)

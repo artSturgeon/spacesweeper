@@ -15,7 +15,6 @@ class TweenSystem : EntitySystem() {
     }
 
     fun addTween(t: Tween) {
-        println("adding a tween")
         t.start(tweenManager)
     }
 

@@ -287,7 +287,11 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         var scroller = Entity().apply {
             add(PositionComponent(Assets.VIEWPORT_WIDTH, 500f))
             add(MovementComponent(-700f, 0f))
-            add(TextComponent(msg, false, 18.0f, Color.RED))
+            add(TextComponent(msg).apply {
+                scale = 18.0f
+                colour = Color.RED
+                front = false
+            })
             add(BoundsCheckComponent(8000f))
         }
         game.engine.addEntity(scroller)

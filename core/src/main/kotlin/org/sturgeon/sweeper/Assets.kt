@@ -29,4 +29,7 @@ object Assets {
 
     val SND_LASER = Gdx.files.internal("laser1.mp3")
     val SND_EXPLOSION = Gdx.files.internal("explosion1.mp3")
+
+    val PART_ALL = Gdx.files.internal("part_all.part")
+    val PART_ASTEROID = Gdx.files.internal("part_asteroid.part")
 }
