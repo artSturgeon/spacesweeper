@@ -1,0 +1,17 @@
+{
+    "platform": "mac",
+    "jdk": "/Users/henri/Downloads/openjdk-1.7.0-u80-unofficial-macosx-x86_64-image.zip",
+    "executable": "myapp",
+    "classpath": [
+        "desktop.jar"
+    ],
+    "mainclass": "org.sturgeon.sweeper.desktop.DesktopLauncher",
+    "vmargs": [
+       "-Xmx1G"
+    ],
+    "resources": [
+        "core/assets"
+    ],
+    "minimizejre": "soft",
+    "outdir": "out-mac"
+}
