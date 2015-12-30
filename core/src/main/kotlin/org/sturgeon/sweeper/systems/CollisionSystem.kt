@@ -48,25 +48,17 @@ class CollisionSystem : EntitySystem() {
     private fun stationAndAsteroids() {
         var station = players.get(0)
         var stationPC = station.getComponent(PositionComponent::class.java)
-
+        // station collision rect needs to be smaller
+        var stationRect = Rectangle(stationPC.x + 380, stationPC.y + 50, 500f, 95f)
         for (asteroid in asteroids) {
             var asteroidPC = asteroid.getComponent(PositionComponent::class.java)
             var r = Rectangle()
-            Intersector.intersectRectangles(stationPC.rect(), asteroidPC.rect(), r)
+            Intersector.intersectRectangles(stationRect, asteroidPC.rect(), r)
             if (r.width > 0) {
                 // splode
                 var particle = Particle(asteroidPC.x + asteroidPC.width/2,
                         asteroidPC.y + asteroidPC.height/2, Assets.PART_ALL)
                 engine.addEntity(particle)
-                /*
-                var pe = ParticleEffect()
-                pe.load(Gdx.files.internal("particles1.part"), Gdx.files.internal(""))
-                for (emitter in pe.emitters)
-                    emitter.setPosition(asteroidPC.x + asteroidPC.width/2, asteroidPC.y + asteroidPC.height/2)
-                pe.start()
-                explosion.play()
-                engine.getSystem(RenderingSystem::class.java).pes.add(pe)
-                */
                 explosion.play()
                 engine.removeEntity(asteroid)
 
@@ -102,7 +94,6 @@ class CollisionSystem : EntitySystem() {
                     if (asteroidAC.stage == 1) asteroidShot(asteroidPC, asteroidMC)
                 }
             }
-
         }
     }
 

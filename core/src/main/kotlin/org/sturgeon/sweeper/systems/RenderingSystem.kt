@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.*
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import org.sturgeon.sweeper.Assets
@@ -71,7 +72,21 @@ class RenderingSystem: EntitySystem() {
 
         batch.end()
     }
+    /*
+    fun debugRect() {
+        var shapeRenderer = ShapeRenderer()
+        if (station != null) {
+            batch.end()
 
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(pc.x + 380, pc.y + 50, 500f, 95f);
+            shapeRenderer.end();
+
+            batch.begin()
+        }
+    }
+    */
     private fun drawAnimations(deltaTime: Float) {
 
         for (animation in animations) {
@@ -94,12 +109,13 @@ class RenderingSystem: EntitySystem() {
 
     }
 
-
     private fun drawTextures(q: List<Entity>) {
         for (texture in q) {
             var vc = Mappers.visualMapper.get(texture)
 
             var pc = Mappers.positionMapper.get(texture)
+            var station = Mappers.playerMapper.get(texture)
+
             //SpriteBatch.draw(textureRegion, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
             //batch.draw(vc.region, pc.x, pc.y)
             batch.draw(vc.region,               // texture region
