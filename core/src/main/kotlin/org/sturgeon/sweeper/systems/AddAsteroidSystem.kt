@@ -15,10 +15,13 @@ class AddAsteroidSystem(var i:Float) : IntervalSystem(i) {
 
         var t = Texture(Assets.ASTEROID)
 
-        asteroid.add(PositionComponent(Assets.VIEWPORT_WIDTH + 100,
+        var pc = PositionComponent(Assets.VIEWPORT_WIDTH + 100,
                 MathUtils.random(100f, Assets.VIEWPORT_HEIGHT),
-                t.width.toFloat(), t.height.toFloat()))
+                t.width.toFloat(), t.height.toFloat())
+        var scale = MathUtils.random(0.3f, 1.0f)
+        pc.apply { scaleX = scale; scaleY = scale }
 
+        asteroid.add(pc)
         asteroid.add(VisualComponent(t))
         asteroid.add(BoundsCheckComponent())
         asteroid.add(MovementComponent(MathUtils.random(-100f, -25f), 0f, MathUtils.random(-50f, 50f)))

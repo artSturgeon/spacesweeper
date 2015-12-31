@@ -106,6 +106,7 @@ class CollisionSystem : EntitySystem() {
             var segment = Entity()
             var texture = Texture(texName)
             var pc = PositionComponent(asteroidPC.x, asteroidPC.y, texture.width.toFloat(), texture.height.toFloat())
+            pc.apply { scaleX = asteroidPC.scaleX; scaleY = asteroidPC.scaleY }
             segment.add(pc)
             segment.add(VisualComponent(texture))
             segment.add(MovementComponent(asteroidMC.velocityX + MathUtils.random(-50, 50), asteroidMC.velocityY + MathUtils.random(-50, 50)))

@@ -29,7 +29,7 @@ class PositionComponent(x: Float, y: Float, width: Float = 100f, height: Float =
     }
 
     fun rect() : Rectangle {
-        return  Rectangle(x, y, width, height)
+        return  Rectangle(x, y, width * scaleX, height * scaleX)
     }
 
 
