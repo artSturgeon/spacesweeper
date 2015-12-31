@@ -32,4 +32,13 @@ object Assets {
 
     val PART_ALL = Gdx.files.internal("part_all.part")
     val PART_ASTEROID = Gdx.files.internal("part_asteroid.part")
+
+    val SOME_TEXT = arrayOf("Get to the exit!",
+                            "Get to the chopper ! !",
+                            "Clear the space",
+                            "Shoot the asteroids",
+                            "Clear a path",
+                            "Keep Going !",
+                            "Don't Panic ! !")
+
 }

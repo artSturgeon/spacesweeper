@@ -24,7 +24,7 @@ import java.util.*
 class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
     var alwaysSystems = arrayOf(RenderingSystem(), TweenSystem(), MovementSystem(), BoundsCheckSystem())
-    var attractSystems:Array<EntitySystem> = arrayOf(StarfieldSystem(0.1f))
+    var attractSystems:Array<EntitySystem> = arrayOf(StarfieldSystem(0.1f), BigTextSystem(30f))
     var playSystems = arrayOf(FiringSystem()
                     ,AddAsteroidSystem(3f)
                     ,CollisionSystem()
@@ -65,7 +65,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         addSystems(attractSystems)
 
         addInitialStars()
-        
+
         var t = Texture(Assets.LOGO)
         var pc = PositionComponent(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT+ 200, t.width.toFloat(), t.height.toFloat())
         pc.scaleX = 0.1f
@@ -106,7 +106,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         mode = PLAYING
 
         addSystems(playSystems)
-        addScoller("Clear The Space !")
+        //addScoller("Clear The Space !")
         //addInitialStars()
         //addTurret()
         addPanels()
@@ -288,8 +288,8 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
             add(PositionComponent(Assets.VIEWPORT_WIDTH, 500f))
             add(MovementComponent(-700f, 0f))
             add(TextComponent(msg).apply {
-                scale = 18.0f
-                colour = Color.RED
+                scale = 16.0f
+                colour = Color(223/255f, 113/255f, 38/255f, 0.75f)
                 front = false
             })
             add(BoundsCheckComponent(8000f))
