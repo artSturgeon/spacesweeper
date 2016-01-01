@@ -7,6 +7,7 @@ import aurelienribon.tweenengine.equations.Bounce
 import aurelienribon.tweenengine.equations.Sine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
+import com.badlogic.ashley.core.Family
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.ScreenAdapter
@@ -14,6 +15,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.input.GestureDetector
 import com.badlogic.gdx.math.MathUtils
 import org.sturgeon.sweeper.Accessors.PositionAccessor
 import org.sturgeon.sweeper.components.*
@@ -28,7 +30,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     var playSystems = arrayOf(FiringSystem()
                     ,AddAsteroidSystem(1f)
                     ,CollisionSystem()
-                    ,ScoreSystem(), HealthSystem())
+                    ,ScoreSystem(), HealthSystem(), MouseSystem())
 
     private var station = Entity()
     private var turret = Entity()
@@ -52,6 +54,8 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         addSystems(alwaysSystems)
         setAttract()
         addTheWorld()
+
+
         //setPlaying()
     }
 
@@ -342,5 +346,8 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         }
 
     }
+
+
+
 
 }

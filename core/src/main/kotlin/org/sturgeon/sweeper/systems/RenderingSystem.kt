@@ -22,7 +22,7 @@ class RenderingSystem: EntitySystem() {
 
     private val batch: SpriteBatch by lazy { SpriteBatch() }
     private val camera: OrthographicCamera by lazy { OrthographicCamera(Assets.VIEWPORT_WIDTH, Assets.VIEWPORT_HEIGHT) }
-    lateinit private var viewport: Viewport
+    lateinit var viewport: Viewport
     lateinit private var textures: ImmutableArray<Entity>
     lateinit private var allFonts:ImmutableArray<Entity>
     lateinit private var updatingFonts:ImmutableArray<Entity>
@@ -183,5 +183,13 @@ class RenderingSystem: EntitySystem() {
         bitmapFont.color = Color.WHITE
     }
 
+    /*
+    public Vector3 unProjectPoint(int x, int y) {
+        touchPoint = new Vector3();
+        //touchPoint = camera.unproject(touchPoint.set(x, y, 0));
+        touchPoint = camera.unproject(touchPoint.set(x, y, 0), viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
+        return touchPoint;
+    }
+    */
 
 }

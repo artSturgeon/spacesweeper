@@ -15,7 +15,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   sodipodi:docname="space_sweeper.svg">
+   sodipodi:docname="space_sweeper.svg"
+   inkscape:export-filename="/Users/henri/projects/spacesweeper/core/assets/astronaut1.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4">
     <linearGradient
@@ -231,9 +234,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.50000001"
-     inkscape:cx="-2761.4156"
-     inkscape:cy="-2179.1792"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="-2155.5888"
+     inkscape:cy="-1614.7478"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -258,7 +261,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -3975,5 +3978,80 @@
        id="path4908"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccsssscccc" />
+    <g
+       id="g4320"
+       inkscape:export-filename="/Users/henri/projects/spacesweeper/core/assets/astronaut1.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="2371.8167"
+         x="-1995.5369"
+         height="38.827335"
+         width="32.853897"
+         id="rect3500"
+         style="fill:#9badb7;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+      <path
+         transform="matrix(0.1066685,0,0,0.1066685,-1983.59,2129.854)"
+         d="m 196,2222.3621 a 142,142 0 1 1 -284,0 142,142 0 1 1 284,0 z"
+         sodipodi:ry="142"
+         sodipodi:rx="142"
+         sodipodi:cy="2222.3621"
+         sodipodi:cx="54"
+         id="path3502"
+         style="fill:#9badb7;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         sodipodi:type="arc" />
+      <rect
+         y="2374.8035"
+         x="-2007.4838"
+         height="26.453789"
+         width="12.373546"
+         id="rect3504"
+         style="fill:#9badb7;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+      <rect
+         y="2402.324"
+         x="-1977.312"
+         height="30.720528"
+         width="14.629058"
+         id="rect3506"
+         style="fill:#9badb7;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+      <rect
+         y="2425.3643"
+         x="-1988.7101"
+         height="8.7468166"
+         width="26.027115"
+         id="rect3508"
+         style="fill:#9badb7;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+      <rect
+         y="2376.5103"
+         x="-1983.59"
+         height="23.893744"
+         width="8.9601536"
+         id="rect3510"
+         style="fill:#9badb7;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.1066685;stroke-opacity:1" />
+      <rect
+         y="2392.0837"
+         x="-1983.8033"
+         height="10.66685"
+         width="31.147202"
+         id="rect3512"
+         style="fill:#9badb7;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.1066685;stroke-opacity:1" />
+      <rect
+         y="2425.2195"
+         x="-1994.3854"
+         height="16.952145"
+         width="7.7597566"
+         id="rect4291"
+         style="fill:#9badb7;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+    </g>
+    <rect
+       style="fill:#fbf236;fill-opacity:1;fill-rule:nonzero;stroke:#fcffff;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect4330"
+       width="44.547726"
+       height="29.698484"
+       x="-1906.3599"
+       y="2381.7229"
+       inkscape:export-filename="/Users/henri/projects/spacesweeper/core/assets/repair_kit1.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
 </svg>
