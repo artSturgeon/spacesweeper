@@ -1,5 +1,10 @@
 package org.sturgeon.sweeper.systems
 
+import aurelienribon.tweenengine.BaseTween
+import aurelienribon.tweenengine.Timeline
+import aurelienribon.tweenengine.Tween
+import aurelienribon.tweenengine.TweenCallback
+import aurelienribon.tweenengine.equations.Bounce
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
@@ -13,6 +18,7 @@ import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
 import javafx.scene.shape.HLineTo
+import org.sturgeon.sweeper.Accessors.PositionAccessor
 import org.sturgeon.sweeper.Assets
 import org.sturgeon.sweeper.PlayScreen
 import org.sturgeon.sweeper.World
@@ -45,6 +51,8 @@ class CollisionSystem : EntitySystem() {
 
     }
 
+    var shaking = false
+
     private fun stationAndAsteroids() {
         var station = players.get(0)
         var stationPC = station.getComponent(PositionComponent::class.java)
@@ -55,6 +63,13 @@ class CollisionSystem : EntitySystem() {
             var r = Rectangle()
             Intersector.intersectRectangles(stationRect, asteroidPC.rect(), r)
             if (r.width > 0) {
+                // shake it!
+                //var tweenPos = Tween.to(pc, PositionAccessor.POSITION, 2f).target(pc.x, Assets.VIEWPORT_HEIGHT - 200f).ease(Bounce.OUT)
+                if (!shaking) {
+                    shaking = true
+                    shakeStation(stationPC)
+                }
+
                 // splode
                 var particle = Particle(asteroidPC.x + asteroidPC.width/2,
                         asteroidPC.y + asteroidPC.height/2, Assets.PART_ALL)
@@ -71,6 +86,29 @@ class CollisionSystem : EntitySystem() {
                 }
             }
         }
+    }
+
+    fun shakeStation(pc: PositionComponent) {
+        var startX = pc.x
+        var startY = pc.y
+        var shakeX = Tween.to(pc, PositionAccessor.POSITION, 0.05f).target(startX - 5, startY + 5)
+        var shakeX2 = Tween.to(pc, PositionAccessor.POSITION, 0.05f).target(startX + 5, startY - 5)
+        var shakeX3 = Tween.to(pc, PositionAccessor.POSITION, 0.05f).target(startX, startY)
+
+
+        var t = Timeline.createSequence()
+        t.push(shakeX).push(shakeX2).push(shakeX3)
+        t.repeat(1, 0.1f)
+
+        t.setCallback(object: TweenCallback {
+            override fun onEvent(type: Int, src: BaseTween<*>?) {
+                when (type) {
+                    TweenCallback.COMPLETE -> shaking = false
+                }
+            }
+        })
+
+        engine.getSystem(TweenSystem::class.java).addTimeline(t)
     }
 
     private fun bulletsAndAsteroids() {

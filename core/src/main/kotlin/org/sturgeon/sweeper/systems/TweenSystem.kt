@@ -1,5 +1,6 @@
 package org.sturgeon.sweeper.systems
 
+import aurelienribon.tweenengine.Timeline
 import aurelienribon.tweenengine.Tween
 import com.badlogic.ashley.core.EntitySystem
 import aurelienribon.tweenengine.TweenManager
@@ -15,6 +16,10 @@ class TweenSystem : EntitySystem() {
     }
 
     fun addTween(t: Tween) {
+        t.start(tweenManager)
+    }
+
+    fun addTimeline(t: Timeline) {
         t.start(tweenManager)
     }
 

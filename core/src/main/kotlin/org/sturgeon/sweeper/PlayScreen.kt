@@ -26,7 +26,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     var alwaysSystems = arrayOf(RenderingSystem(), TweenSystem(), MovementSystem(), BoundsCheckSystem())
     var attractSystems:Array<EntitySystem> = arrayOf(StarfieldSystem(0.1f), BigTextSystem(30f))
     var playSystems = arrayOf(FiringSystem()
-                    ,AddAsteroidSystem(3f)
+                    ,AddAsteroidSystem(1f)
                     ,CollisionSystem()
                     ,ScoreSystem(), HealthSystem())
 
@@ -40,6 +40,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     val ATTRACT = 1
     val PLAYING = 2
     val GAME_OVER = 3
+    val TRANSITION = 4
 
     var mode = ATTRACT
 
@@ -95,7 +96,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
         var startText = Entity()
         startText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, 100f))
-        startText.add(TextComponent("Press any key to start", true))
+        startText.add(TextComponent("Press space key to start", true))
         game.engine.addEntity(startText)
         entitiesToRemove.add(startText)
 
@@ -146,7 +147,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
         var startText = Entity()
         startText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, 100f))
-        startText.add(TextComponent("Press any key", true))
+        startText.add(TextComponent("Press space key", true))
         game.engine.addEntity(startText)
         entitiesToRemove.add(startText)
 
@@ -328,12 +329,14 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         }
 
         if (mode == ATTRACT) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
                 //setPlaying()
+                mode = TRANSITION
                 attractToPlaying()
             }
         } else if (mode == GAME_OVER) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+                mode = TRANSITION
                 gameOverToAttract()
             }
         }
