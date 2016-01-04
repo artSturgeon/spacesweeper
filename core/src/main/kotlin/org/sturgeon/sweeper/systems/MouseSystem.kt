@@ -11,6 +11,7 @@ import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.input.GestureDetector
+import com.badlogic.gdx.math.Vector2
 import org.sturgeon.sweeper.Accessors.PositionAccessor
 import org.sturgeon.sweeper.Assets
 import org.sturgeon.sweeper.components.AstronautComponent
@@ -26,8 +27,11 @@ class MouseSystem : EntitySystem() {
     init {
         Gdx.input.inputProcessor = GestureDetector(object : GestureDetector.GestureAdapter() {
             override fun tap(x: Float, y: Float, count: Int, button: Int): Boolean {
-                if (!moving)
-                    mouseClicked(x, y, button)
+                if (!moving) {
+                    // slightly iffy...
+                    var clickPoint = engine.getSystem(RenderingSystem::class.java).unproject(x, y)
+                    mouseClicked(clickPoint.x, clickPoint.y, button)
+                }
                 return super.tap(x, y, count, button)
             }
         })
@@ -53,14 +57,22 @@ class MouseSystem : EntitySystem() {
                     t.width.toFloat(), t.height.toFloat())
             astronaut.add(pc)
             astronaut.add(VisualComponent(t, 1))
+            astronaut.add(AstronautComponent())
             engine.addEntity(astronaut)
 
-            var move = Tween.to(pc, PositionAccessor.POSITION, 2f).target(x, y)
+            //var move = Tween.to(pc, PositionAccessor.POSITION, 2f).target(x, y)
         } else {
             pc = astronauts.get(0).getComponent(PositionComponent::class.java)
         }
 
-        var move = Tween.to(pc, PositionAccessor.POSITION, 2f).target(x, y)
+        // distance
+        var v = Vector2(pc.x, pc.y)
+        var v2 = Vector2(x, y)
+        var v3 = v.dst(v2)
+
+        println("v3: " + v3)
+
+        var move = Tween.to(pc, PositionAccessor.POSITION, v3 / 200f).target(x, y)
         move.setCallback(object: TweenCallback {
             override fun onEvent(type: Int, src: BaseTween<*>?) {
                 when (type) {
@@ -70,7 +82,5 @@ class MouseSystem : EntitySystem() {
         })
         engine.getSystem(TweenSystem::class.java).addTween(move)
     }
-
-
 
 }

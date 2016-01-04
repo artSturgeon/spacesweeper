@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.*
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import org.sturgeon.sweeper.Assets
@@ -72,6 +73,7 @@ class RenderingSystem: EntitySystem() {
 
         batch.end()
     }
+
     /*
     fun debugRect() {
         var shapeRenderer = ShapeRenderer()
@@ -87,6 +89,7 @@ class RenderingSystem: EntitySystem() {
         }
     }
     */
+
     private fun drawAnimations(deltaTime: Float) {
 
         for (animation in animations) {
@@ -142,8 +145,6 @@ class RenderingSystem: EntitySystem() {
         }
     }
 
-
-
     private fun drawFonts(fonts: List<Entity>) {
 
         for (font in fonts) {
@@ -183,13 +184,16 @@ class RenderingSystem: EntitySystem() {
         bitmapFont.color = Color.WHITE
     }
 
-    /*
-    public Vector3 unProjectPoint(int x, int y) {
-        touchPoint = new Vector3();
-        //touchPoint = camera.unproject(touchPoint.set(x, y, 0));
-        touchPoint = camera.unproject(touchPoint.set(x, y, 0), viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
-        return touchPoint;
+    public fun unproject(x: Float, y: Float):Vector3 {
+        var touchPoint = Vector3(x, y, 0f)
+        var viewPoint = camera.unproject(touchPoint,
+                viewport.screenX.toFloat(), viewport.screenY.toFloat(),
+                viewport.screenWidth.toFloat(),viewport.screenHeight.toFloat())
+        return viewPoint
     }
-    */
 
+    // Hacky, need to keep the viewport in sync
+    fun resize(width: Int, height: Int) {
+        viewport.update(width, height)
+    }
 }

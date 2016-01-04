@@ -29,7 +29,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     var attractSystems:Array<EntitySystem> = arrayOf(StarfieldSystem(0.1f), BigTextSystem(30f))
     var playSystems = arrayOf(FiringSystem()
                     ,AddAsteroidSystem(1f)
-                    ,CollisionSystem()
+                    ,AddObjectSystem(2f)
                     ,ScoreSystem(), HealthSystem(), MouseSystem())
 
     private var station = Entity()
@@ -347,7 +347,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
     }
 
-
-
-
+    override fun resize(width: Int, height: Int) {
+        game.engine.getSystem(RenderingSystem::class.java).resize(width, height)
+    }
 }
