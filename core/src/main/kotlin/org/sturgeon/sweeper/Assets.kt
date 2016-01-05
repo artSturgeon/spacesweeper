@@ -2,7 +2,6 @@ package org.sturgeon.sweeper
 
 import com.badlogic.gdx.Gdx
 
-
 object Assets {
     val VIEWPORT_WIDTH = 1000f
     val VIEWPORT_HEIGHT = 640f
@@ -16,6 +15,7 @@ object Assets {
     val SOLAR_PANEL = Gdx.files.internal("solar_panel1.png")
     val ASTRONAUT = Gdx.files.internal("astronaut1.png")
     val REPAIR_KIT = Gdx.files.internal("repair_kit1.png")
+    val RECALL_BUTTON = Gdx.files.internal("recall_btn1.png")
 
     val FONT_FILE = Gdx.files.internal("orbitron.fnt")
     val FONT_IMAGE = Gdx.files.internal("orbitron.png")

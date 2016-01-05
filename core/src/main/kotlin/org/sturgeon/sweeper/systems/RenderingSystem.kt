@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.*
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
@@ -52,7 +53,7 @@ class RenderingSystem: EntitySystem() {
         particles = engine!!.getEntitiesFor(Family.all(ParticleComponent::class.java).get())
         //queue = textures.sortedBy { it.getComponent(VisualComponent::class.java).zOrder }
     }
-
+    public var lines = ArrayList<Rectangle>()
     override fun update(deltaTime: Float) {
 
         queue = textures.sortedBy { it.getComponent(VisualComponent::class.java).zOrder }
@@ -64,7 +65,8 @@ class RenderingSystem: EntitySystem() {
         batch.projectionMatrix = camera.combined
 
         batch.begin()
-
+        if (lines.size > 0)
+            drawLines()
         drawFonts(backFonts)
         drawTextures(queue)
         drawAnimations(deltaTime)
@@ -74,9 +76,26 @@ class RenderingSystem: EntitySystem() {
         batch.end()
     }
 
+
+    var shapeRenderer = ShapeRenderer()
+    fun drawLines() {
+        for (line in lines) {
+            batch.end()
+
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.line(line.x, line.y, line.width, line.height);
+
+            shapeRenderer.end();
+
+            batch.begin()
+        }
+    }
+
     /*
-    fun debugRect() {
+    fun debugRect(station:Entity) {
         var shapeRenderer = ShapeRenderer()
+
         if (station != null) {
             batch.end()
 
@@ -88,7 +107,7 @@ class RenderingSystem: EntitySystem() {
             batch.begin()
         }
     }
-    */
+*/
 
     private fun drawAnimations(deltaTime: Float) {
 
@@ -117,7 +136,6 @@ class RenderingSystem: EntitySystem() {
             var vc = Mappers.visualMapper.get(texture)
 
             var pc = Mappers.positionMapper.get(texture)
-            var station = Mappers.playerMapper.get(texture)
 
             //SpriteBatch.draw(textureRegion, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
             //batch.draw(vc.region, pc.x, pc.y)

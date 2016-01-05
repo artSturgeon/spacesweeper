@@ -26,13 +26,16 @@ import org.sturgeon.sweeper.components.*
 import org.sturgeon.sweeper.entities.Particle
 
 
-class CollisionSystem : EntitySystem() {
+class CollisionSystem(ps:PlayScreen) : EntitySystem() {
 
     lateinit private var players: ImmutableArray<Entity>
     lateinit private var bullets: ImmutableArray<Entity>
     lateinit private var asteroids: ImmutableArray<Entity>
+    lateinit private var astronauts: ImmutableArray<Entity>
+    lateinit private var items: ImmutableArray<Entity>
 
     var explosion: Sound
+    var ps = ps
 
     init {
         explosion = Gdx.audio.newSound(Assets.SND_EXPLOSION)
@@ -42,13 +45,16 @@ class CollisionSystem : EntitySystem() {
         players = engine!!.getEntitiesFor(Family.all(PlayerComponent::class.java).get())
         bullets = engine!!.getEntitiesFor(Family.all(BulletComponent::class.java).get())
         asteroids = engine!!.getEntitiesFor(Family.all(AsteroidComponent::class.java).get())
+        astronauts = engine!!.getEntitiesFor(Family.all(AstronautComponent::class.java).get())
+        items = engine!!.getEntitiesFor(Family.all(ItemComponent::class.java).get())
     }
 
     override fun update(deltaTime: Float) {
         //if (players.size() < 1) return
         if (players.size() > 0 && asteroids.size() > 0) stationAndAsteroids()
         if (bullets.size() > 0 && asteroids.size() > 0) bulletsAndAsteroids()
-
+        if (astronauts.size() > 0 && asteroids.size() > 0) astronautAndAsteroids()
+        if (astronauts.size() > 0 && items.size() > 0) astronautAndItems()
     }
 
     var shaking = false
@@ -65,6 +71,7 @@ class CollisionSystem : EntitySystem() {
             if (r.width > 0) {
                 // shake it!
                 //var tweenPos = Tween.to(pc, PositionAccessor.POSITION, 2f).target(pc.x, Assets.VIEWPORT_HEIGHT - 200f).ease(Bounce.OUT)
+                //TODO: move this to a World class?
                 if (!shaking) {
                     shaking = true
                     shakeStation(stationPC)
@@ -83,6 +90,50 @@ class CollisionSystem : EntitySystem() {
                 if (hc.health <= 0) {
                     // game over
                     hc.func()
+                }
+            }
+        }
+    }
+
+    fun astronautAndAsteroids() {
+        var astronaut = astronauts.get(0)
+        var astronautPC = astronaut.getComponent(PositionComponent::class.java)
+        var r:Rectangle
+        for (asteroid in asteroids) {
+            var asteroidPC = asteroid.getComponent(PositionComponent::class.java)
+            r = Rectangle()
+            Intersector.intersectRectangles(astronautPC.rect(), asteroidPC.rect(), r)
+            if (r.width > 0) {
+                var asteroidMC = asteroid.getComponent(MovementComponent::class.java)
+                var astronautMC = astronaut.getComponent(MovementComponent::class.java)
+                if (astronautMC == null) {
+                    astronautMC = MovementComponent(0f, 0f)
+                    astronaut.add(asteroidMC)
+                }
+                astronautMC.velocityX = asteroidMC.velocityX
+                engine.removeEntity(asteroid)
+            }
+        }
+    }
+
+    fun astronautAndItems() {
+        // only allowing one astronaut?
+        var astronaut = astronauts.get(0)
+        var astronautPC = astronaut.getComponent(PositionComponent::class.java)
+        var r:Rectangle// = Rectangle()
+
+        for (item in items) {
+            var itemPC = item.getComponent(PositionComponent::class.java)
+            r = Rectangle()
+            Intersector.intersectRectangles(itemPC.rect(), astronautPC.rect(), r)
+            if (r.width > 0) {
+                when (item.getComponent(ItemComponent::class.java).type) {
+                    ItemType.STATION_HEALTH -> {
+                        //??
+                        // This should call back somewhere?
+                        engine.removeEntity(item)
+                        ps.stationHealthUp()
+                    }
                 }
             }
         }

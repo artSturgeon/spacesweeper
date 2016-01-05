@@ -10,5 +10,6 @@ object World {
 
     val TURRENT_HEALTH = 100
     val ASTEROID_DAMAGE = 10
+    val STATION_HEALTH = 100
 
 }

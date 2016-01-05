@@ -17,6 +17,8 @@ import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.input.GestureDetector
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.math.Vector2
 import org.sturgeon.sweeper.Accessors.PositionAccessor
 import org.sturgeon.sweeper.components.*
 import org.sturgeon.sweeper.entities.Star
@@ -30,7 +32,8 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     var playSystems = arrayOf(FiringSystem()
                     ,AddAsteroidSystem(1f)
                     ,AddObjectSystem(2f)
-                    ,ScoreSystem(), HealthSystem(), MouseSystem())
+                    ,CollisionSystem(this)
+                    ,ScoreSystem(), HealthSystem(), MouseSystem(this))
 
     private var station = Entity()
     private var turret = Entity()
@@ -54,8 +57,6 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         addSystems(alwaysSystems)
         setAttract()
         addTheWorld()
-
-
         //setPlaying()
     }
 
@@ -65,7 +66,6 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     }
 
     private fun setAttract() {
-
         mode = ATTRACT
         addSystems(attractSystems)
 
@@ -103,7 +103,6 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         startText.add(TextComponent("Press space key to start", true))
         game.engine.addEntity(startText)
         entitiesToRemove.add(startText)
-
     }
 
     private fun setPlaying() {
@@ -115,6 +114,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         //addInitialStars()
         //addTurret()
         addPanels()
+        addRecallButton()
         // add score
         var scoreText = Entity()
         scoreText.add(PositionComponent(Assets.VIEWPORT_WIDTH - 250, Assets.VIEWPORT_HEIGHT - 40))
@@ -180,6 +180,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         // Station in
         addStation()
         addTurret()
+
         var stationPC = station.getComponent(PositionComponent::class.java)
         var stationMoveTween = Tween.to(stationPC, PositionAccessor.POSITION, 2f).target(Assets.VIEWPORT_WIDTH/2 - 850, stationPC.y).ease(Sine.OUT)
         game.engine.getSystem(TweenSystem::class.java).addTween(stationMoveTween)
@@ -281,10 +282,44 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         game.engine.addEntity(turret)
     }
 
+    fun addRecallButton() {
+        var btn = Entity()
+        var t = Texture(Assets.RECALL_BUTTON)
+        var pc = PositionComponent(station.getComponent(PositionComponent::class.java).x + 500,
+                station.getComponent(PositionComponent::class.java).y + 72,
+                t.width.toFloat(), t.height.toFloat())
+        btn.add(pc)
+        btn.add(VisualComponent(t, 1000))
+        btn.add(ClickComponent({ recallClicked() }))
+        game.engine.addEntity(btn)
+    }
+
+    fun recallClicked() {
+        // get the spaceman back home!
+        println("recall! recall!")
+    }
+
     fun addInitialStars() {
         for (i in 1..30) {
             var star = Star(MathUtils.random(0f, Assets.VIEWPORT_WIDTH), MathUtils.random(0f, Assets.VIEWPORT_HEIGHT))
             game.engine.addEntity(star)
+        }
+    }
+
+    public fun stationHealthUp() {
+        var hc = station.getComponent(HealthComponent::class.java)
+        hc.health += 10
+        if (hc.health > World.STATION_HEALTH) hc.health = World.STATION_HEALTH
+    }
+
+    public fun testWire() {
+        var astronauts = game.engine.getEntitiesFor(Family.all(AstronautComponent::class.java).get())
+        if (astronauts.size() == 1) {
+            var astronautPC = astronauts.get(0).getComponent(PositionComponent::class.java)
+            var stationPC = station.getComponent(PositionComponent::class.java)
+            var r = Rectangle(stationPC.x + stationPC.width, stationPC.y + stationPC.height/2, astronautPC.x, astronautPC.y)
+            game.engine.getSystem(RenderingSystem::class.java).lines.clear()
+            game.engine.getSystem(RenderingSystem::class.java).lines.add(r)
         }
     }
 

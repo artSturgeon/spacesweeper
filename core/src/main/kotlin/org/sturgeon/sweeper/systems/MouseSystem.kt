@@ -14,14 +14,15 @@ import com.badlogic.gdx.input.GestureDetector
 import com.badlogic.gdx.math.Vector2
 import org.sturgeon.sweeper.Accessors.PositionAccessor
 import org.sturgeon.sweeper.Assets
-import org.sturgeon.sweeper.components.AstronautComponent
-import org.sturgeon.sweeper.components.PlayerComponent
-import org.sturgeon.sweeper.components.PositionComponent
-import org.sturgeon.sweeper.components.VisualComponent
+import org.sturgeon.sweeper.PlayScreen
+import org.sturgeon.sweeper.components.*
 
-class MouseSystem : EntitySystem() {
-
+class MouseSystem(ps: PlayScreen) : EntitySystem() {
+    //TODO: remove this!
+    // Plus probably refactor this...
+    var ps = ps
     lateinit private var astronauts: ImmutableArray<Entity>
+    lateinit private var clickers: ImmutableArray<Entity>
     private var moving = false
 
     init {
@@ -39,9 +40,30 @@ class MouseSystem : EntitySystem() {
 
     override fun addedToEngine(engine: Engine?) {
         astronauts = engine!!.getEntitiesFor(Family.all(AstronautComponent::class.java).get())
+        clickers = engine!!.getEntitiesFor(Family.all(ClickComponent::class.java).get())
     }
 
     fun mouseClicked(x: Float, y: Float, button: Int) {
+        if (!clickClickers(x, y)) {
+            clickAstronaut(x, y)
+        }
+    }
+
+    fun clickClickers(x: Float, y:Float):Boolean {
+        for (clicker in clickers) {
+            var pc = clicker.getComponent(PositionComponent::class.java)
+            if (pc.rect().contains(x, y)) {
+                println("clicker!")
+                var cc = clicker.getComponent(ClickComponent::class.java)
+                cc.func()
+                return true
+            }
+        }
+        return false
+    }
+
+    fun clickAstronaut(x: Float, y: Float) {
+
         moving = true
         var pc: PositionComponent
 
@@ -70,13 +92,15 @@ class MouseSystem : EntitySystem() {
         var v2 = Vector2(x, y)
         var v3 = v.dst(v2)
 
-        println("v3: " + v3)
-
         var move = Tween.to(pc, PositionAccessor.POSITION, v3 / 200f).target(x, y)
         move.setCallback(object: TweenCallback {
             override fun onEvent(type: Int, src: BaseTween<*>?) {
                 when (type) {
-                    TweenCallback.COMPLETE -> moving = false
+                    TweenCallback.COMPLETE -> {
+                        moving = false
+                        //TODO: remove this!
+                        ps.testWire()
+                    }
                 }
             }
         })
