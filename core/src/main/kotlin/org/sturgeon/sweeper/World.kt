@@ -1,15 +1,25 @@
 package org.sturgeon.sweeper
 
-
-object World {
-
-    var score = 0
-    var lastScore = 0
-    var highScore = 0
+import com.badlogic.ashley.core.Entity
 
 
-    val TURRENT_HEALTH = 100
-    val ASTEROID_DAMAGE = 10
-    val STATION_HEALTH = 100
+class World {
+    companion object {
+        var score = 0
+        var lastScore = 0
+        var highScore = 0
+        var astronauts = 3
+
+        val TURRENT_HEALTH = 100
+        val ASTEROID_DAMAGE = 10
+        val STATION_HEALTH = 100
+    }
+
+    //var astronaut: Entity
+
+
+
+
+
 
 }

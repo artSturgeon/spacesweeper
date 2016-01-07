@@ -11,10 +11,12 @@ import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.input.GestureDetector
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import org.sturgeon.sweeper.Accessors.PositionAccessor
 import org.sturgeon.sweeper.Assets
 import org.sturgeon.sweeper.PlayScreen
+import org.sturgeon.sweeper.World
 import org.sturgeon.sweeper.components.*
 
 class MouseSystem(ps: PlayScreen) : EntitySystem() {
@@ -39,7 +41,7 @@ class MouseSystem(ps: PlayScreen) : EntitySystem() {
     }
 
     override fun addedToEngine(engine: Engine?) {
-        astronauts = engine!!.getEntitiesFor(Family.all(AstronautComponent::class.java).get())
+        astronauts = engine!!.getEntitiesFor(Family.all(AstronautComponent::class.java, AliveComponent::class.java).get())
         clickers = engine!!.getEntitiesFor(Family.all(ClickComponent::class.java).get())
     }
 
@@ -67,6 +69,8 @@ class MouseSystem(ps: PlayScreen) : EntitySystem() {
         moving = true
         var pc: PositionComponent
 
+        if (World.astronauts <= 0) return
+
         if (astronauts.size() == 0) {
             var players = engine.getEntitiesFor(Family.all(PlayerComponent::class.java).get())
             var station = players.get(0)
@@ -80,8 +84,17 @@ class MouseSystem(ps: PlayScreen) : EntitySystem() {
             astronaut.add(pc)
             astronaut.add(VisualComponent(t, 1))
             astronaut.add(AstronautComponent())
+            astronaut.add(AliveComponent())
             engine.addEntity(astronaut)
 
+            // add the lifeline
+            var lifeline = Entity()
+            var lineStart = Vector2(stationPC.x + stationPC.width, stationPC.y + stationPC.height / 2)
+            var lineEnd = Vector2(pc.x, pc.y)
+            lifeline.add(LineComponent(lineStart, lineEnd))
+            engine.addEntity(lifeline)
+
+            engine.addSystem(LifelineSystem())
             //var move = Tween.to(pc, PositionAccessor.POSITION, 2f).target(x, y)
         } else {
             pc = astronauts.get(0).getComponent(PositionComponent::class.java)
@@ -99,7 +112,7 @@ class MouseSystem(ps: PlayScreen) : EntitySystem() {
                     TweenCallback.COMPLETE -> {
                         moving = false
                         //TODO: remove this!
-                        ps.testWire()
+                        //ps.testWire()
                     }
                 }
             }

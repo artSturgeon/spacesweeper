@@ -24,12 +24,15 @@ class RenderingSystem: EntitySystem() {
 
     private val batch: SpriteBatch by lazy { SpriteBatch() }
     private val camera: OrthographicCamera by lazy { OrthographicCamera(Assets.VIEWPORT_WIDTH, Assets.VIEWPORT_HEIGHT) }
+    private val shapeRenderer by lazy { ShapeRenderer() }
+
     lateinit var viewport: Viewport
     lateinit private var textures: ImmutableArray<Entity>
     lateinit private var allFonts:ImmutableArray<Entity>
     lateinit private var updatingFonts:ImmutableArray<Entity>
     lateinit private var animations: ImmutableArray<Entity>
     lateinit private var particles: ImmutableArray<Entity>
+    lateinit private var lines: ImmutableArray<Entity>
 
     lateinit private var queue: List<Entity>
 
@@ -51,9 +54,10 @@ class RenderingSystem: EntitySystem() {
         updatingFonts = engine!!.getEntitiesFor(Family.all(UpdatingTextComponent::class.java).get())
         animations = engine!!.getEntitiesFor(Family.all(AnimationComponent::class.java, PositionComponent::class.java).get())
         particles = engine!!.getEntitiesFor(Family.all(ParticleComponent::class.java).get())
+        lines = engine!!.getEntitiesFor(Family.all(LineComponent::class.java).get())
         //queue = textures.sortedBy { it.getComponent(VisualComponent::class.java).zOrder }
     }
-    public var lines = ArrayList<Rectangle>()
+
     override fun update(deltaTime: Float) {
 
         queue = textures.sortedBy { it.getComponent(VisualComponent::class.java).zOrder }
@@ -65,10 +69,9 @@ class RenderingSystem: EntitySystem() {
         batch.projectionMatrix = camera.combined
 
         batch.begin()
-        if (lines.size > 0)
-            drawLines()
         drawFonts(backFonts)
         drawTextures(queue)
+        drawLines()
         drawAnimations(deltaTime)
         drawPes(deltaTime)
         drawFonts(frontFonts)
@@ -77,14 +80,14 @@ class RenderingSystem: EntitySystem() {
     }
 
 
-    var shapeRenderer = ShapeRenderer()
     fun drawLines() {
         for (line in lines) {
+            var lc = line.getComponent(LineComponent::class.java)
             batch.end()
 
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(Color.RED);
-            shapeRenderer.line(line.x, line.y, line.width, line.height);
+            shapeRenderer.line(lc.lineStart.x, lc.lineStart.y, lc.lineEnd.x, lc.lineEnd.y);
 
             shapeRenderer.end();
 

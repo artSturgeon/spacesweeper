@@ -131,6 +131,14 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         healthText.add(UpdatingTextComponent("health : " + 100, false, updateHealth() ))
         game.engine.addEntity(healthText)
         entitiesToRemove.add(healthText)
+
+        // add number of astronauts
+        var astroText = Entity()
+        astroText.add(PositionComponent(Assets.VIEWPORT_WIDTH - 250, Assets.VIEWPORT_HEIGHT - 120))
+        fun updateAstro() = { "astro : " + World.astronauts }
+        astroText.add(UpdatingTextComponent("astro : " + World.astronauts, false, updateAstro()))
+        game.engine.addEntity(astroText)
+        entitiesToRemove.add(astroText)
     }
 
      fun setGameOver() {
@@ -297,6 +305,24 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     fun recallClicked() {
         // get the spaceman back home!
         println("recall! recall!")
+        // yikes!!
+        // you know things are getting late in the day when I start
+        //  putting comments in like yikes...
+        var astronauts = game.engine.getEntitiesFor(Family.all(AstronautComponent::class.java).get())
+        var lines = game.engine.getEntitiesFor(Family.all(LineComponent::class.java).get())
+        if (astronauts.size() > 0 && lines.size() > 0) {
+            var astronaut = astronauts.get(0)
+            var line = lines.get(0)
+            var mc = astronaut.getComponent(MovementComponent::class.java)
+            if (mc == null) mc = MovementComponent(0f, 0f)
+            astronaut.add(mc)
+            var lineStart = line.getComponent(LineComponent::class.java).lineStart
+            var lineEnd = line.getComponent(LineComponent::class.java).lineEnd
+            // work out vectors to target
+            var l = lineStart.cpy().sub(lineEnd).nor().scl(100f, 100f)
+            mc.velocityX = l.x
+            mc.velocityY = l.y
+        }
     }
 
     fun addInitialStars() {
@@ -311,18 +337,20 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         hc.health += 10
         if (hc.health > World.STATION_HEALTH) hc.health = World.STATION_HEALTH
     }
-
+/*
     public fun testWire() {
         var astronauts = game.engine.getEntitiesFor(Family.all(AstronautComponent::class.java).get())
         if (astronauts.size() == 1) {
             var astronautPC = astronauts.get(0).getComponent(PositionComponent::class.java)
             var stationPC = station.getComponent(PositionComponent::class.java)
             var r = Rectangle(stationPC.x + stationPC.width, stationPC.y + stationPC.height/2, astronautPC.x, astronautPC.y)
+
+
             game.engine.getSystem(RenderingSystem::class.java).lines.clear()
             game.engine.getSystem(RenderingSystem::class.java).lines.add(r)
         }
     }
-
+*/
     fun addScoller(msg:String) {
         var scroller = Entity().apply {
             add(PositionComponent(Assets.VIEWPORT_WIDTH, 500f))
@@ -357,10 +385,13 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     private fun keyListener() {
         if (mode == PLAYING) {
             if (!firing) {
-                if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                if (Gdx.input.isKeyPressed(Input.Keys.LEFT)
+                        || Gdx.input.isKeyPressed(Input.Keys.Q)) {
                     var pc = turret.getComponent(PositionComponent::class.java)
                     pc.angle += 2f
-                } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)
+                        || Gdx.input.isKeyPressed(Input.Keys.W)
+                ) {
                     var pc = turret.getComponent(PositionComponent::class.java)
                     pc.angle -= 2f
                 }

@@ -27,7 +27,8 @@ class FiringSystem : IteratingSystem(Family.all(FiringComponent::class.java).get
     override fun processEntity(entity: Entity?, deltaTime: Float) {
         bulletTime += deltaTime
         var turretAC = entity!!.getComponent(AnimationComponent::class.java)
-        if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.Z)
+            || Gdx.input.isKeyPressed(Input.Keys.C)) {
             if (bulletTime > 0.25f) {
                 bulletTime = 0f
                 turretAC.running = true
