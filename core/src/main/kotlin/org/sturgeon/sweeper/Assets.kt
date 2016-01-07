@@ -14,7 +14,7 @@ object Assets {
     val WORLD = Gdx.files.internal("world2.png")
     val SOLAR_PANEL = Gdx.files.internal("solar_panel1.png")
     val ASTRONAUT = Gdx.files.internal("astronaut1.png")
-    val REPAIR_KIT = Gdx.files.internal("repair_kit1.png")
+    val REPAIR_KIT = Gdx.files.internal("repair_kit2.png")
     val RECALL_BUTTON = Gdx.files.internal("recall_btn1.png")
 
     val FONT_FILE = Gdx.files.internal("orbitron.fnt")
