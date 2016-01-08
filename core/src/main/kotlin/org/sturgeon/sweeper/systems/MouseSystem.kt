@@ -71,13 +71,15 @@ class MouseSystem(ps: PlayScreen) : EntitySystem() {
 
         if (World.astronauts <= 0) return
 
+        var astronaut: Entity
+
         if (astronauts.size() == 0) {
             var players = engine.getEntitiesFor(Family.all(PlayerComponent::class.java).get())
             var station = players.get(0)
             var stationPC = station.getComponent(PositionComponent::class.java)
 
             // create a new astronaut and send him
-            var astronaut = Entity()
+            astronaut = Entity()
             var t = Texture(Assets.ASTRONAUT)
             pc = PositionComponent(stationPC.x + stationPC.width - 100, stationPC.y + stationPC.height/2,
                     t.width.toFloat(), t.height.toFloat())
@@ -97,14 +99,24 @@ class MouseSystem(ps: PlayScreen) : EntitySystem() {
             engine.addSystem(LifelineSystem())
             //var move = Tween.to(pc, PositionAccessor.POSITION, 2f).target(x, y)
         } else {
-            pc = astronauts.get(0).getComponent(PositionComponent::class.java)
+            astronaut = astronauts.get(0)
+            pc = astronaut.getComponent(PositionComponent::class.java)
         }
 
-        // distance
-        var v = Vector2(pc.x, pc.y)
-        var v2 = Vector2(x, y)
-        var v3 = v.dst(v2)
+        // add some velocity to for astronaut to target
+        // pc.x, pc.y = where astronaut is now
+        // x, y = target
+        var origin = Vector2(pc.x, pc.y)
+        var target = Vector2(x, y)
 
+        var moved = { moving = false }
+        astronaut.add(TargetComponent(target, moved))
+
+        var velo = target.cpy().sub(origin).nor().scl(100f, 100f)
+        // Now we start to wonder why we didn't use vectors for everything in the first place!
+        astronaut.add(MovementComponent(velo.x, velo.y))
+
+        /*
         var move = Tween.to(pc, PositionAccessor.POSITION, v3 / 200f).target(x, y)
         move.setCallback(object: TweenCallback {
             override fun onEvent(type: Int, src: BaseTween<*>?) {
@@ -118,6 +130,7 @@ class MouseSystem(ps: PlayScreen) : EntitySystem() {
             }
         })
         engine.getSystem(TweenSystem::class.java).addTween(move)
+        */
     }
 
 }

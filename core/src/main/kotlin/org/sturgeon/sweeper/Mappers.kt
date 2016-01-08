@@ -15,4 +15,5 @@ object Mappers {
     val animationMapper = ComponentMapper.getFor(AnimationComponent::class.java)
     val boundsCheckMapper = ComponentMapper.getFor(BoundsCheckComponent::class.java)
     val playerMapper = ComponentMapper.getFor(PlayerComponent::class.java)
+    val targetMapper = ComponentMapper.getFor(TargetComponent::class.java)
 }
