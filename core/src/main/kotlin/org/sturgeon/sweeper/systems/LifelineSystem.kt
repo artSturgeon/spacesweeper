@@ -29,8 +29,9 @@ class LifelineSystem : EntitySystem() {
             var line = lines.get(0)
 
             var lc = line.getComponent(LineComponent::class.java)
-            lc.lineEnd.x = astronaut.getComponent(PositionComponent::class.java).x
-            lc.lineEnd.y = astronaut.getComponent(PositionComponent::class.java).y
+            var astronautPC = astronaut.getComponent(PositionComponent::class.java)
+            lc.lineEnd.x = astronautPC.x + astronautPC.width/2
+            lc.lineEnd.y = astronautPC.y + astronautPC.height/2
 
             var length = lc.lineStart.dst(lc.lineEnd)
             /*

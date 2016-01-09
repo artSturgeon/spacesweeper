@@ -187,11 +187,12 @@ class Station(e: Engine) {
     }
 
      fun moveAstronaut(x: Float, y: Float) {
-        println("moving astronaut")
-         var origin = Vector2(astronaut.getComponent(PositionComponent::class.java).x,
-            astronaut.getComponent(PositionComponent::class.java).y)
-        var target = Vector2(x, y)
-        // Add a target
+         println("moving astronaut")
+         var astronautPC = astronaut.getComponent(PositionComponent::class.java)
+         var origin = Vector2(astronautPC.x, astronautPC.y)
+         // alter the target or we won't have the correct velocity vector later
+         var target = Vector2(x - astronautPC.width/2 , y - astronautPC.height/2)
+         // Add a target
         var moved = { astronautMoving = false }
         astronaut.add(TargetComponent(target, moved))
         // and a velocity
@@ -212,7 +213,7 @@ class Station(e: Engine) {
         var recallBtnPC = recallBtn.getComponent(PositionComponent::class.java)
         var astronautPC = astronaut.getComponent(PositionComponent::class.java)
         var lineStart = Vector2(recallBtnPC.x + recallBtnPC.width/2, recallBtnPC.y + recallBtnPC.height / 2)
-        var lineEnd = Vector2(astronautPC.x, astronautPC.y)
+        var lineEnd = Vector2(astronautPC.x + astronautPC.width, astronautPC.y + astronautPC.height)
         lifeline.add(LineComponent(lineStart, lineEnd))
         engine.addEntity(lifeline)
     }
