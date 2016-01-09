@@ -1,10 +1,7 @@
 package org.sturgeon.sweeper
 
-import aurelienribon.tweenengine.BaseTween
 import aurelienribon.tweenengine.Tween
-import aurelienribon.tweenengine.TweenCallback
 import aurelienribon.tweenengine.equations.Bounce
-import aurelienribon.tweenengine.equations.Sine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.core.Family
@@ -13,12 +10,7 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.Animation
-import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.badlogic.gdx.input.GestureDetector
 import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.math.Vector2
 import org.sturgeon.sweeper.Accessors.PositionAccessor
 import org.sturgeon.sweeper.components.*
 import org.sturgeon.sweeper.entities.Star
@@ -28,14 +20,19 @@ import java.util.*
 
 class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
-    var alwaysSystems = arrayOf(RenderingSystem(), TweenSystem(), MovementSystem(), BoundsCheckSystem())
-    var attractSystems:Array<EntitySystem> = arrayOf(StarfieldSystem(0.1f), BigTextSystem(30f))
-    var playSystems = arrayOf(FiringSystem()
-                    ,AddAsteroidSystem(1f)
-                    ,AddObjectSystem(2f)
-                    ,CollisionSystem(this)
-                    ,LifelineSystem()
-                    ,ScoreSystem(), HealthSystem(), MouseSystem(this))
+    val alwaysSystems = arrayOf(RenderingSystem(), TweenSystem(), MovementSystem(), BoundsCheckSystem())
+    val attractSystems:Array<EntitySystem> = arrayOf(StarfieldSystem(0.1f), BigTextSystem(30f))
+
+    // lazy init for these so they don't take effect until needed
+    val playSystems:Array<EntitySystem> by lazy {
+        arrayOf(FiringSystem()
+                , AddAsteroidSystem(1f)
+                , AddObjectSystem(2f)
+                , CollisionSystem(this)
+                , LifelineSystem()
+                , ScoreSystem()
+                , HealthSystem(), MouseSystem(this))
+    }
 
     //private var station = Entity()
     //private var turret = Entity()
