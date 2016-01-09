@@ -21,16 +21,13 @@ class MovementSystem : IteratingSystem(Family.all(MovementComponent::class.java,
 
         // check if there's a target
         var tc = Mappers.targetMapper.get(entity)
-        if (tc != null) {
+        if (tc != null && !tc.targetReached) {
             if (tc.target.dst(pc.x, pc.y) <= 5) {
-                //if (pc.x >= tc.target.x - 5 &&
-                //      pc.x <= tc.target.x + 5 &&
-                //    pc.y >= tc.target.y - 5 &&
-                //    pc.y <= tc.target.y +5) {
                 println("reached target")
                 mc.velocityX = 0f
                 mc.velocityY = 0f
-                tc.targetReached()
+                tc.targetReached = true
+                tc.targetReachedCallback()
             }
         }
     }

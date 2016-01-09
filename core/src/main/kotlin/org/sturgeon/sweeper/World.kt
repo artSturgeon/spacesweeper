@@ -1,5 +1,7 @@
 package org.sturgeon.sweeper
 
+import org.sturgeon.sweeper.entities.Station
+
 class World {
     companion object {
         var score = 0
@@ -11,7 +13,9 @@ class World {
 
         val TURRENT_HEALTH = 100
         val ASTEROID_DAMAGE = 10
-        val STATION_HEALTH = 100
+        val STATION_HEALTH = 1000
+        val LIFELINE_LENGTH = 320f
+        lateinit var station: Station
     }
 
     //var astronaut: Entity

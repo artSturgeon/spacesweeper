@@ -22,6 +22,7 @@ import com.badlogic.gdx.math.Vector2
 import org.sturgeon.sweeper.Accessors.PositionAccessor
 import org.sturgeon.sweeper.components.*
 import org.sturgeon.sweeper.entities.Star
+import org.sturgeon.sweeper.entities.Station
 import org.sturgeon.sweeper.systems.*
 import java.util.*
 
@@ -33,10 +34,12 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
                     ,AddAsteroidSystem(1f)
                     ,AddObjectSystem(2f)
                     ,CollisionSystem(this)
+                    ,LifelineSystem()
                     ,ScoreSystem(), HealthSystem(), MouseSystem(this))
 
-    private var station = Entity()
-    private var turret = Entity()
+    //private var station = Entity()
+    //private var turret = Entity()
+    private var station: Station
     private var logo = Entity()
     private var theWorld = Entity()
 
@@ -58,6 +61,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         setAttract()
         addTheWorld()
         //setPlaying()
+        station = Station(game.engine)
     }
 
     override fun render(delta: Float) {
@@ -113,8 +117,12 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         //addScoller("Clear The Space !")
         //addInitialStars()
         //addTurret()
-        addPanels()
-        addRecallButton()
+
+
+        station.addPanels()
+        station.addRecallButton { recallClicked() }
+        //addPanels()
+        //addRecallButton()
         // add score
         var scoreText = Entity()
         scoreText.add(PositionComponent(Assets.VIEWPORT_WIDTH - 250, Assets.VIEWPORT_HEIGHT - 40))
@@ -126,9 +134,9 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         // add health
         var healthText = Entity()
         healthText.add(PositionComponent(Assets.VIEWPORT_WIDTH - 250, Assets.VIEWPORT_HEIGHT - 80))
-        fun updateHealth() = { "health: " + station.getComponent(HealthComponent::class.java).health  }
-        station.add(HealthComponent(100, { setGameOver() }))
-        healthText.add(UpdatingTextComponent("health : " + 100, false, updateHealth() ))
+        fun updateHealth() = { "health: " + station.getHealth()  }
+        station.add(HealthComponent(World.STATION_HEALTH, { setGameOver() }))
+        healthText.add(UpdatingTextComponent("health : " + World.STATION_HEALTH, false, updateHealth() ))
         game.engine.addEntity(healthText)
         entitiesToRemove.add(healthText)
 
@@ -186,33 +194,16 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         game.engine.getSystem(TweenSystem::class.java).addTween(worldMove)
 
         // Station in
-        addStation()
-        addTurret()
-
-        var stationPC = station.getComponent(PositionComponent::class.java)
-        var stationMoveTween = Tween.to(stationPC, PositionAccessor.POSITION, 2f).target(Assets.VIEWPORT_WIDTH/2 - 850, stationPC.y).ease(Sine.OUT)
-        game.engine.getSystem(TweenSystem::class.java).addTween(stationMoveTween)
-
-        var turretPC = turret.getComponent(PositionComponent::class.java)
-        var turretMoveTween = Tween.to(turretPC, PositionAccessor.POSITION, 2f).target(Assets.VIEWPORT_WIDTH/2 -850 + 825,turretPC.y).ease(Sine.OUT)
-        game.engine.getSystem(TweenSystem::class.java).addTween(turretMoveTween)
-
-        // Set systems up
-        tweenPos.setCallback(object: TweenCallback {
-            override fun onEvent(type: Int, src: BaseTween<*>?) {
-                when (type) {
-                    TweenCallback.COMPLETE -> setPlaying()
-                }
-            }
-        })
+        station.tweenIn({ setPlaying() })
     }
 
     fun gameOverToAttract() {
         for (entity in entitiesToRemove)
             game.engine.removeEntity(entity)
         entitiesToRemove.clear()
-        game.engine.removeEntity(station)
-        game.engine.removeEntity(turret)
+        station.dispose()
+        //game.engine.removeEntity(station)
+        //game.engine.removeEntity(turret)
 
         // move the world back up
         var worldPC = theWorld.getComponent(PositionComponent::class.java)
@@ -223,33 +214,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         setAttract()
     }
 
-    fun addStation() {
-        var t = Texture(Assets.STATION)
-        station.add(PositionComponent(Assets.VIEWPORT_WIDTH + 100, Assets.VIEWPORT_HEIGHT/2 - t.height/2, t.width.toFloat(), t.height.toFloat()))
-        //station.add(PositionComponent(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT/2 - t.height/2, t.width.toFloat(), t.height.toFloat()))
-        station.add(VisualComponent(t))
-        station.add(PlayerComponent())
-        game.engine.addEntity(station)
-    }
 
-    fun addPanels() {
-        addPanel(station.getComponent(PositionComponent::class.java).x + 492, station.getComponent(PositionComponent::class.java).y + 193f)
-        addPanel(station.getComponent(PositionComponent::class.java).x + 640, station.getComponent(PositionComponent::class.java).y + 193f)
-        addPanel(station.getComponent(PositionComponent::class.java).x + 580, station.getComponent(PositionComponent::class.java).y - 172f)
-        game.engine.addSystem(IncidentalSystem())
-    }
-
-    fun addPanel(x:Float, y:Float) {
-        var panel = Entity()
-        var t = Texture(Assets.SOLAR_PANEL)
-        panel.add(PositionComponent(x, y
-                                    ,
-                                    t.width.toFloat(), t.height.toFloat()))
-        panel.add(VisualComponent(t, 20))
-        panel.add(PanelComponent())
-        game.engine.addEntity(panel)
-        entitiesToRemove.add(panel)
-    }
 
     fun addTheWorld() {
         var worldTex = Texture(Assets.WORLD)
@@ -261,56 +226,21 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         game.engine.addEntity(theWorld)
     }
 
-    private fun addTurret() {
 
-        // Texture with all frames
-        var firing = Texture(Assets.TURRET_ANIMATION)
-        firing.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
-        // 2d array with frames split by width/height
-        var tmp = TextureRegion.split(firing, firing.width, firing.height/10)
-        // 1d array with consecutive frames
-        var firingFrames = Array<TextureRegion>(10, { i -> tmp[i][0] })
-        // animation, constructor takes varargs, so using Kotlin spread operator *
-        var firingAnimation = Animation(0.05f, *firingFrames)
-
-        var width = firingFrames[0].regionWidth
-        var height = firingFrames[0].regionHeight
-
-        var x = station.getComponent(PositionComponent::class.java).x + 825
-        var y = station.getComponent(PositionComponent::class.java).y + 72
-
-        var pc = PositionComponent(x, y, width.toFloat(), height.toFloat())
-
-        pc.originX = 25f;
-        pc.originY = 25f;
-
-        turret.add(pc)
-        turret.add(AnimationComponent(firingAnimation))
-        turret.add(FiringComponent())
-        game.engine.addEntity(turret)
-    }
-
-    fun addRecallButton() {
-        var btn = Entity()
-        var t = Texture(Assets.RECALL_BUTTON)
-        var pc = PositionComponent(station.getComponent(PositionComponent::class.java).x + 500,
-                station.getComponent(PositionComponent::class.java).y + 72,
-                t.width.toFloat(), t.height.toFloat())
-        btn.add(pc)
-        btn.add(VisualComponent(t, 1000))
-        btn.add(ClickComponent({ recallClicked() }))
-        game.engine.addEntity(btn)
-    }
 
     fun recallClicked() {
         // get the spaceman back home!
-        println("recall! recall!")
+        println("recall clicked")
         // yikes!!
         // you know things are getting late in the day when I start
         //  putting comments in like yikes...
-        var astronauts = game.engine.getEntitiesFor(Family.all(AstronautComponent::class.java).get())
+        var astronauts = game.engine.getEntitiesFor(Family.all(AstronautComponent::class.java, AliveComponent::class.java,
+                ConnectedComponent::class.java).get())
+        println("astronauts size: " + astronauts.size())
         var lines = game.engine.getEntitiesFor(Family.all(LineComponent::class.java).get())
+        println("lines size: " + lines.size())
         if (astronauts.size() > 0 && lines.size() > 0) {
+            println("I will recall the astronaut")
             var astronaut = astronauts.get(0)
             var line = lines.get(0)
             var mc = astronaut.getComponent(MovementComponent::class.java)
@@ -322,6 +252,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
             var l = lineStart.cpy().sub(lineEnd).nor().scl(100f, 100f)
             mc.velocityX = l.x
             mc.velocityY = l.y
+            astronaut.add(TargetComponent(lineStart, { World.station.dockAstronaut() }))
         }
     }
 
@@ -332,11 +263,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         }
     }
 
-    public fun stationHealthUp() {
-        var hc = station.getComponent(HealthComponent::class.java)
-        hc.health += 10
-        if (hc.health > World.STATION_HEALTH) hc.health = World.STATION_HEALTH
-    }
+
 /*
     public fun testWire() {
         var astronauts = game.engine.getEntitiesFor(Family.all(AstronautComponent::class.java).get())
@@ -387,13 +314,11 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
             if (!firing) {
                 if (Gdx.input.isKeyPressed(Input.Keys.LEFT)
                         || Gdx.input.isKeyPressed(Input.Keys.Q)) {
-                    var pc = turret.getComponent(PositionComponent::class.java)
-                    pc.angle += 2f
+                    station.turretLeft(2f)
                 } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)
                         || Gdx.input.isKeyPressed(Input.Keys.W)
                 ) {
-                    var pc = turret.getComponent(PositionComponent::class.java)
-                    pc.angle -= 2f
+                    station.turrentRight(2f)
                 }
             }
         }

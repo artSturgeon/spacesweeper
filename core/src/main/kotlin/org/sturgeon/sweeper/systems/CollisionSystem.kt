@@ -45,7 +45,7 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
         players = engine!!.getEntitiesFor(Family.all(PlayerComponent::class.java).get())
         bullets = engine!!.getEntitiesFor(Family.all(BulletComponent::class.java).get())
         asteroids = engine!!.getEntitiesFor(Family.all(AsteroidComponent::class.java).get())
-        astronauts = engine!!.getEntitiesFor(Family.all(AstronautComponent::class.java).get())
+        astronauts = engine!!.getEntitiesFor(Family.all(AstronautComponent::class.java, AliveComponent::class.java).get())
         items = engine!!.getEntitiesFor(Family.all(ItemComponent::class.java).get())
     }
 
@@ -96,43 +96,48 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
     }
 
     fun astronautAndAsteroids() {
-        var astronaut = astronauts.get(0)
-        var astronautPC = astronaut.getComponent(PositionComponent::class.java)
-        var r:Rectangle
-        for (asteroid in asteroids) {
-            var asteroidPC = asteroid.getComponent(PositionComponent::class.java)
-            r = Rectangle()
-            Intersector.intersectRectangles(astronautPC.rect(), asteroidPC.rect(), r)
-            if (r.width > 0) {
-                var asteroidMC = asteroid.getComponent(MovementComponent::class.java)
-                var astronautMC = astronaut.getComponent(MovementComponent::class.java)
-                if (astronautMC == null) {
-                    astronautMC = MovementComponent(0f, 0f)
-                    astronaut.add(asteroidMC)
+        // all astronauts collide
+        for (astronaut in astronauts) {
+            var astronautPC = astronaut.getComponent(PositionComponent::class.java)
+            var r: Rectangle
+            for (asteroid in asteroids) {
+                var asteroidPC = asteroid.getComponent(PositionComponent::class.java)
+                r = Rectangle()
+                Intersector.intersectRectangles(astronautPC.rect(), asteroidPC.rect(), r)
+                if (r.width > 0) {
+                    var asteroidMC = asteroid.getComponent(MovementComponent::class.java)
+                    var astronautMC = astronaut.getComponent(MovementComponent::class.java)
+                    if (astronautMC == null) {
+                        astronautMC = MovementComponent(0f, 0f)
+                        astronaut.add(asteroidMC)
+                    }
+                    astronautMC.velocityX = asteroidMC.velocityX
+                    engine.removeEntity(asteroid)
                 }
-                astronautMC.velocityX = asteroidMC.velocityX
-                engine.removeEntity(asteroid)
             }
         }
     }
 
     fun astronautAndItems() {
-        // only allowing one astronaut?
-        var astronaut = astronauts.get(0)
-        var astronautPC = astronaut.getComponent(PositionComponent::class.java)
-        var r:Rectangle// = Rectangle()
+        // only connected astronauts can collect
+        var connected = astronauts.filter { astronaut -> astronaut.getComponent(ConnectedComponent::class.java) != null }
+        //var astronaut = astronauts.get(0)
+        for (astronaut in connected) {
+            var astronautPC = astronaut.getComponent(PositionComponent::class.java)
+            var r: Rectangle// = Rectangle()
 
-        for (item in items) {
-            var itemPC = item.getComponent(PositionComponent::class.java)
-            r = Rectangle()
-            Intersector.intersectRectangles(itemPC.rect(), astronautPC.rect(), r)
-            if (r.width > 0) {
-                when (item.getComponent(ItemComponent::class.java).type) {
-                    ItemType.STATION_HEALTH -> {
-                        //??
-                        // This should call back somewhere?
-                        engine.removeEntity(item)
-                        ps.stationHealthUp()
+            for (item in items) {
+                var itemPC = item.getComponent(PositionComponent::class.java)
+                r = Rectangle()
+                Intersector.intersectRectangles(itemPC.rect(), astronautPC.rect(), r)
+                if (r.width > 0) {
+                    when (item.getComponent(ItemComponent::class.java).type) {
+                        ItemType.STATION_HEALTH -> {
+                            //??
+                            // This should call back somewhere?
+                            engine.removeEntity(item)
+                            World.station.stationHealthUp()
+                        }
                     }
                 }
             }
@@ -145,7 +150,6 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
         var shakeX = Tween.to(pc, PositionAccessor.POSITION, 0.05f).target(startX - 5, startY + 5)
         var shakeX2 = Tween.to(pc, PositionAccessor.POSITION, 0.05f).target(startX + 5, startY - 5)
         var shakeX3 = Tween.to(pc, PositionAccessor.POSITION, 0.05f).target(startX, startY)
-
 
         var t = Timeline.createSequence()
         t.push(shakeX).push(shakeX2).push(shakeX3)
