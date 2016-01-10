@@ -26,12 +26,14 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     // lazy init for these so they don't take effect until needed
     val playSystems:Array<EntitySystem> by lazy {
         arrayOf(FiringSystem()
-                , AddAsteroidSystem(1f)
-                , AddObjectSystem(2f)
+                , AddAsteroidSystem(5f)
+                , AddObjectSystem(5f)
                 , CollisionSystem(this)
                 , LifelineSystem()
                 , ScoreSystem()
-                , HealthSystem(), MouseSystem(this))
+                , HealthSystem()
+                , LevelSystem()
+                , MouseSystem(this))
     }
 
     //private var station = Entity()

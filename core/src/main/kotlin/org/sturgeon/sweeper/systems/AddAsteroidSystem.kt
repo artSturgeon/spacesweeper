@@ -1,6 +1,7 @@
 package org.sturgeon.sweeper.systems
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.systems.IntervalSystem
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.MathUtils
@@ -8,9 +9,20 @@ import org.sturgeon.sweeper.Assets
 import org.sturgeon.sweeper.components.*
 
 
-class AddAsteroidSystem(var i:Float) : IntervalSystem(i) {
+class AddAsteroidSystem(var i:Float) : EntitySystem() {
 
-    override fun updateInterval() {
+    var interval = i
+    private var currentTime = 0f
+
+    override fun update(deltaTime: Float) {
+        currentTime += deltaTime
+        if (currentTime >= interval) {
+            addAsteroid()
+            currentTime = 0f
+        }
+    }
+
+    fun addAsteroid() {
         var asteroid = Entity()
 
         var t = Texture(Assets.ASTEROID)
