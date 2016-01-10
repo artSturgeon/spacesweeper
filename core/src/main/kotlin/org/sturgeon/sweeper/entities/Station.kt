@@ -7,7 +7,6 @@ import aurelienribon.tweenengine.equations.Sine
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.badlogic.ashley.core.Family
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
@@ -17,7 +16,6 @@ import org.sturgeon.sweeper.Assets
 import org.sturgeon.sweeper.World
 import org.sturgeon.sweeper.components.*
 import org.sturgeon.sweeper.systems.IncidentalSystem
-import org.sturgeon.sweeper.systems.LifelineSystem
 import org.sturgeon.sweeper.systems.TweenSystem
 import java.util.*
 
@@ -27,6 +25,8 @@ class Station(e: Engine) {
     //var panels
     var recallBtn = Entity()
     var engine = e
+
+    private var entitiesToRemove = ArrayList<Entity>()
 
     private var astronaut = Entity()
     private var lifeline = Entity()
@@ -39,6 +39,7 @@ class Station(e: Engine) {
         station.add(VisualComponent(t))
         station.add(PlayerComponent())
         engine.addEntity(station)
+        entitiesToRemove.add(station)
         addTurret()
         // ooo keep a reference to the space station!
         World.station = this
@@ -54,13 +55,12 @@ class Station(e: Engine) {
     fun addPanel(x:Float, y:Float) {
         var panel = Entity()
         var t = Texture(Assets.SOLAR_PANEL)
-        panel.add(PositionComponent(x, y
-                ,
+        panel.add(PositionComponent(x, y,
                 t.width.toFloat(), t.height.toFloat()))
         panel.add(VisualComponent(t, 20))
         panel.add(PanelComponent())
         engine.addEntity(panel)
-        //entitiesToRemove.add(panel)
+        entitiesToRemove.add(panel)
     }
 
     private fun addTurret() {
@@ -89,6 +89,7 @@ class Station(e: Engine) {
         turret.add(AnimationComponent(firingAnimation))
         turret.add(FiringComponent())
         engine.addEntity(turret)
+        entitiesToRemove.add(turret)
     }
 
     fun addRecallButton(callback: () -> Unit) {
@@ -101,6 +102,7 @@ class Station(e: Engine) {
         recallBtn.add(VisualComponent(t, 1000))
         recallBtn.add(ClickComponent({ callback() }))
         engine.addEntity(recallBtn)
+        entitiesToRemove.add(recallBtn)
     }
 
     fun getHealth():Int {
@@ -140,6 +142,9 @@ class Station(e: Engine) {
     fun dispose() {
         // clean up station
         println("cleaning up")
+        for (entity in entitiesToRemove) {
+            engine.removeEntity(entity)
+        }
     }
 
     fun turretLeft(amount:Float) {
@@ -184,6 +189,7 @@ class Station(e: Engine) {
         astronaut.add(AliveComponent())
         astronaut.add(ConnectedComponent())
         engine.addEntity(astronaut)
+        entitiesToRemove.add(astronaut)
     }
 
      fun moveAstronaut(x: Float, y: Float) {
@@ -205,6 +211,7 @@ class Station(e: Engine) {
         astronaut.removeAll()
         engine.removeEntity(astronaut)
         engine.removeEntity(lifeline)
+        entitiesToRemove.remove(astronaut)
     }
 
     fun addLifeLine() {
@@ -216,6 +223,7 @@ class Station(e: Engine) {
         var lineEnd = Vector2(astronautPC.x + astronautPC.width, astronautPC.y + astronautPC.height)
         lifeline.add(LineComponent(lineStart, lineEnd))
         engine.addEntity(lifeline)
+        entitiesToRemove.add(lifeline)
     }
 
     /*

@@ -155,6 +155,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         game.engine.removeSystem(game.engine.getSystem(ScoreSystem::class.java))
         game.engine.removeSystem(game.engine.getSystem(IncidentalSystem::class.java))
         game.engine.removeSystem(game.engine.getSystem(AddAsteroidSystem::class.java))
+        game.engine.removeSystem(game.engine.getSystem(AddObjectSystem::class.java))
 
         var gameOverText = Entity()
         gameOverText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, Assets.VIEWPORT_HEIGHT/2 + 200))
