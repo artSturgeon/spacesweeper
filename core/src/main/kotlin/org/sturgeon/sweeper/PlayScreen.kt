@@ -117,7 +117,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         //addInitialStars()
         //addTurret()
 
-
+        World.level = 1
         station.addPanels()
         station.addRecallButton { recallClicked() }
         //addPanels()
@@ -331,6 +331,11 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
                     station.turrentRight(2f)
                 }
             }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+                pauseSystems()
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+                resumeSystems()
+            }
         }
 
         if (mode == ATTRACT) {
@@ -347,6 +352,19 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         }
 
     }
+
+    fun pauseSystems() {
+        for (system in game.engine.systems) {
+            system.setProcessing(false)
+        }
+    }
+
+    fun resumeSystems() {
+        for (system in game.engine.systems) {
+            system.setProcessing(true)
+        }
+    }
+
 
     override fun resize(width: Int, height: Int) {
         game.engine.getSystem(RenderingSystem::class.java).resize(width, height)

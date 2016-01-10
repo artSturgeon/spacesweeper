@@ -8,13 +8,13 @@ class World {
         var lastScore = 0
         var highScore = 0
         var astronauts = 3
-        var firing_speed = 1
+        var firing_speed = 3
         var level = 1
 
-        val TURRENT_HEALTH = 100
+        //val TURRENT_HEALTH = 100
         val ASTEROID_DAMAGE = 10
-        val STATION_HEALTH = 10
-        val LIFELINE_LENGTH = 420f
+        val STATION_HEALTH = 100
+        val LIFELINE_LENGTH = 400f
         lateinit var station: Station
     }
 

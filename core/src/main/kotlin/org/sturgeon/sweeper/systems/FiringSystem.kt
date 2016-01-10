@@ -7,17 +7,14 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
-import org.sturgeon.sweeper.Assets
-import org.sturgeon.sweeper.PlayScreen
+import org.sturgeon.sweeper.*
 import org.sturgeon.sweeper.components.*
-import org.sturgeon.sweeper.cos
-import org.sturgeon.sweeper.sin
 
 
 class FiringSystem : IteratingSystem(Family.all(FiringComponent::class.java).get()) {
 
     private var laserSound:Sound
-    private var bulletTime = 1.0f
+    private var bulletTime = 100.0f // start high so we can always fire to start with
     private var left = true
 
     init {
@@ -29,7 +26,7 @@ class FiringSystem : IteratingSystem(Family.all(FiringComponent::class.java).get
         var turretAC = entity!!.getComponent(AnimationComponent::class.java)
         if (Gdx.input.isKeyPressed(Input.Keys.Z)
             || Gdx.input.isKeyPressed(Input.Keys.C)) {
-            if (bulletTime > 0.25f) {
+            if (bulletTime > World.firing_speed) {
                 bulletTime = 0f
                 turretAC.running = true
                 laserSound.play()

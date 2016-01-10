@@ -138,6 +138,10 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
                             engine.removeEntity(item)
                             World.station.stationHealthUp()
                         }
+                        ItemType.FIRE_UP -> {
+                            engine.removeEntity(item)
+                            World.firing_speed -= 1
+                        }
                     }
                 }
             }
