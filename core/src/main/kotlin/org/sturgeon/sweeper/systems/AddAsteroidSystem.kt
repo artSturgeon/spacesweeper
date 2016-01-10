@@ -26,7 +26,7 @@ class AddAsteroidSystem(var i:Float) : IntervalSystem(i) {
         asteroid.add(BoundsCheckComponent())
         asteroid.add(MovementComponent(MathUtils.random(-100f, -25f), 0f, MathUtils.random(-50f, 50f)))
         asteroid.add(AsteroidComponent())
-
+        asteroid.add(CollisionComponent())
         engine.addEntity(asteroid)
     }
 

@@ -186,12 +186,22 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         game.engine.getSystem(TweenSystem::class.java).addTween(tweenPos)
         game.engine.getSystem(TweenSystem::class.java).addTween(tweenScale)
 
+        // any existing asteroids/objects out
+        var things = game.engine.getEntitiesFor(Family.one(AsteroidComponent::class.java,
+                ItemComponent::class.java).get())
+        for (thing in things) {
+            thing.remove(CollisionComponent::class.java)
+            var mc = thing.getComponent(MovementComponent::class.java)
+            mc.velocityX = -300f
+        }
+
         // World smaller
         var worldPC = theWorld.getComponent(PositionComponent::class.java)
         var worldMove = Tween.to(worldPC, PositionAccessor.POSITION, 2f).target(worldPC.x, worldPC.y - 100)
         game.engine.getSystem(TweenSystem::class.java).addTween(worldMove)
 
         // Station in
+        station.addStation()
         station.tweenIn({ setPlaying() })
     }
 

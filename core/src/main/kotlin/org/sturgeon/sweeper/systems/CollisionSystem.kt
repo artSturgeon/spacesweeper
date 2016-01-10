@@ -44,9 +44,9 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
     override fun addedToEngine(engine: Engine?) {
         players = engine!!.getEntitiesFor(Family.all(PlayerComponent::class.java).get())
         bullets = engine!!.getEntitiesFor(Family.all(BulletComponent::class.java).get())
-        asteroids = engine!!.getEntitiesFor(Family.all(AsteroidComponent::class.java).get())
+        asteroids = engine!!.getEntitiesFor(Family.all(AsteroidComponent::class.java, CollisionComponent::class.java).get())
         astronauts = engine!!.getEntitiesFor(Family.all(AstronautComponent::class.java, AliveComponent::class.java).get())
-        items = engine!!.getEntitiesFor(Family.all(ItemComponent::class.java).get())
+        items = engine!!.getEntitiesFor(Family.all(ItemComponent::class.java, CollisionComponent::class.java).get())
     }
 
     override fun update(deltaTime: Float) {
@@ -204,6 +204,7 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
             segment.add(VisualComponent(texture))
             segment.add(MovementComponent(asteroidMC.velocityX + MathUtils.random(-50, 50), asteroidMC.velocityY + MathUtils.random(-50, 50)))
             segment.add(AsteroidComponent(20, 2))
+            segment.add(CollisionComponent())
             engine.addEntity(segment)
         }
 

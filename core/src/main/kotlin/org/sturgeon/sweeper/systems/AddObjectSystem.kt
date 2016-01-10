@@ -21,6 +21,7 @@ class AddObjectSystem(i: Float): IntervalSystem(i) {
                 MathUtils.random(-50f, 50f)))
         thing.add(ItemComponent(ItemType.STATION_HEALTH))
         thing.add(BoundsCheckComponent())
+        thing.add(CollisionComponent())
         engine.addEntity(thing)
     }
 }

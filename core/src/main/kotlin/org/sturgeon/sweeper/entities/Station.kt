@@ -33,6 +33,12 @@ class Station(e: Engine) {
     private var astronautMoving = false
 
     init {
+        //addStation()
+        // ooo keep a reference to the space station!
+        World.station = this
+    }
+
+    fun addStation() {
         var t = Texture(Assets.STATION)
         station.add(PositionComponent(Assets.VIEWPORT_WIDTH + 100, Assets.VIEWPORT_HEIGHT / 2 - t.height / 2, t.width.toFloat(), t.height.toFloat()))
         //station.add(PositionComponent(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT/2 - t.height/2, t.width.toFloat(), t.height.toFloat()))
@@ -41,8 +47,6 @@ class Station(e: Engine) {
         engine.addEntity(station)
         entitiesToRemove.add(station)
         addTurret()
-        // ooo keep a reference to the space station!
-        World.station = this
     }
 
     fun addPanels() {
