@@ -140,7 +140,7 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
                         }
                         ItemType.FIRE_UP -> {
                             engine.removeEntity(item)
-                            World.firing_speed -= 1
+                            World.firing_speed -= 0.5f
                         }
                     }
                 }

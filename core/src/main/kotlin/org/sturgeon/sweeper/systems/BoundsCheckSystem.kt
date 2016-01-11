@@ -22,6 +22,8 @@ class BoundsCheckSystem : IteratingSystem(Family.all(BoundsCheckComponent::class
                 || pc.y > Assets.VIEWPORT_HEIGHT + border
                 || pc.y < -border) {
             engine.removeEntity(entity)
+            // optional callback when something goes out of bounds
+            bc.callback()
         }
 
     }

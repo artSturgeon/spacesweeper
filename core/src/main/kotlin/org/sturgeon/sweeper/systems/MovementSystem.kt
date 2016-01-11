@@ -22,12 +22,13 @@ class MovementSystem : IteratingSystem(Family.all(MovementComponent::class.java,
         // check if there's a target
         var tc = Mappers.targetMapper.get(entity)
         if (tc != null && !tc.targetReached) {
-            var tx = pc.x - pc.width/2
-            var ty = pc.y - pc.height/2
-            var d1 = tc.target.dst(pc.x, pc.y)
-            var d2 = tc.target.dst(tx, ty)
-            println("dst  : " +d1)
-            println("dst 2: " + d2)
+            //var tx = pc.x + pc.width/2
+            //var ty = pc.y + pc.height/2
+            //var d1 = tc.target.dst(pc.x, pc.y)
+            //var d2 = tc.target.dst(tx, ty)
+            //println("dst  : " +d1)
+            //println("dst 2: " + d2)
+            //println("Movement system, distance to target: " + d2)
             if (tc.target.dst(pc.x, pc.y) <= 5) {
                 println("reached target")
                 mc.velocityX = 0f

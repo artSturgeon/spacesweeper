@@ -11,6 +11,7 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector2
 import org.sturgeon.sweeper.Accessors.PositionAccessor
 import org.sturgeon.sweeper.components.*
 import org.sturgeon.sweeper.entities.Star
@@ -21,7 +22,7 @@ import java.util.*
 class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
     val alwaysSystems = arrayOf(RenderingSystem(), TweenSystem(), MovementSystem(), BoundsCheckSystem())
-    val attractSystems:Array<EntitySystem> = arrayOf(StarfieldSystem(0.1f), BigTextSystem(30f))
+    val attractSystems:Array<EntitySystem> = arrayOf(StarfieldSystem(0.1f), BigTextSystem(), AddBigTextSystem(30f))
 
     // lazy init for these so they don't take effect until needed
     val playSystems:Array<EntitySystem> by lazy {
@@ -253,16 +254,21 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
             println("I will recall the astronaut")
             var astronaut = astronauts.get(0)
             var line = lines.get(0)
+            var pc = astronaut.getComponent(PositionComponent::class.java)
             var mc = astronaut.getComponent(MovementComponent::class.java)
-            if (mc == null) mc = MovementComponent(0f, 0f)
-            astronaut.add(mc)
+            if (mc == null) {
+                mc = MovementComponent(0f, 0f)
+                astronaut.add(mc)
+            }
             var lineStart = line.getComponent(LineComponent::class.java).lineStart
             var lineEnd = line.getComponent(LineComponent::class.java).lineEnd
             // work out vectors to target
             var l = lineStart.cpy().sub(lineEnd).nor().scl(100f, 100f)
             mc.velocityX = l.x
             mc.velocityY = l.y
-            astronaut.add(TargetComponent(lineStart, { World.station.dockAstronaut() }))
+            // target is offset for astronaut origin
+            // it isn't neat but at least it's consistent!
+            astronaut.add(TargetComponent(Vector2(lineStart.x - pc.width/2, lineStart.y - pc.height/2), { World.station.dockAstronaut() }))
         }
     }
 

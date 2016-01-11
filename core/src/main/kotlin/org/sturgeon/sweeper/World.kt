@@ -8,7 +8,7 @@ class World {
         var lastScore = 0
         var highScore = 0
         var astronauts = 3
-        var firing_speed = 3
+        var firing_speed = 2f
         var level = 1
 
         //val TURRENT_HEALTH = 100
