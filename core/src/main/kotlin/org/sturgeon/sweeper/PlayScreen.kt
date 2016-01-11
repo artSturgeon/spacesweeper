@@ -341,6 +341,9 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
                 pauseSystems()
             } else if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
                 resumeSystems()
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+                // TODO: Don't leave this in! Just for testing!
+                World.increaseFiringSpeed()
             }
         }
 

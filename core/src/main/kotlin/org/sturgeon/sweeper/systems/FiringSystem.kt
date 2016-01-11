@@ -42,15 +42,14 @@ class FiringSystem : IteratingSystem(Family.all(FiringComponent::class.java).get
     private fun shoot(entity:Entity?) {
         var bullet = Entity()
         var turretPC = entity!!.getComponent(PositionComponent::class.java)
-
-
         var rad:Float = Math.toRadians(turretPC.angle.toDouble()).toFloat()
-
         var texture = Texture(Assets.BULLET)
 
-        var adjust = 0.1f
-        if (left) adjust *= -1
-
+        var adjust = 0f
+        if (World.guns > 1) {
+            adjust = 0.1f
+            if (left) adjust *= -1
+        }
         //var x = (turretPC.x + turretPC.width/2f - texture.width/2) + 90f * cos(rad+adjust) // +0.35f
         //var y = (turretPC.y + turretPC.height/2f - texture.height/2) + 90f * sin(rad+adjust)
         var x = (turretPC.x + turretPC.originX - texture.width/2) + 80f * cos(rad+adjust) // +0.35f
@@ -63,7 +62,6 @@ class FiringSystem : IteratingSystem(Family.all(FiringComponent::class.java).get
 
         bullet.add(pc)
         bullet.add(VisualComponent(texture, 1000))
-
         bullet.add(MovementComponent(200f * cos(rad), 200f * sin(rad)))
         bullet.add(BoundsCheckComponent())
         bullet.add(BulletComponent())
