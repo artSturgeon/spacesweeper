@@ -33,6 +33,8 @@ class Station(e: Engine) {
     private var lifeline = Entity()
     private var astronautMoving = false
 
+    private var initial = true
+
     init {
         //addStation()
         // ooo keep a reference to the space station!
@@ -49,7 +51,9 @@ class Station(e: Engine) {
     fun addStationBody() {
         var t = Texture(Assets.STATION)
         //station.add(PositionComponent(Assets.VIEWPORT_WIDTH + 100, Assets.VIEWPORT_HEIGHT / 2 - t.height / 2, t.width.toFloat(), t.height.toFloat()))
-        station.add(PositionComponent(Assets.VIEWPORT_WIDTH/2 - 850, Assets.VIEWPORT_HEIGHT / 2 - t.height / 2, t.width.toFloat(), t.height.toFloat()).apply { scaleX = 0f; scaleY = 0f })
+        var pc = PositionComponent(Assets.VIEWPORT_WIDTH/2 - 850, Assets.VIEWPORT_HEIGHT / 2 - t.height / 2, t.width.toFloat(), t.height.toFloat())
+        if (initial) pc.apply { scaleX = 0f; scaleY = 0f }
+        station.add(pc)
         //var stationMoveTween = Tween.to(stationPC, PositionAccessor.POSITION, 2f).target(Assets.VIEWPORT_WIDTH/2 - 850, stationPC.y).ease(Sine.OUT)
         //station.add(PositionComponent(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT/2 - t.height/2, t.width.toFloat(), t.height.toFloat()))
         station.add(VisualComponent(t))
@@ -68,8 +72,10 @@ class Station(e: Engine) {
     fun addPanel(x:Float, y:Float) {
         var panel = Entity()
         var t = Texture(Assets.SOLAR_PANEL)
-        panel.add(PositionComponent(x, y,
-                t.width.toFloat(), t.height.toFloat()).apply { scaleX = 0f; scaleY = 0f })
+        var pc = PositionComponent(x, y,
+                t.width.toFloat(), t.height.toFloat())
+        if (initial) pc.apply { scaleX = 0f; scaleY = 0f }
+        panel.add(pc)
         panel.add(VisualComponent(t, 20))
         panel.add(PanelComponent())
         engine.addEntity(panel)
@@ -97,9 +103,10 @@ class Station(e: Engine) {
         var y = station.getComponent(PositionComponent::class.java).y + 72
 
         var pc = PositionComponent(x, y, width.toFloat(), height.toFloat())
-        pc.scaleX = 0f
-        pc.scaleY = 0f
-
+        if (initial) {
+            pc.scaleX = 0f
+            pc.scaleY = 0f
+        }
         pc.originX = 25f;
         pc.originY = height/2f;
 
@@ -116,8 +123,10 @@ class Station(e: Engine) {
         var pc = PositionComponent(station.getComponent(PositionComponent::class.java).x + 700,
                 station.getComponent(PositionComponent::class.java).y + 72,
                 t.width.toFloat(), t.height.toFloat())
-        pc.scaleX = 0f
-        pc.scaleY = 0f
+        if (initial) {
+            pc.scaleX = 0f
+            pc.scaleY = 0f
+        }
         recallBtn.add(pc)
         recallBtn.add(VisualComponent(t, 1000))
         recallBtn.add(ClickComponent({ callback() }))
@@ -167,8 +176,7 @@ class Station(e: Engine) {
             tweenSystem.addTween(panelMoveTween)
             tweenSystem.addTween(panelScaleTween)
         }
-
-        // Set systems up
+        initial = false
         stationMoveTween.setCallback(object: TweenCallback {
             override fun onEvent(type: Int, src: BaseTween<*>?) {
                 when (type) {
