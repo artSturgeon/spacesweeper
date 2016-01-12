@@ -7,6 +7,7 @@ import aurelienribon.tweenengine.equations.Sine
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
+import com.badlogic.ashley.core.Family
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
@@ -209,6 +210,38 @@ class Station(e: Engine) {
         // and a velocity
         var velo = target.cpy().sub(origin).nor().scl(100f, 100f)
         astronaut.add(MovementComponent(velo.x, velo.y))
+    }
+
+    fun recallAstronaut() {
+        //var astronauts = game.engine.getEntitiesFor(Family.all(AstronautComponent::class.java, AliveComponent::class.java,
+                //ConnectedComponent::class.java).get())
+        //println("astronauts size: " + astronauts.size())
+        //var lines = game.engine.getEntitiesFor(Family.all(LineComponent::class.java).get())
+        //println("lines size: " + lines.size())
+        if (astronaut.components.size() > 0 && lifeline.components.size() > 0) {
+        //if (astronauts.size() > 0 && lines.size() > 0) {
+            println("I will recall the astronaut")
+            //var astronaut = astronauts.get(0)
+            //var line = lines.get(0)
+            var pc = astronaut.getComponent(PositionComponent::class.java)
+            var mc = astronaut.getComponent(MovementComponent::class.java)
+            if (mc == null) {
+                mc = MovementComponent(0f, 0f)
+                astronaut.add(mc)
+            }
+            var lineStart = lifeline.getComponent(LineComponent::class.java).lineStart
+            var lineEnd = lifeline.getComponent(LineComponent::class.java).lineEnd
+            // work out vectors to target
+            var l = lineStart.cpy().sub(lineEnd).nor().scl(100f, 100f)
+            mc.velocityX = l.x
+            mc.velocityY = l.y
+            //Tween.to(stationPC, PositionAccessor.POSITION, 2f).target(Assets.VIEWPORT_WIDTH/2 - 850, stationPC.y).ease(Sine.OUT)
+            var rotate = Tween.to(recallBtn.getComponent(PositionComponent::class.java), PositionAccessor.ANGLE, 2f).target(360f)
+            engine.getSystem(TweenSystem::class.java).addTween(rotate)
+            // target is offset for astronaut origin
+            // it isn't neat but at least it's consistent!
+            astronaut.add(TargetComponent(Vector2(lineStart.x - pc.width/2, lineStart.y - pc.height/2), { World.station.dockAstronaut() }))
+        }
     }
 
     fun dockAstronaut() {

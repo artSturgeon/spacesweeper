@@ -85,8 +85,9 @@ class RenderingSystem: EntitySystem() {
             var lc = line.getComponent(LineComponent::class.java)
             batch.end()
 
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(172/255f, 50/255f,50/255f, 1.0f)
+            //shapeRenderer.set
             shapeRenderer.line(lc.lineStart.x, lc.lineStart.y, lc.lineEnd.x, lc.lineEnd.y);
 
             shapeRenderer.end();

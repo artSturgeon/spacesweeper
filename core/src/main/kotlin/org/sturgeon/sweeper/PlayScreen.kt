@@ -245,31 +245,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         // yikes!!
         // you know things are getting late in the day when I start
         //  putting comments in like yikes...
-        var astronauts = game.engine.getEntitiesFor(Family.all(AstronautComponent::class.java, AliveComponent::class.java,
-                ConnectedComponent::class.java).get())
-        println("astronauts size: " + astronauts.size())
-        var lines = game.engine.getEntitiesFor(Family.all(LineComponent::class.java).get())
-        println("lines size: " + lines.size())
-        if (astronauts.size() > 0 && lines.size() > 0) {
-            println("I will recall the astronaut")
-            var astronaut = astronauts.get(0)
-            var line = lines.get(0)
-            var pc = astronaut.getComponent(PositionComponent::class.java)
-            var mc = astronaut.getComponent(MovementComponent::class.java)
-            if (mc == null) {
-                mc = MovementComponent(0f, 0f)
-                astronaut.add(mc)
-            }
-            var lineStart = line.getComponent(LineComponent::class.java).lineStart
-            var lineEnd = line.getComponent(LineComponent::class.java).lineEnd
-            // work out vectors to target
-            var l = lineStart.cpy().sub(lineEnd).nor().scl(100f, 100f)
-            mc.velocityX = l.x
-            mc.velocityY = l.y
-            // target is offset for astronaut origin
-            // it isn't neat but at least it's consistent!
-            astronaut.add(TargetComponent(Vector2(lineStart.x - pc.width/2, lineStart.y - pc.height/2), { World.station.dockAstronaut() }))
-        }
+        station.recallAstronaut()
     }
 
     fun addInitialStars() {
@@ -278,7 +254,6 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
             game.engine.addEntity(star)
         }
     }
-
 
 /*
     public fun testWire() {

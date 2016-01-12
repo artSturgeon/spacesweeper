@@ -8,6 +8,7 @@ class PositionAccessor: TweenAccessor<PositionComponent> {
         val POSITION = 1
         val SCALE = 2
         val WIDTH = 3
+        val ANGLE = 4
     }
 
     override fun getValues(pc: PositionComponent?, type: Int, returns: FloatArray?): Int {
@@ -23,6 +24,10 @@ class PositionAccessor: TweenAccessor<PositionComponent> {
             }
             WIDTH -> {
                 returns!![0] = pc!!.width
+                count = 1
+            }
+            ANGLE -> {
+                returns!![0] = pc!!.angle
                 count = 1
             }
         }
@@ -42,6 +47,9 @@ class PositionAccessor: TweenAccessor<PositionComponent> {
             }
             WIDTH -> {
                 pc!!.width = newValues!![0]
+            }
+            ANGLE -> {
+                pc!!.angle = newValues!![0]
             }
         }
     }
