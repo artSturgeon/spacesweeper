@@ -213,16 +213,8 @@ class Station(e: Engine) {
     }
 
     fun recallAstronaut() {
-        //var astronauts = game.engine.getEntitiesFor(Family.all(AstronautComponent::class.java, AliveComponent::class.java,
-                //ConnectedComponent::class.java).get())
-        //println("astronauts size: " + astronauts.size())
-        //var lines = game.engine.getEntitiesFor(Family.all(LineComponent::class.java).get())
-        //println("lines size: " + lines.size())
         if (astronaut.components.size() > 0 && lifeline.components.size() > 0) {
-        //if (astronauts.size() > 0 && lines.size() > 0) {
             println("I will recall the astronaut")
-            //var astronaut = astronauts.get(0)
-            //var line = lines.get(0)
             var pc = astronaut.getComponent(PositionComponent::class.java)
             var mc = astronaut.getComponent(MovementComponent::class.java)
             if (mc == null) {
@@ -235,7 +227,6 @@ class Station(e: Engine) {
             var l = lineStart.cpy().sub(lineEnd).nor().scl(100f, 100f)
             mc.velocityX = l.x
             mc.velocityY = l.y
-            //Tween.to(stationPC, PositionAccessor.POSITION, 2f).target(Assets.VIEWPORT_WIDTH/2 - 850, stationPC.y).ease(Sine.OUT)
             var rotate = Tween.to(recallBtn.getComponent(PositionComponent::class.java), PositionAccessor.ANGLE, 2f).target(360f)
             engine.getSystem(TweenSystem::class.java).addTween(rotate)
             // target is offset for astronaut origin

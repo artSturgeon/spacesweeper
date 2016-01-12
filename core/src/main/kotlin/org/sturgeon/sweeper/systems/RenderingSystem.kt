@@ -88,8 +88,8 @@ class RenderingSystem: EntitySystem() {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(172/255f, 50/255f,50/255f, 1.0f)
             //shapeRenderer.set
-            shapeRenderer.line(lc.lineStart.x, lc.lineStart.y, lc.lineEnd.x, lc.lineEnd.y);
-
+            //shapeRenderer.line(lc.lineStart.x, lc.lineStart.y, lc.lineEnd.x, lc.lineEnd.y);
+            shapeRenderer.rectLine(lc.lineStart.x, lc.lineStart.y, lc.lineEnd.x, lc.lineEnd.y, 3f)
             shapeRenderer.end();
 
             batch.begin()
