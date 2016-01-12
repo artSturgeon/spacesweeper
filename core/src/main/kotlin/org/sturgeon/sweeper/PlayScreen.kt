@@ -119,8 +119,6 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         //addTurret()
 
         World.level = 1
-        station.addPanels()
-        station.addRecallButton { recallClicked() }
         //addPanels()
         //addRecallButton()
         // add score
@@ -235,17 +233,6 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         theWorld.add(VisualComponent(worldTex))
         theWorld.add(MovementComponent(0f, 0f, 6f))
         game.engine.addEntity(theWorld)
-    }
-
-
-
-    fun recallClicked() {
-        // get the spaceman back home!
-        println("recall clicked")
-        // yikes!!
-        // you know things are getting late in the day when I start
-        //  putting comments in like yikes...
-        station.recallAstronaut()
     }
 
     fun addInitialStars() {

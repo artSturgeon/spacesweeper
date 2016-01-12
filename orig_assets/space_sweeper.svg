@@ -241,9 +241,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.0000001"
-     inkscape:cx="-2101.5821"
-     inkscape:cy="-1646.314"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="-1637.371"
+     inkscape:cy="-1456.6083"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -315,15 +315,15 @@
        y="2379.1472" />
     <text
        xml:space="preserve"
-       style="font-size:513.37811279000004561px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#df7126;fill-opacity:1;stroke:none;font-family:Orbitron;-inkscape-font-specification:Orbitron;opacity:0.56896552"
-       x="-3434.8384"
-       y="2830.3145"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:513.37811279px;line-height:125%;font-family:Orbitron;-inkscape-font-specification:Orbitron;letter-spacing:0px;word-spacing:0px;opacity:0.56896548;fill:#df7126;fill-opacity:1;stroke:none"
+       x="-3418.8384"
+       y="3252.3145"
        id="text3564"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3566"
-         x="-3434.8384"
-         y="2830.3145">Space</tspan></text>
+         x="-3418.8384"
+         y="3252.3145">Space</tspan></text>
     <g
        transform="translate(8.571429,14.285714)"
        id="g4091">
@@ -3406,7 +3406,7 @@
     </g>
     <g
        id="g4739"
-       transform="matrix(0.98732257,0,0,0.98732257,-5.622846,40.651042)">
+       transform="matrix(0.98732257,0,0,0.98732257,22.877153,71.15104)">
       <path
          transform="translate(76.079946,-76.033787)"
          d="m -2310.1071,2718.2173 -15.1251,15.125 -21.3901,0 -15.1251,-15.125 0,-21.3901 15.1251,-15.1251 21.3901,0 15.1251,15.1251 z"
@@ -3573,16 +3573,14 @@
          id="path4619"
          style="fill:#847e87;fill-opacity:1;fill-rule:nonzero;stroke:none"
          sodipodi:type="star" />
-      <path
+      <ellipse
          transform="matrix(0,0.19379845,-0.1953125,0,-1612.9016,2828.2908)"
-         d="m -951,3312.3621 a 64.5,64 0 0 1 -64.5,64 64.5,64 0 0 1 -64.5,-64 64.5,64 0 0 1 64.5,-64 64.5,64 0 0 1 64.5,64 z"
-         sodipodi:ry="64"
-         sodipodi:rx="64.5"
-         sodipodi:cy="3312.3621"
-         sodipodi:cx="-1015.5"
          id="path3450"
          style="fill:#9badb7;fill-opacity:1;fill-rule:nonzero;stroke:none"
-         sodipodi:type="arc" />
+         cx="-1015.5"
+         cy="3312.3621"
+         rx="64.5"
+         ry="64" />
     </g>
     <text
        xml:space="preserve"
@@ -3727,7 +3725,7 @@
     </g>
     <g
        id="g4667"
-       transform="translate(-37.624999,-2.3124999)">
+       transform="translate(72.374996,-54.812497)">
       <rect
          ry="2.4375"
          y="2714.2371"
@@ -3754,7 +3752,7 @@
          style="fill:#5fcde4;fill-opacity:1;fill-rule:nonzero;stroke:none" />
     </g>
     <g
-       transform="translate(13.5,11.375)"
+       transform="translate(99.499996,-55.124997)"
        id="g4672">
       <rect
          style="fill:#5b6ee1;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -3783,7 +3781,7 @@
     </g>
     <g
        id="g4680"
-       transform="translate(27.4375,-0.4999997)">
+       transform="translate(71.437498,-36.999998)">
       <rect
          ry="2.4375"
          y="2714.2371"
@@ -4069,19 +4067,6 @@
        x="-1696.3599"
        y="2599.7229"
        inkscape:export-filename="/Users/henri/projects/spacesweeper/core/assets/repair_kit1.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       sodipodi:type="arc"
-       style="color:#000000;fill:#4b692f;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20.56999969;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       id="path4300"
-       sodipodi:cx="-1875.6007"
-       sodipodi:cy="2477.5359"
-       sodipodi:rx="22.273863"
-       sodipodi:ry="22.273863"
-       d="m -1853.3268,2477.5359 a 22.273863,22.273863 0 1 1 -44.5478,0 22.273863,22.273863 0 1 1 44.5478,0 z"
-       transform="matrix(1.3174603,0,0,1.3174603,618.76332,-796.41883)"
-       inkscape:export-filename="/home/art/git/spacesweeper/core/assets/recall_btn1.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
@@ -4512,6 +4497,34 @@
           </g>
         </g>
       </g>
+    </g>
+    <g
+       id="g4815"
+       transform="translate(327.39042,-72.124888)"
+       inkscape:export-filename="/Users/art/projects/spacesweeper/core/assets/recall_btn2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <circle
+         r="29.344931"
+         cy="2668.6362"
+         cx="-2330.2661"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/art/git/spacesweeper/core/assets/recall_btn1.png"
+         id="path4300"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ac3232;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker:none;enable-background:accumulate" />
+      <path
+         d="m -2332.7185,2671.0876 c 1.0493,1.0494 -0.8968,1.9323 -1.7441,1.7441 -2.2961,-0.5098 -2.6653,-3.4508 -1.7441,-5.2322 1.6477,-3.1866 5.9265,-3.5599 8.7205,-1.7441 4.1002,2.6646 4.4809,8.4358 1.7441,12.2086 -3.6478,5.0287 -10.957,5.4133 -15.6969,1.7441 -5.9647,-4.6173 -6.3515,-13.4838 -1.7441,-19.185 5.5803,-6.905 16.0139,-7.2932 22.6733,-1.7441 7.8478,6.5394 8.2369,18.5459 1.7441,26.1614 -7.4962,8.7924 -21.0794,9.1821 -29.6497,1.7441 -9.7381,-8.4515 -10.1282,-23.6136 -1.7441,-33.1378 9.4057,-10.6847 26.1487,-11.0751 36.6261,-1.7441 11.6318,10.3591 12.0224,28.6842 1.744,40.1142"
+         sodipodi:t0="0"
+         sodipodi:argument="-18.064157"
+         sodipodi:radius="29.598293"
+         sodipodi:revolution="3"
+         sodipodi:expansion="1"
+         sodipodi:cy="2671.0876"
+         sodipodi:cx="-2332.7185"
+         id="path4013"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.95465958px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         sodipodi:type="spiral" />
     </g>
   </g>
 </svg>

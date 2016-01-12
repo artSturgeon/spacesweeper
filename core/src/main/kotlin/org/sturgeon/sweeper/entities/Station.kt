@@ -23,7 +23,7 @@ import java.util.*
 class Station(e: Engine) {
     var station = Entity()
     var turret = Entity()
-    //var panels
+    var panels = ArrayList<Entity>()
     var recallBtn = Entity()
     var engine = e
 
@@ -40,14 +40,22 @@ class Station(e: Engine) {
     }
 
     fun addStation() {
+        addStationBody()
+        addTurret()
+        addPanels()
+        addRecallButton { recallAstronaut() }
+    }
+
+    fun addStationBody() {
         var t = Texture(Assets.STATION)
-        station.add(PositionComponent(Assets.VIEWPORT_WIDTH + 100, Assets.VIEWPORT_HEIGHT / 2 - t.height / 2, t.width.toFloat(), t.height.toFloat()))
+        //station.add(PositionComponent(Assets.VIEWPORT_WIDTH + 100, Assets.VIEWPORT_HEIGHT / 2 - t.height / 2, t.width.toFloat(), t.height.toFloat()))
+        station.add(PositionComponent(Assets.VIEWPORT_WIDTH/2 - 850, Assets.VIEWPORT_HEIGHT / 2 - t.height / 2, t.width.toFloat(), t.height.toFloat()))
+        //var stationMoveTween = Tween.to(stationPC, PositionAccessor.POSITION, 2f).target(Assets.VIEWPORT_WIDTH/2 - 850, stationPC.y).ease(Sine.OUT)
         //station.add(PositionComponent(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT/2 - t.height/2, t.width.toFloat(), t.height.toFloat()))
         station.add(VisualComponent(t))
         station.add(PlayerComponent())
         engine.addEntity(station)
         entitiesToRemove.add(station)
-        addTurret()
     }
 
     fun addPanels() {
@@ -66,6 +74,7 @@ class Station(e: Engine) {
         panel.add(PanelComponent())
         engine.addEntity(panel)
         entitiesToRemove.add(panel)
+        panels.add(panel)
     }
 
     private fun addTurret() {
@@ -83,7 +92,8 @@ class Station(e: Engine) {
         var width = firingFrames[0].regionWidth
         var height = firingFrames[0].regionHeight
 
-        var x = station.getComponent(PositionComponent::class.java).x + 825
+        //var x = station.getComponent(PositionComponent::class.java).x + 825
+        var x = Assets.VIEWPORT_WIDTH/2 - 850 + 825
         var y = station.getComponent(PositionComponent::class.java).y + 72
 
         var pc = PositionComponent(x, y, width.toFloat(), height.toFloat())
@@ -127,13 +137,24 @@ class Station(e: Engine) {
     }
 
     fun tweenIn(callback: () -> Unit) {
+        var tweenSystem = engine.getSystem(TweenSystem::class.java)
         var stationPC = station.getComponent(PositionComponent::class.java)
-        var stationMoveTween = Tween.to(stationPC, PositionAccessor.POSITION, 2f).target(Assets.VIEWPORT_WIDTH/2 - 850, stationPC.y).ease(Sine.OUT)
-        engine.getSystem(TweenSystem::class.java).addTween(stationMoveTween)
+        var stationMoveTween = Tween.from(stationPC, PositionAccessor.POSITION, 2f).target(stationPC.x + 2000, stationPC.y).ease(Sine.OUT)
+        tweenSystem.addTween(stationMoveTween)
 
         var turretPC = turret.getComponent(PositionComponent::class.java)
-        var turretMoveTween = Tween.to(turretPC, PositionAccessor.POSITION, 2f).target(Assets.VIEWPORT_WIDTH/2 -850 + 825,turretPC.y).ease(Sine.OUT)
-        engine.getSystem(TweenSystem::class.java).addTween(turretMoveTween)
+        var turretMoveTween = Tween.from(turretPC, PositionAccessor.POSITION, 2f).target(turretPC.x + 2000, turretPC.y).ease(Sine.OUT)
+        tweenSystem.addTween(turretMoveTween)
+
+        var recallPC = recallBtn.getComponent(PositionComponent::class.java)
+        var recallMoveTween = Tween.from(recallPC, PositionAccessor.POSITION, 2f).target(recallPC.x + 2000, recallPC.y).ease(Sine.OUT)
+        tweenSystem.addTween(recallMoveTween)
+
+        for (panel in panels) {
+            var panelPC = panel.getComponent(PositionComponent::class.java)
+            var panelTween = Tween.from(panelPC, PositionAccessor.POSITION, 2f).target(panelPC.x + 2000, panelPC.y).ease(Sine.OUT)
+            tweenSystem.addTween(panelTween)
+        }
 
         // Set systems up
         stationMoveTween.setCallback(object: TweenCallback {
