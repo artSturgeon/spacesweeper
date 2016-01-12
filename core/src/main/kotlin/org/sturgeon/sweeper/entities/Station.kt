@@ -69,12 +69,13 @@ class Station(e: Engine) {
 
     private fun addTurret() {
         // Texture with all frames
-        var firing = Texture(Assets.TURRET_ANIMATION)
+        var firing = Texture(Assets.TURRET_ANIMATION_SINGLE)
         firing.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
         // 2d array with frames split by width/height
-        var tmp = TextureRegion.split(firing, firing.width, firing.height/10)
+        val frames = 30
+        var tmp = TextureRegion.split(firing, firing.width, firing.height/frames)
         // 1d array with consecutive frames
-        var firingFrames = Array<TextureRegion>(10, { i -> tmp[i][0] })
+        var firingFrames = Array<TextureRegion>(frames, { i -> tmp[i][0] })
         // animation, constructor takes varargs, so using Kotlin spread operator *
         var firingAnimation = Animation(0.05f, *firingFrames)
 
@@ -87,7 +88,7 @@ class Station(e: Engine) {
         var pc = PositionComponent(x, y, width.toFloat(), height.toFloat())
 
         pc.originX = 25f;
-        pc.originY = 25f;
+        pc.originY = height/2f;
 
         turret.add(pc)
         turret.add(AnimationComponent(firingAnimation))

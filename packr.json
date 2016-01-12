@@ -1,6 +1,6 @@
 {
-    "platform": "mac",
-    "jdk": "/Users/henri/Downloads/openjdk-1.7.0-u80-unofficial-macosx-x86_64-image.zip",
+    "platform": "windows64",
+    "jdk": "/Users/art/Downloads/openjdk-1.7.0-u80-unofficial-windows-amd64-image.zip",
     "executable": "myapp",
     "classpath": [
         "desktop.jar"

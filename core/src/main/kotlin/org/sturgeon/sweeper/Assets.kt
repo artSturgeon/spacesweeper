@@ -15,7 +15,7 @@ object Assets {
     val SOLAR_PANEL = Gdx.files.internal("solar_panel1.png")
     val ASTRONAUT = Gdx.files.internal("astronaut1.png")
     val REPAIR_KIT = Gdx.files.internal("repair_kit2.png")
-    val FIRE_UP = Gdx.files.internal("fire_up1.png")
+    val FIRE_UP = Gdx.files.internal("fire_up2.png")
     val RECALL_BUTTON = Gdx.files.internal("recall_btn1.png")
 
     val FONT_FILE = Gdx.files.internal("orbitron.fnt")
@@ -25,7 +25,8 @@ object Assets {
     val ASTEROID_SEGMENT_2 = Gdx.files.internal("asteroid_segment2.png")
     val ASTEROID_SEGMENT_3 = Gdx.files.internal("asteroid_segment3.png")
 
-    var TURRET_ANIMATION = Gdx.files.internal("turret_firing4.png")
+    var TURRET_ANIMATION_DUAL = Gdx.files.internal("turret_firing4.png")
+    var TURRET_ANIMATION_SINGLE = Gdx.files.internal("turret_firing_single.png")
 
     val LOGO = Gdx.files.internal("logo2.png")
     var STAR = Gdx.files.internal("star1.png")
