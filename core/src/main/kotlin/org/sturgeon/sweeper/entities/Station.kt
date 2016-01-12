@@ -49,7 +49,7 @@ class Station(e: Engine) {
     fun addStationBody() {
         var t = Texture(Assets.STATION)
         //station.add(PositionComponent(Assets.VIEWPORT_WIDTH + 100, Assets.VIEWPORT_HEIGHT / 2 - t.height / 2, t.width.toFloat(), t.height.toFloat()))
-        station.add(PositionComponent(Assets.VIEWPORT_WIDTH/2 - 850, Assets.VIEWPORT_HEIGHT / 2 - t.height / 2, t.width.toFloat(), t.height.toFloat()))
+        station.add(PositionComponent(Assets.VIEWPORT_WIDTH/2 - 850, Assets.VIEWPORT_HEIGHT / 2 - t.height / 2, t.width.toFloat(), t.height.toFloat()).apply { scaleX = 0f; scaleY = 0f })
         //var stationMoveTween = Tween.to(stationPC, PositionAccessor.POSITION, 2f).target(Assets.VIEWPORT_WIDTH/2 - 850, stationPC.y).ease(Sine.OUT)
         //station.add(PositionComponent(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT/2 - t.height/2, t.width.toFloat(), t.height.toFloat()))
         station.add(VisualComponent(t))
@@ -69,7 +69,7 @@ class Station(e: Engine) {
         var panel = Entity()
         var t = Texture(Assets.SOLAR_PANEL)
         panel.add(PositionComponent(x, y,
-                t.width.toFloat(), t.height.toFloat()))
+                t.width.toFloat(), t.height.toFloat()).apply { scaleX = 0f; scaleY = 0f })
         panel.add(VisualComponent(t, 20))
         panel.add(PanelComponent())
         engine.addEntity(panel)
@@ -97,6 +97,8 @@ class Station(e: Engine) {
         var y = station.getComponent(PositionComponent::class.java).y + 72
 
         var pc = PositionComponent(x, y, width.toFloat(), height.toFloat())
+        pc.scaleX = 0f
+        pc.scaleY = 0f
 
         pc.originX = 25f;
         pc.originY = height/2f;
@@ -114,6 +116,8 @@ class Station(e: Engine) {
         var pc = PositionComponent(station.getComponent(PositionComponent::class.java).x + 700,
                 station.getComponent(PositionComponent::class.java).y + 72,
                 t.width.toFloat(), t.height.toFloat())
+        pc.scaleX = 0f
+        pc.scaleY = 0f
         recallBtn.add(pc)
         recallBtn.add(VisualComponent(t, 1000))
         recallBtn.add(ClickComponent({ callback() }))
@@ -140,20 +144,28 @@ class Station(e: Engine) {
         var tweenSystem = engine.getSystem(TweenSystem::class.java)
         var stationPC = station.getComponent(PositionComponent::class.java)
         var stationMoveTween = Tween.from(stationPC, PositionAccessor.POSITION, 2f).target(stationPC.x + 2000, stationPC.y).ease(Sine.OUT)
+        var stationScaleTween = Tween.to(stationPC, PositionAccessor.SCALE, 1f).target(1.0f, 1.0f)
         tweenSystem.addTween(stationMoveTween)
+        tweenSystem.addTween(stationScaleTween)
 
         var turretPC = turret.getComponent(PositionComponent::class.java)
         var turretMoveTween = Tween.from(turretPC, PositionAccessor.POSITION, 2f).target(turretPC.x + 2000, turretPC.y).ease(Sine.OUT)
+        var turretScaleTween = Tween.to(turretPC, PositionAccessor.SCALE, 1f).target(1f, 1f)
         tweenSystem.addTween(turretMoveTween)
+        tweenSystem.addTween(turretScaleTween)
 
         var recallPC = recallBtn.getComponent(PositionComponent::class.java)
         var recallMoveTween = Tween.from(recallPC, PositionAccessor.POSITION, 2f).target(recallPC.x + 2000, recallPC.y).ease(Sine.OUT)
+        var recallScaleTween = Tween.to(recallPC, PositionAccessor.SCALE, 1f).target(1f, 1f)
         tweenSystem.addTween(recallMoveTween)
+        tweenSystem.addTween(recallScaleTween)
 
         for (panel in panels) {
             var panelPC = panel.getComponent(PositionComponent::class.java)
-            var panelTween = Tween.from(panelPC, PositionAccessor.POSITION, 2f).target(panelPC.x + 2000, panelPC.y).ease(Sine.OUT)
-            tweenSystem.addTween(panelTween)
+            var panelMoveTween = Tween.from(panelPC, PositionAccessor.POSITION, 2f).target(panelPC.x + 2000, panelPC.y).ease(Sine.OUT)
+            var panelScaleTween = Tween.to(panelPC, PositionAccessor.SCALE, 1f).target(1.0f, 1.0f)
+            tweenSystem.addTween(panelMoveTween)
+            tweenSystem.addTween(panelScaleTween)
         }
 
         // Set systems up
