@@ -39,8 +39,6 @@ class RenderingSystem: EntitySystem() {
     private var bitmapFont = BitmapFont()
     private var glyphLayout = GlyphLayout()
 
-    var stateTime = 0f
-
     init {
         camera.position.set(Assets.VIEWPORT_WIDTH/2, Assets.VIEWPORT_HEIGHT/2, 0f)
         viewport = FitViewport(Assets.VIEWPORT_WIDTH, Assets.VIEWPORT_HEIGHT, camera)
@@ -114,25 +112,23 @@ class RenderingSystem: EntitySystem() {
 */
 
     private fun drawAnimations(deltaTime: Float) {
-
         for (animation in animations) {
             var ac = Mappers.animationMapper.get(animation)
             var pc = Mappers.positionMapper.get(animation)
 
             if (ac.running)
-                stateTime += deltaTime
+                ac.stateTime += deltaTime
 
-            var currentFrame = ac.anim.getKeyFrame(stateTime, true)
+            var currentFrame = ac.anim.getKeyFrame(ac.stateTime, ac.loop)
 
             //batch.draw(currentFrame, pc.x, pc.y)
-            batch.draw(currentFrame,               // texture region
+            batch.draw(currentFrame,            // texture region
                     pc.x, pc.y,                 // x, y position
                     pc.originX(), pc.originY(), // origin
                     pc.width, pc.height,        // width and height
-                    pc.scaleX, pc.scaleY,                     // scale
-                    pc.angle)                   //angle
+                    pc.scaleX, pc.scaleY,       // scale
+                    pc.angle)                   // angle
         }
-
     }
 
     private fun drawTextures(q: List<Entity>) {
@@ -198,6 +194,13 @@ class RenderingSystem: EntitySystem() {
         if (center) pcx -= glyphLayout.width / 2
 
         bitmapFont.draw(batch, glyphLayout, pcx, y)
+    }
+
+    // yargle...
+    fun getTextWidth(txt:String, scale: Float):Float {
+        bitmapFont.data.setScale(scale)
+        glyphLayout.setText(bitmapFont, txt)
+        return glyphLayout.width
     }
 
     fun createFont() {

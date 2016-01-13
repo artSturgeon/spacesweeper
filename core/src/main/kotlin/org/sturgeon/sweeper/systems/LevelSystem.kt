@@ -10,12 +10,13 @@ class LevelSystem: EntitySystem() {
 
     override fun update(deltaTime: Float) {
         if (World.score > World.level * 100) {
+            println("level up, level: " + World.level + ", score: " + World.score)
+            World.level ++
             levelUp()
         }
     }
 
     fun levelUp() {
-        World.level ++
         var sys = engine.getSystem(AddAsteroidSystem::class.java)
         sys.interval -= 0.5f
         if (sys.interval <= 0.5f) sys.interval = 0.5f

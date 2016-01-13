@@ -83,20 +83,23 @@ class Station(e: Engine) {
         panels.add(panel)
     }
 
-    private fun addTurret() {
-        // Texture with all frames
-        var firing = Texture(Assets.TURRET_ANIMATION_SINGLE)
-        firing.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
+    private fun createAnimationFromTexture(t:Texture, frames:Int = 30):Animation {
         // 2d array with frames split by width/height
-        val frames = 30
-        var tmp = TextureRegion.split(firing, firing.width, firing.height/frames)
+        var tmp = TextureRegion.split(t, t.width, t.height/frames)
         // 1d array with consecutive frames
         var firingFrames = Array<TextureRegion>(frames, { i -> tmp[i][0] })
         // animation, constructor takes varargs, so using Kotlin spread operator *
-        var firingAnimation = Animation(0.05f, *firingFrames)
+        return Animation(0.05f, *firingFrames)
+    }
 
-        var width = firingFrames[0].regionWidth
-        var height = firingFrames[0].regionHeight
+    private fun addTurret() {
+        // Texture with all frames
+        var firing = Texture(Assets.TURRET_ANIMATION_SINGLE)
+        //firing.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
+        var anim = createAnimationFromTexture(firing)
+
+        var width = anim.keyFrames[0].regionWidth
+        var height = anim.keyFrames[0].regionHeight
 
         //var x = station.getComponent(PositionComponent::class.java).x + 825
         var x = Assets.VIEWPORT_WIDTH/2 - 850 + 825
@@ -111,7 +114,7 @@ class Station(e: Engine) {
         pc.originY = height/2f;
 
         turret.add(pc)
-        turret.add(AnimationComponent(firingAnimation))
+        turret.add(AnimationComponent(anim))
         turret.add(FiringComponent())
         engine.addEntity(turret)
         entitiesToRemove.add(turret)
@@ -225,12 +228,23 @@ class Station(e: Engine) {
     fun addAstronaut() {
         println("adding a new astronaut")
         astronaut = Entity()
+        /*
         var t = Texture(Assets.ASTRONAUT)
         //astronaut.add(pc)
         astronaut.add(VisualComponent(t, 1))
+        */
+        var t = Texture(Assets.ASTRO_ANIMATION_MOVING)
+        var anim = createAnimationFromTexture(t)
+
+        var width = anim.keyFrames[0].regionWidth
+        var height = anim.keyFrames[0].regionHeight
+
         var recallPC = recallBtn.getComponent(PositionComponent::class.java)
+
         var pc = PositionComponent(recallPC.x + recallPC.width / 2, recallPC.y + recallPC.height / 2,
-                t.width.toFloat(), t.height.toFloat())
+                width.toFloat(), height.toFloat())
+
+        astronaut.add(AnimationComponent(anim, true).apply { loop = false })
         astronaut.add(pc)
         astronaut.add(AstronautComponent())
         astronaut.add(AliveComponent())
@@ -242,6 +256,8 @@ class Station(e: Engine) {
      fun moveAstronaut(x: Float, y: Float) {
          println("moving astronaut")
          var astronautPC = astronaut.getComponent(PositionComponent::class.java)
+         var astroAnim = astronaut.getComponent(AnimationComponent::class.java)
+         astroAnim.stateTime = 0f
          var origin = Vector2(astronautPC.x, astronautPC.y)
          // alter the target or we won't have the correct velocity vector later
          var target = Vector2(x - astronautPC.width/2 , y - astronautPC.height/2)
@@ -294,6 +310,13 @@ class Station(e: Engine) {
         lifeline.add(LineComponent(lineStart, lineEnd))
         engine.addEntity(lifeline)
         entitiesToRemove.add(lifeline)
+    }
+
+    fun upgradeTurret() {
+        turret.remove(AnimationComponent::class.java)
+        var firing = Texture(Assets.TURRET_ANIMATION_DUAL)
+        var anim = createAnimationFromTexture(firing, 10)
+        turret.add(AnimationComponent(anim))
     }
 
     /*

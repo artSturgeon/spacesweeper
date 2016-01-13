@@ -28,6 +28,7 @@ class World {
             if (firing_speed == 0.5f) {
                 guns ++
                 firing_speed_dec = 0.125f
+                station.upgradeTurret()
             }
             if (firing_speed < 0.125) firing_speed = 0.125f
         }

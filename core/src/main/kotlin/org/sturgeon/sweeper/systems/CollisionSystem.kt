@@ -141,7 +141,7 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
                         ItemType.FIRE_UP -> {
                             engine.removeEntity(item)
                             World.increaseFiringSpeed()
-
+                            engine.getSystem(BigTextSystem::class.java).addBigText("Firepower up !")
                         }
                     }
                 }
