@@ -1,4 +1,4 @@
-package org.sturgeon.sweeper.components
+package org.sturgeon.sweeper.systems
 
 import com.badlogic.ashley.systems.IntervalSystem
 import com.badlogic.gdx.math.MathUtils
