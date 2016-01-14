@@ -12,7 +12,7 @@ class AddObjectSystem(i: Float): IntervalSystem(i) {
 
     override fun updateInterval() {
         // random chance of adding an object
-        if (MathUtils.random(0, 100) < World.objectChance) return
+        if (MathUtils.random(0, 100) > World.objectChance) return
 
         var thing = Entity()
         // don't like having to repeat code like this but Kotlin

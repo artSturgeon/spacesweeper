@@ -21,8 +21,13 @@ class LevelSystem: EntitySystem() {
         sys.interval -= 0.5f
         if (sys.interval <= 0.5f) sys.interval = 0.5f
 
+        // and faster
+        World.asteroidSpeedMin -= 25
+        World.asteroidSpeedMax -= 25
+        World.asteroidSpeedY += 5
+
         // less chance of an object
-        World.objectChance -=10
+        World.objectChance -= World.objectDecrement
         if (World.objectChance < 20) World.objectChance = 20
 
         // add some nice big text

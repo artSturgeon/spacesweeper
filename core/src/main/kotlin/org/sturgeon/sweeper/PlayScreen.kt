@@ -157,6 +157,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         game.engine.removeSystem(game.engine.getSystem(IncidentalSystem::class.java))
         game.engine.removeSystem(game.engine.getSystem(AddAsteroidSystem::class.java))
         game.engine.removeSystem(game.engine.getSystem(AddObjectSystem::class.java))
+        game.engine.removeSystem(game.engine.getSystem(MouseSystem::class.java))
 
         var gameOverText = Entity()
         gameOverText.add(PositionComponent(Assets.VIEWPORT_WIDTH/2, Assets.VIEWPORT_HEIGHT/2 + 200))
@@ -243,45 +244,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         }
     }
 
-/*
-    public fun testWire() {
-        var astronauts = game.engine.getEntitiesFor(Family.all(AstronautComponent::class.java).get())
-        if (astronauts.size() == 1) {
-            var astronautPC = astronauts.get(0).getComponent(PositionComponent::class.java)
-            var stationPC = station.getComponent(PositionComponent::class.java)
-            var r = Rectangle(stationPC.x + stationPC.width, stationPC.y + stationPC.height/2, astronautPC.x, astronautPC.y)
-
-
-            game.engine.getSystem(RenderingSystem::class.java).lines.clear()
-            game.engine.getSystem(RenderingSystem::class.java).lines.add(r)
-        }
-    }
-*/
-    fun addScoller(msg:String) {
-        var scroller = Entity().apply {
-            add(PositionComponent(Assets.VIEWPORT_WIDTH, 500f))
-            add(MovementComponent(-700f, 0f))
-            add(TextComponent(msg).apply {
-                scale = 16.0f
-                colour = Color(223/255f, 113/255f, 38/255f, 0.75f)
-                front = false
-            })
-            add(BoundsCheckComponent(8000f))
-        }
-        game.engine.addEntity(scroller)
-
-    }
     private fun addSystems(systems:Array<EntitySystem>) {
-        /*
-        for (system in game.engine.systems) {
-            game.engine.removeSystem(system)
-        }
-        game.engine.removeAllEntities()
-
-        for (system in alwaysSystems) {
-            game.engine.addSystem(system)
-        }
-        */
         for (system in systems) {
             game.engine.addSystem(system)
         }

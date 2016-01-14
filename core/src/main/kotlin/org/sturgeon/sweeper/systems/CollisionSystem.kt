@@ -113,7 +113,8 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
                         astronautMC = MovementComponent(0f, 0f)
                         astronaut.add(asteroidMC)
                     }
-                    astronautMC.velocityX = asteroidMC.velocityX
+                    astronautMC.velocityX = asteroidMC.velocityX * 1.5f
+                    //astronautMC.velocityY = asteroidMC.velocityY * 2f
                     engine.removeEntity(asteroid)
                 }
             }
@@ -193,6 +194,7 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
                     engine.addEntity(particle)
                     engine.removeEntity(asteroid)
                     engine.removeEntity(bullet)
+                    explosion.play()
                     if (asteroidAC.stage == 1) asteroidShot(asteroidPC, asteroidMC)
                 }
             }

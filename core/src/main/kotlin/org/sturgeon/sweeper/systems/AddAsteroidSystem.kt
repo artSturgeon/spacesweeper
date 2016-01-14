@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IntervalSystem
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.MathUtils
 import org.sturgeon.sweeper.Assets
+import org.sturgeon.sweeper.World
 import org.sturgeon.sweeper.components.*
 
 
@@ -36,7 +37,8 @@ class AddAsteroidSystem(var i:Float) : EntitySystem() {
         asteroid.add(pc)
         asteroid.add(VisualComponent(t))
         asteroid.add(BoundsCheckComponent())
-        asteroid.add(MovementComponent(MathUtils.random(-100f, -25f), 0f, MathUtils.random(-50f, 50f)))
+        asteroid.add(MovementComponent(MathUtils.random(World.asteroidSpeedMax, World.asteroidSpeedMin)
+                , MathUtils.random(-World.asteroidSpeedY, World.asteroidSpeedY), MathUtils.random(-50f, 50f)))
         asteroid.add(AsteroidComponent())
         asteroid.add(CollisionComponent())
         engine.addEntity(asteroid)

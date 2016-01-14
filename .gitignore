@@ -64,3 +64,4 @@ build/
 .DS_Store
 out-mac/
 out-mac.app/
+out-built/
