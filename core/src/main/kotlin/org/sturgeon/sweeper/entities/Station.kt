@@ -8,11 +8,15 @@ import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import org.sturgeon.sweeper.Accessors.PositionAccessor
+import org.sturgeon.sweeper.Accessors.VisualAccessor
 import org.sturgeon.sweeper.Assets
 import org.sturgeon.sweeper.World
 import org.sturgeon.sweeper.components.*
@@ -35,10 +39,15 @@ class Station(e: Engine) {
 
     private var initial = true
 
+    var jet: Sound
+    var recall: Sound
+
     init {
         //addStation()
         // ooo keep a reference to the space station!
         World.station = this
+        jet = Gdx.audio.newSound(Assets.SND_JET)
+        recall = Gdx.audio.newSound(Assets.SND_RECALL)
     }
 
     fun addStation() {
@@ -59,7 +68,6 @@ class Station(e: Engine) {
         station.add(VisualComponent(t))
         station.add(PlayerComponent())
         engine.addEntity(station)
-        entitiesToRemove.add(station)
     }
 
     fun addPanels() {
@@ -147,7 +155,7 @@ class Station(e: Engine) {
         if (hc.health > World.STATION_HEALTH) hc.health = World.STATION_HEALTH
     }
 
-    // bzzzz?
+    // bzzzz? pop!
     fun add(c: Component) {
         station.add(c)
     }
@@ -179,19 +187,51 @@ class Station(e: Engine) {
             tweenSystem.addTween(panelMoveTween)
             tweenSystem.addTween(panelScaleTween)
         }
-        initial = false
+        //initial = false
+
         stationMoveTween.setCallback(object: TweenCallback {
             override fun onEvent(type: Int, src: BaseTween<*>?) {
                 when (type) {
-                    aurelienribon.tweenengine.TweenCallback.COMPLETE -> callback()
+                   TweenCallback.COMPLETE -> callback()
                 }
             }
         })
     }
 
+    fun destroy() {
+        var stationVC = station.getComponent(VisualComponent::class.java)
+        var stationPC = station.getComponent(PositionComponent::class.java)
+
+        var xStart = stationPC.x
+        var xEnd = xStart + stationPC.width
+
+        var yStart = stationPC.y - 500
+        var yEnd = yStart + stationPC.height + 500
+
+        for (x in 1..28) {
+            var particle = Particle(MathUtils.random(xStart, xEnd),
+                    MathUtils.random(yStart, yEnd),
+                    Assets.PART_ALL)
+            engine.addEntity(particle)
+        }
+
+        var alphaTween = Tween.to(stationVC, VisualAccessor.ALPHA, 1f).target(0f)
+        alphaTween.setCallback(object: TweenCallback {
+            override fun onEvent(type: Int, src: BaseTween<*>?) {
+                when (type) {
+                    TweenCallback.COMPLETE -> engine.removeEntity(station)
+                }
+        }})
+
+        engine.getSystem(TweenSystem::class.java).addTween(alphaTween)
+
+        dispose()
+        //explosion.play()
+        //engine.removeEntity(asteroid)
+    }
+
     fun dispose() {
         // clean up station
-        println("cleaning up")
         for (entity in entitiesToRemove) {
             engine.removeEntity(entity)
         }
@@ -208,16 +248,13 @@ class Station(e: Engine) {
     }
 
     fun releaseOrMoveAstronaut(x: Float, y: Float) {
-        println("release or move astronaut")
         if (World.astronauts > 0) {
             if (astronaut.components.size() <= 0) {
                 // uninitialised
-                println("all new astronaut")
                 addAstronaut()
                 addLifeLine()
             } else if (astronaut.getComponent(ConnectedComponent::class.java) == null) {
                 // alive but adrift
-                println("there was already some astronaut")
                 addAstronaut()
                 addLifeLine()
             }
@@ -226,7 +263,6 @@ class Station(e: Engine) {
     }
 
     fun addAstronaut() {
-        println("adding a new astronaut")
         astronaut = Entity()
         /*
         var t = Texture(Assets.ASTRONAUT)
@@ -254,7 +290,7 @@ class Station(e: Engine) {
     }
 
      fun moveAstronaut(x: Float, y: Float) {
-         println("moving astronaut")
+         jet.play()
          var astronautPC = astronaut.getComponent(PositionComponent::class.java)
          var astroAnim = astronaut.getComponent(AnimationComponent::class.java)
          astroAnim.stateTime = 0f
@@ -270,8 +306,8 @@ class Station(e: Engine) {
     }
 
     fun recallAstronaut() {
-        if (astronaut.components.size() > 0 && lifeline.components.size() > 0) {
-            println("I will recall the astronaut")
+        if (astronaut.components.size() > 0 && lifeline.components.size() > 0
+        && astronaut.getComponent(ConnectedComponent::class.java) != null) {
             var pc = astronaut.getComponent(PositionComponent::class.java)
             var mc = astronaut.getComponent(MovementComponent::class.java)
             if (mc == null) {
@@ -286,6 +322,7 @@ class Station(e: Engine) {
             mc.velocityY = l.y
             var rotate = Tween.to(recallBtn.getComponent(PositionComponent::class.java), PositionAccessor.ANGLE, 2f).target(360f)
             engine.getSystem(TweenSystem::class.java).addTween(rotate)
+            recall.play()
             // target is offset for astronaut origin
             // it isn't neat but at least it's consistent!
             astronaut.add(TargetComponent(Vector2(lineStart.x - pc.width/2, lineStart.y - pc.height/2), { World.station.dockAstronaut() }))
@@ -293,7 +330,6 @@ class Station(e: Engine) {
     }
 
     fun dockAstronaut() {
-        println("dock astronaut")
         astronaut.removeAll()
         engine.removeEntity(astronaut)
         engine.removeEntity(lifeline)
@@ -301,7 +337,6 @@ class Station(e: Engine) {
     }
 
     fun addLifeLine() {
-        println("adding lifeline")
         lifeline = Entity()
         var recallBtnPC = recallBtn.getComponent(PositionComponent::class.java)
         var astronautPC = astronaut.getComponent(PositionComponent::class.java)

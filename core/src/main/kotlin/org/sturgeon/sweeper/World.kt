@@ -14,12 +14,16 @@ class World {
         var firing_speed_dec = 0.25f
         var guns = 1
 
+        var objectChance = 80
+
         var level = 1
 
         val ASTEROID_DAMAGE = 10
         val STATION_HEALTH = 100
         val LIFELINE_LENGTH = 400f
-        
+
+
+
         lateinit var station: Station
 
         fun increaseFiringSpeed() {

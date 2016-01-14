@@ -9,6 +9,7 @@ import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.input.GestureDetector
 import com.badlogic.gdx.math.Rectangle
@@ -54,7 +55,6 @@ class MouseSystem(ps: PlayScreen) : EntitySystem() {
         for (clicker in clickers) {
             var pc = clicker.getComponent(PositionComponent::class.java)
             if (pc.rect().contains(x, y)) {
-                println("clicker found")
                 var cc = clicker.getComponent(ClickComponent::class.java)
                 cc.func()
                 return true

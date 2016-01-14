@@ -10,16 +10,22 @@ class LevelSystem: EntitySystem() {
 
     override fun update(deltaTime: Float) {
         if (World.score > World.level * 100) {
-            println("level up, level: " + World.level + ", score: " + World.score)
             World.level ++
             levelUp()
         }
     }
 
     fun levelUp() {
+        // make asteroids more frequent
         var sys = engine.getSystem(AddAsteroidSystem::class.java)
         sys.interval -= 0.5f
         if (sys.interval <= 0.5f) sys.interval = 0.5f
+
+        // less chance of an object
+        World.objectChance -=10
+        if (World.objectChance < 20) World.objectChance = 20
+
+        // add some nice big text
         engine.getSystem(BigTextSystem::class.java).addBigText("Level " + World.level + " ! !")
     }
 

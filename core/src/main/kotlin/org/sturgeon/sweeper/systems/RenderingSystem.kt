@@ -139,6 +139,7 @@ class RenderingSystem: EntitySystem() {
 
             //SpriteBatch.draw(textureRegion, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
             //batch.draw(vc.region, pc.x, pc.y)
+            batch.setColor(batch.color.r, batch.color.g, batch.color.b, vc.alpha)
             batch.draw(vc.region,               // texture region
                     pc.x, pc.y,                 // x, y position
                     pc.originX(), pc.originY(), // origin

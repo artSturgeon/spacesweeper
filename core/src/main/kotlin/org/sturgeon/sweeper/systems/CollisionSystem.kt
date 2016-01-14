@@ -35,10 +35,12 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
     lateinit private var items: ImmutableArray<Entity>
 
     var explosion: Sound
+    var powerup: Sound
     var ps = ps
 
     init {
         explosion = Gdx.audio.newSound(Assets.SND_EXPLOSION)
+        powerup = Gdx.audio.newSound(Assets.SND_POWERUP)
     }
 
     override fun addedToEngine(engine: Engine?) {
@@ -137,11 +139,13 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
                             // This should call back somewhere?
                             engine.removeEntity(item)
                             World.station.stationHealthUp()
+                            powerup.play()
                         }
                         ItemType.FIRE_UP -> {
                             engine.removeEntity(item)
                             World.increaseFiringSpeed()
                             engine.getSystem(BigTextSystem::class.java).addBigText("Firepower up !")
+                            powerup.play()
                         }
                     }
                 }
@@ -182,7 +186,7 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
                 var r = Rectangle()
                 Intersector.intersectRectangles(bulletPC.rect(), asteroidPC.rect(), r)
 
-                if (r.width > 0) {
+                if (r.width > 0.0f) {
                     World.score += asteroidAC.points
                     var particle = Particle(asteroidPC.x + asteroidPC.width/2,
                             asteroidPC.y + asteroidPC.height/2, Assets.PART_ASTEROID)

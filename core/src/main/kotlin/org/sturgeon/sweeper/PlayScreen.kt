@@ -61,6 +61,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         setAttract()
         addTheWorld()
         //setPlaying()
+        addInitialStars()
         station = Station(game.engine)
     }
 
@@ -72,8 +73,6 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     private fun setAttract() {
         mode = ATTRACT
         addSystems(attractSystems)
-
-        addInitialStars()
 
         var t = Texture(Assets.LOGO)
         var pc = PositionComponent(Assets.VIEWPORT_WIDTH/2 - t.width/2, Assets.VIEWPORT_HEIGHT+ 200, t.width.toFloat(), t.height.toFloat())
@@ -152,6 +151,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
         //game.engine.removeSystem(game.engine.getSystem(MovementSystem::class.java))
         game.engine.getSystem(MovementSystem::class.java).setProcessing(false)
+         game.engine.getSystem(StarfieldSystem::class.java).setProcessing(false)
         game.engine.removeSystem(game.engine.getSystem(CollisionSystem::class.java))
         game.engine.removeSystem(game.engine.getSystem(ScoreSystem::class.java))
         game.engine.removeSystem(game.engine.getSystem(IncidentalSystem::class.java))
@@ -173,6 +173,8 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         World.lastScore = World.score
         World.score = 0
         if (World.lastScore > World.highScore) World.highScore = World.lastScore
+
+         station.destroy()
     }
 
     fun attractToPlaying() {
@@ -210,7 +212,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         for (entity in entitiesToRemove)
             game.engine.removeEntity(entity)
         entitiesToRemove.clear()
-        station.dispose()
+        //station.dispose()
         //game.engine.removeEntity(station)
         //game.engine.removeEntity(turret)
 
@@ -220,10 +222,9 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         game.engine.getSystem(TweenSystem::class.java).addTween(worldMove)
 
         game.engine.getSystem(MovementSystem::class.java).setProcessing(true)
+        game.engine.getSystem(StarfieldSystem::class.java).setProcessing(true)
         setAttract()
     }
-
-
 
     fun addTheWorld() {
         var worldTex = Texture(Assets.WORLD)

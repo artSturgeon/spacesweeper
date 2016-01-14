@@ -5,13 +5,14 @@ import com.badlogic.ashley.systems.IntervalSystem
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.MathUtils
 import org.sturgeon.sweeper.Assets
+import org.sturgeon.sweeper.World
 import org.sturgeon.sweeper.components.*
 
 class AddObjectSystem(i: Float): IntervalSystem(i) {
 
     override fun updateInterval() {
         // random chance of adding an object
-        if (MathUtils.random(0, 100) < 50) return
+        if (MathUtils.random(0, 100) < World.objectChance) return
 
         var thing = Entity()
         // don't like having to repeat code like this but Kotlin

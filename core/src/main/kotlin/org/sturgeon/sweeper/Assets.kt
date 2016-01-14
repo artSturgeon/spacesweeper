@@ -32,11 +32,17 @@ object Assets {
     val LOGO = Gdx.files.internal("logo2.png")
     var STAR = Gdx.files.internal("star1.png")
 
-    val SND_LASER = Gdx.files.internal("laser1.mp3")
+    val SND_LASER = Gdx.files.internal("laser2.mp3")
     val SND_EXPLOSION = Gdx.files.internal("explosion1.mp3")
+    val SND_POWERUP = Gdx.files.internal("powerup1.mp3")
+    val SND_JET = Gdx.files.internal("jet1.mp3")
+    val SND_SNAP = Gdx.files.internal("snap1.mp3")
+    val SND_RECALL = Gdx.files.internal("recall.mp3")
 
     val PART_ALL = Gdx.files.internal("part_all.part")
     val PART_ASTEROID = Gdx.files.internal("part_asteroid.part")
+
+    val CURSOR = Gdx.files.internal("cursor1.png")
 
     val SOME_TEXT = arrayOf("Get to the exit!",
                             "Get to the chopper ! !",

@@ -5,7 +5,9 @@ import aurelienribon.tweenengine.Tween
 import com.badlogic.ashley.core.EntitySystem
 import aurelienribon.tweenengine.TweenManager
 import org.sturgeon.sweeper.Accessors.PositionAccessor
+import org.sturgeon.sweeper.Accessors.VisualAccessor
 import org.sturgeon.sweeper.components.PositionComponent
+import org.sturgeon.sweeper.components.VisualComponent
 
 class TweenSystem : EntitySystem() {
 
@@ -13,6 +15,7 @@ class TweenSystem : EntitySystem() {
 
     init {
         Tween.registerAccessor(PositionComponent::class.java, PositionAccessor())
+        Tween.registerAccessor(VisualComponent::class.java, VisualAccessor())
     }
 
     fun addTween(t: Tween) {
