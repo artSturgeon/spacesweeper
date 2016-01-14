@@ -1,7 +1,7 @@
 {
-    "platform": "windows64",
-    "jdk": "/Users/art/Downloads/openjdk-1.7.0-u80-unofficial-windows-amd64-image.zip",
-    "executable": "myapp",
+    "platform": "mac",
+    "jdk": "/Users/art/Downloads/openjdk-1.7.0-u80-unofficial-macosx-x86_64-image.zip",
+    "executable": "space_sweeper",
     "classpath": [
         "desktop.jar"
     ],
@@ -13,5 +13,5 @@
         "core/assets"
     ],
     "minimizejre": "soft",
-    "outdir": "out-mac"
+    "outdir": "out-built"
 }
