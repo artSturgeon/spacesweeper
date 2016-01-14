@@ -26,21 +26,25 @@ class MouseSystem(ps: PlayScreen) : EntitySystem() {
     var ps = ps
     lateinit private var astronauts: ImmutableArray<Entity>
     lateinit private var clickers: ImmutableArray<Entity>
+    var gesture: GestureDetector
 
     init {
-        Gdx.input.inputProcessor = GestureDetector(object : GestureDetector.GestureAdapter() {
+        gesture = GestureDetector(object : GestureDetector.GestureAdapter() {
             override fun tap(x: Float, y: Float, count: Int, button: Int): Boolean {
-                //if (!moving) {
-                    // slightly iffy...
                     var clickPoint = engine.getSystem(RenderingSystem::class.java).unproject(x, y)
                     mouseClicked(clickPoint.x, clickPoint.y, button)
-                //}
                 return super.tap(x, y, count, button)
             }
         })
     }
 
+    override fun removedFromEngine(engine: Engine?) {
+        Gdx.input.inputProcessor = null
+        super.removedFromEngine(engine)
+    }
+
     override fun addedToEngine(engine: Engine?) {
+        Gdx.input.inputProcessor = gesture
         astronauts = engine!!.getEntitiesFor(Family.all(AstronautComponent::class.java, AliveComponent::class.java).get())
         clickers = engine!!.getEntitiesFor(Family.all(ClickComponent::class.java).get())
     }

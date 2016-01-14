@@ -25,7 +25,7 @@ class World {
 
         var asteroidSpeedY = 5f
 
-        val STATION_HEALTH = 100
+        val STATION_HEALTH = 10
         val LIFELINE_LENGTH = 400f
 
         lateinit var station: Station
