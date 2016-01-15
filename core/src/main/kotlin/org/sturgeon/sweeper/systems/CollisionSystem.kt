@@ -105,25 +105,27 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
             for (asteroid in asteroids) {
                 var asteroidPC = asteroid.getComponent(PositionComponent::class.java)
                 r = Rectangle()
-                Intersector.intersectRectangles(astronautPC.rect(), asteroidPC.rect(), r)
-                if (r.width > 0) {
-                    var asteroidMC = asteroid.getComponent(MovementComponent::class.java)
-                    var astronautMC = astronaut.getComponent(MovementComponent::class.java)
+                if (asteroidPC != null && astronautPC != null) {
+                    Intersector.intersectRectangles(astronautPC.rect(), asteroidPC.rect(), r)
+                    if (r.width > 0) {
+                        var asteroidMC = asteroid.getComponent(MovementComponent::class.java)
+                        var astronautMC = astronaut.getComponent(MovementComponent::class.java)
 
-                    if (astronautMC == null) {
-                        astronautMC = MovementComponent(0f, 0f)
-                        astronaut.add(asteroidMC)
+                        if (astronautMC == null) {
+                            astronautMC = MovementComponent(0f, 0f)
+                            astronaut.add(asteroidMC)
+                        }
+                        World.astronautHealth -= 50
+                        if (World.astronautHealth <= 0) {
+                            // snap the line, second hit
+                            var lifelines = engine.getEntitiesFor(Family.all(LineComponent::class.java).get())
+                            if (lifelines != null && lifelines.size() > 0)
+                                engine.getSystem(LifelineSystem::class.java).snap(astronaut, lifelines.get(0))
+                        }
+                        astronautMC.velocityX = asteroidMC.velocityX * 1.5f
+                        //astronautMC.velocityY = asteroidMC.velocityY * 2f
+                        engine.removeEntity(asteroid)
                     }
-                    World.astronautHealth -= 50
-                    if (World.astronautHealth <= 0) {
-                        // snap the line, second hit
-                        var lifelines = engine.getEntitiesFor(Family.all(LineComponent::class.java).get())
-                        if (lifelines != null && lifelines.size() > 0)
-                            engine.getSystem(LifelineSystem::class.java).snap(astronaut, lifelines.get(0))
-                    }
-                    astronautMC.velocityX = asteroidMC.velocityX * 1.5f
-                    //astronautMC.velocityY = asteroidMC.velocityY * 2f
-                    engine.removeEntity(asteroid)
                 }
             }
         }

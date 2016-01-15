@@ -82,7 +82,8 @@ class RenderingSystem: EntitySystem() {
         for (line in lines) {
             var lc = line.getComponent(LineComponent::class.java)
             batch.end()
-
+            camera.update()
+            shapeRenderer.projectionMatrix = camera.combined
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(172/255f, 50/255f,50/255f, 1.0f)
             //shapeRenderer.set
@@ -93,23 +94,6 @@ class RenderingSystem: EntitySystem() {
             batch.begin()
         }
     }
-
-    /*
-    fun debugRect(station:Entity) {
-        var shapeRenderer = ShapeRenderer()
-
-        if (station != null) {
-            batch.end()
-
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(Color.RED);
-            shapeRenderer.rect(pc.x + 380, pc.y + 50, 500f, 95f);
-            shapeRenderer.end();
-
-            batch.begin()
-        }
-    }
-*/
 
     private fun drawAnimations(deltaTime: Float) {
         for (animation in animations) {

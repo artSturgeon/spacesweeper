@@ -231,7 +231,8 @@ class Station(e: Engine) {
     }
 
     fun dispose() {
-        // clean up station
+        // clean up station/astronaut
+        astronaut.removeAll()
         for (entity in entitiesToRemove) {
             engine.removeEntity(entity)
         }

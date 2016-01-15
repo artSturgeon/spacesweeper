@@ -121,13 +121,13 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
 
         var sys = game.engine.getSystem(AddAsteroidSystem::class.java)
         sys.interval = World.ASTEROID_INTERVAL
-
+        game.engine.getSystem(CollisionSystem::class.java).setProcessing(true)
         //addPanels()
         //addRecallButton()
         // add score
         var scoreText = Entity()
         scoreText.add(PositionComponent(Assets.VIEWPORT_WIDTH - 250, Assets.VIEWPORT_HEIGHT - 40))
-        scoreText.add(TextComponent("score : " + World.score))
+        scoreText.add(TextComponent("Score : " + World.score))
         scoreText.add(ScoreComponent())
         game.engine.addEntity(scoreText)
         entitiesToRemove.add(scoreText)
@@ -135,17 +135,17 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         // add health
         var healthText = Entity()
         healthText.add(PositionComponent(Assets.VIEWPORT_WIDTH - 250, Assets.VIEWPORT_HEIGHT - 80))
-        fun updateHealth() = { "station: " + station.getHealth() + "%" }
+        fun updateHealth() = { "Station: " + station.getHealth() + "%" }
         station.add(HealthComponent(World.STATION_HEALTH, { setGameOver() }))
-        healthText.add(UpdatingTextComponent("station: " + World.STATION_HEALTH + "%", false, updateHealth() ))
+        healthText.add(UpdatingTextComponent("Station: " + World.STATION_HEALTH + "%", false, updateHealth() ))
         game.engine.addEntity(healthText)
         entitiesToRemove.add(healthText)
 
         // add number of astronauts
         var astroText = Entity()
         astroText.add(PositionComponent(Assets.VIEWPORT_WIDTH - 250, Assets.VIEWPORT_HEIGHT - 120))
-        fun updateAstro() = { "astro: " + World.astronautHealth + "%" }
-        astroText.add(UpdatingTextComponent("astro: " + World.astronautHealth + "%", false, updateAstro()))
+        fun updateAstro() = { "Astro: " + World.astronautHealth + "%" }
+        astroText.add(UpdatingTextComponent("Astro: " + World.astronautHealth + "%", false, updateAstro()))
         game.engine.addEntity(astroText)
         entitiesToRemove.add(astroText)
     }
@@ -156,6 +156,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         //game.engine.removeSystem(game.engine.getSystem(MovementSystem::class.java))
         game.engine.getSystem(MovementSystem::class.java).setProcessing(false)
          game.engine.getSystem(StarfieldSystem::class.java).setProcessing(false)
+         game.engine.getSystem(CollisionSystem::class.java).setProcessing(false)
         game.engine.removeSystem(game.engine.getSystem(CollisionSystem::class.java))
         game.engine.removeSystem(game.engine.getSystem(ScoreSystem::class.java))
         game.engine.removeSystem(game.engine.getSystem(IncidentalSystem::class.java))
