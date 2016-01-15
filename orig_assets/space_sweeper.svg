@@ -278,7 +278,7 @@
        y1="15.585952"
        x2="730.67065"
        y2="678.88727"
-       gradientTransform="matrix(1.365071,0,0,1.3334372,1276.4551,-634.85862)" />
+       gradientTransform="matrix(1.365071,0,0,1.3334372,231.93173,-570.18832)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient4913"
@@ -378,16 +378,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.51028059"
-     inkscape:cx="-1941.4031"
-     inkscape:cy="1616.9018"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="-360.38512"
+     inkscape:cy="-1001.2738"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      showborder="false"
      inkscape:showpageshadow="false"
      inkscape:window-width="1280"
-     inkscape:window-height="687"
+     inkscape:window-height="751"
      inkscape:window-x="0"
      inkscape:window-y="1"
      inkscape:window-maximized="1"
@@ -416,11 +416,14 @@
     <rect
        style="opacity:1;fill:#000000;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect5566"
-       width="113.30495"
+       width="182.07138"
        height="92.722946"
-       x="-397"
-       y="2029.3622"
-       ry="0" />
+       x="-442.92578"
+       y="2022.6017"
+       ry="0"
+       inkscape:export-filename="/Users/art/projects/spacesweeper/orig_assets/astronaut/rect5566.png"
+       inkscape:export-xdpi="236.74345"
+       inkscape:export-ydpi="236.74345" />
     <rect
        style="fill:#000000"
        id="rect3895"
@@ -4663,307 +4666,61 @@
        width="458.32568"
        transform="matrix(-0.5,0.8660254,0.8660254,0.5,0,0)" />
     <g
-       id="g5580"
-       transform="matrix(0.20789898,0,0,0.20789898,-322.86426,1633.4893)">
-      <rect
-         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect5533"
-         width="57"
-         height="196"
-         x="-316"
-         y="1980.3622" />
-      <rect
-         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect5535"
-         width="49.235989"
-         height="73.416908"
-         x="-1323.4502"
-         y="1768.1516"
-         transform="matrix(0.87770282,-0.47920534,0.52108674,0.85350373,0,0)"
-         ry="0" />
-      <rect
-         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect5537"
-         width="42"
-         height="73"
-         x="-201.99998"
-         y="2199.3621" />
-      <rect
-         transform="matrix(0.95905056,0.28323491,-0.2362277,0.97169773,0,0)"
-         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect5539"
-         width="60.310562"
-         height="27.833679"
-         x="341.33832"
-         y="2226.6379"
-         ry="13.91684" />
-      <rect
-         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect5541"
-         width="67"
-         height="149"
-         x="-263"
-         y="1999.3621" />
+       id="g5097"
+       transform="matrix(4,0,0,4,1126.1004,-6294.3151)"
+       inkscape:export-filename="/Users/art/projects/spacesweeper/orig_assets/astronaut/head.png"
+       inkscape:export-xdpi="89.624306"
+       inkscape:export-ydpi="89.624306">
       <rect
          style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          id="rect5543"
-         width="67"
-         height="64"
-         x="-265"
-         y="1946.3622"
-         ry="26.033897" />
+         width="13.929232"
+         height="13.305534"
+         x="-379.51642"
+         y="2035.3646"
+         ry="5.4124207" />
       <rect
-         style="opacity:1;fill:#847e87;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect5545"
-         width="66"
-         height="27"
-         x="-252.99998"
-         y="2036.3621" />
-      <rect
-         style="opacity:1;fill:#847e87;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect5547"
-         width="33"
-         height="27"
-         x="-252.99998"
-         y="2018.3621"
-         ry="12.789474" />
-      <rect
-         ry="13"
-         y="2036.3622"
-         x="-187"
-         height="26"
-         width="61"
-         id="rect5560"
-         style="opacity:1;fill:#847e87;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <ellipse
-         ry="16"
-         rx="13.5"
-         cy="2050.3621"
-         cx="-183.5"
-         id="path5562"
-         style="opacity:1;fill:#847e87;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <circle
-         r="25"
-         cy="2199.3621"
-         cx="-177"
-         id="path5564"
-         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <rect
-         y="2012.3622"
-         x="-286"
-         height="128"
-         width="22"
-         id="rect5568"
-         style="opacity:1;fill:#696a6a;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <rect
-         y="1991.3622"
-         x="-315"
-         height="10"
-         width="52"
-         id="rect5570"
-         style="opacity:1;fill:#ac3232;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <ellipse
-         ry="16.5"
-         rx="17"
-         cy="2023.8621"
-         cx="-242"
-         id="path5572"
-         style="opacity:1;fill:#306082;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <rect
-         ry="15.166667"
-         y="1958.3622"
-         x="-226"
-         height="42"
-         width="30"
+         ry="3.1531346"
+         y="2037.8594"
+         x="-371.40836"
+         height="8.7317572"
+         width="6.2369695"
          id="rect5574"
          style="opacity:1;fill:#cbdbfc;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <rect
-         transform="matrix(0.85318004,-0.52161654,0.47869027,0.87798384,0,0)"
-         ry="0"
-         y="1737.0422"
-         x="-1237.6694"
-         height="15.782075"
-         width="50.803604"
-         id="rect5576"
-         style="opacity:1;fill:#ac3232;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <rect
-         ry="0"
-         y="2139.3621"
-         x="-309"
-         height="21"
-         width="45"
-         id="rect5578"
-         style="opacity:1;fill:#696a6a;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <g
-       id="g5652"
-       transform="matrix(0.20789898,0,0,0.20789898,-330.91158,1637.4316)"
-       inkscape:export-filename="/Users/art/projects/spacesweeper/orig_assets/astronaut/foot.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <rect
-         y="2200.3621"
-         x="41.000004"
-         height="73"
-         width="42"
-         id="rect5605"
-         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <rect
-         ry="13.91684"
-         y="2158.6904"
-         x="577.97748"
-         height="27.833679"
-         width="60.310562"
-         id="rect5607"
-         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         transform="matrix(0.95905056,0.28323491,-0.2362277,0.97169773,0,0)" />
-    </g>
-    <rect
-       ry="2.7026868"
-       y="2055.4128"
-       x="-301.41379"
-       height="5.4053736"
-       width="12.681838"
-       id="rect5617"
-       style="opacity:1;fill:#847e87;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       inkscape:export-filename="/Users/art/projects/spacesweeper/orig_assets/astronaut/hand.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <g
-       id="g5677"
-       transform="matrix(0.20789898,0,0,0.20789898,-320.172,1641.6056)"
-       inkscape:export-filename="/Users/art/projects/spacesweeper/orig_assets/astronaut/arm.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <rect
-         y="2038.3621"
-         x="61.000004"
-         height="27"
-         width="66"
-         id="rect5613"
-         style="opacity:1;fill:#847e87;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <ellipse
-         style="opacity:1;fill:#847e87;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="ellipse5619"
-         cx="126.49998"
-         cy="2052.3621"
-         rx="13.5"
-         ry="16" />
-    </g>
-    <g
-       id="g5681"
-       transform="matrix(0.20789898,0,0,0.20789898,-298.03528,1626.2103)"
-       inkscape:export-filename="/Users/art/projects/spacesweeper/orig_assets/astronaut/head.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <rect
-         ry="26.033897"
-         y="1947.3622"
-         x="-22.00001"
-         height="64"
-         width="67"
-         id="rect5611"
-         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <rect
-         style="opacity:1;fill:#cbdbfc;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect5629"
-         width="30"
-         height="42"
-         x="16.99999"
-         y="1959.3622"
-         ry="15.166667" />
-    </g>
-    <g
-       id="g5656"
-       transform="matrix(0.10394949,-0.1800458,0.1800458,0.10394949,-704.16532,1869.0046)"
+       id="g5092"
+       transform="matrix(2,-3.4641016,3.4641016,2,-6773.9404,-3251.1366)"
        inkscape:export-filename="/Users/art/projects/spacesweeper/orig_assets/astronaut/leg.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
       <rect
-         ry="0"
-         transform="matrix(0.87770282,-0.47920534,0.52108674,0.85350373,0,0)"
-         y="1885.6136"
-         x="-1116.3276"
-         height="73.416908"
-         width="49.235989"
-         id="rect5603"
-         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <circle
          style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="circle5621"
-         cx="65.999992"
-         cy="2200.3621"
-         r="25" />
-      <rect
-         style="opacity:1;fill:#ac3232;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect5631"
-         width="50.803604"
-         height="15.782075"
-         x="-1024.5361"
-         y="1864.8053"
-         ry="0"
-         transform="matrix(0.85318004,-0.52161654,0.47869027,0.87798384,0,0)" />
-    </g>
-    <g
-       id="g5685"
-       transform="matrix(0.20789898,0,0,0.20789898,-313.59302,1624.2419)"
-       inkscape:export-filename="/Users/art/projects/spacesweeper/orig_assets/astronaut/body.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <rect
-         y="1981.3622"
-         x="-73.000008"
-         height="196"
-         width="57"
-         id="rect5601"
-         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <rect
-         y="2000.3621"
-         x="-20.00001"
-         height="149"
-         width="67"
-         id="rect5609"
-         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <rect
-         ry="12.789474"
-         y="2019.3621"
-         x="-12.999994"
-         height="27"
-         width="33"
-         id="rect5615"
-         style="opacity:1;fill:#847e87;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <rect
-         style="opacity:1;fill:#696a6a;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect5623"
-         width="22"
-         height="128"
-         x="-43.000011"
-         y="2013.3622" />
-      <rect
-         style="opacity:1;fill:#ac3232;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect5625"
-         width="52"
-         height="10"
-         x="-72.000008"
-         y="1992.3622" />
-      <ellipse
-         style="opacity:1;fill:#306082;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="ellipse5627"
-         cx="0.99998999"
-         cy="2024.8621"
-         rx="17"
-         ry="16.5" />
-      <rect
-         style="opacity:1;fill:#696a6a;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect5633"
-         width="45"
-         height="21"
-         x="-66.000008"
-         y="2140.3621"
+         id="rect5535"
+         width="10.236112"
+         height="15.2633"
+         x="-1403.1053"
+         y="1644.9115"
+         transform="matrix(0.87770282,-0.47920534,0.52108674,0.85350372,0,0)"
          ry="0" />
+      <circle
+         r="5.1974745"
+         cy="2087.9631"
+         cx="-361.22131"
+         id="path5564"
+         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         transform="matrix(0.85318003,-0.52161655,0.47869028,0.87798383,0,0)"
+         ry="0"
+         y="1584.7045"
+         x="-1324.0684"
+         height="3.2810771"
+         width="10.562017"
+         id="rect5576"
+         style="opacity:1;fill:#ac3232;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <g
-       transform="matrix(0.97701308,0,0,0.97701308,1481.446,-252.16756)"
+       transform="matrix(0.97701308,0,0,0.97701308,1371.0966,-223.50449)"
        inkscape:export-ydpi="90"
        inkscape:export-xdpi="90"
        inkscape:export-filename="/Users/henri/projects/spacesweeper/core/assets/astronaut1.png"
@@ -5155,8 +4912,8 @@
     <ellipse
        id="path4845"
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:0.98353912;fill:url(#linearGradient4849);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;enable-background:accumulate"
-       cx="1903.8683"
-       cy="-117.90926"
+       cx="859.34491"
+       cy="-53.23896"
        rx="500"
        ry="497.84192" />
     <g
@@ -5813,6 +5570,171 @@
          cx="-1813.5173"
          id="ellipse5100"
          style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#595652;stroke-width:10.5418129;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker:none;enable-background:accumulate" />
+    </g>
+    <g
+       id="g5087"
+       transform="matrix(4,0,0,4,1081.1902,-6187.2698)"
+       inkscape:export-filename="/Users/art/projects/spacesweeper/orig_assets/astronaut/foot.png"
+       inkscape:export-xdpi="90.461319"
+       inkscape:export-ydpi="90.461319">
+      <rect
+         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect5537"
+         width="8.7317572"
+         height="15.176625"
+         x="-366.41879"
+         y="2087.9631" />
+      <rect
+         transform="matrix(0.95905056,0.28323492,-0.23622771,0.97169773,0,0)"
+         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect5539"
+         width="12.538505"
+         height="5.7865934"
+         x="141.02637"
+         y="2120.7087"
+         ry="2.8932967" />
+      <rect
+         y="2095.8105"
+         x="-366.40292"
+         height="2.2517974"
+         width="8.6999998"
+         id="rect5055"
+         style="opacity:1;fill:#ac3232;fill-opacity:1;stroke:none;stroke-width:6.8829999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       id="g5083"
+       transform="matrix(4,0,0,4,1137.309,-6275.0741)"
+       inkscape:export-filename="/Users/art/projects/spacesweeper/orig_assets/astronaut/hand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         ry="1.1927387"
+         style="opacity:1;fill:#dadada;fill-opacity:1;stroke:none;stroke-width:0.42583036;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect5545"
+         width="11.890136"
+         height="4.2947016"
+         x="-369.09088"
+         y="2056.3779" />
+      <rect
+         ry="1.8506761"
+         y="2056.0137"
+         x="-358.72873"
+         height="5.0233388"
+         width="5.1964469"
+         id="rect4891"
+         style="opacity:1;fill:#dadada;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       id="g5079"
+       transform="matrix(4,0,0,4,1251.3826,-6259.1428)"
+       inkscape:export-filename="/Users/art/projects/spacesweeper/orig_assets/astronaut/arm.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         transform="matrix(0,1,-1,0,0,0)"
+         ry="2.3423634"
+         y="367.68994"
+         x="2048.8933"
+         height="5.8000002"
+         width="12.681838"
+         id="rect5560"
+         style="opacity:1;fill:#dadada;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         transform="matrix(0,1,-1,0,0,0)"
+         ry="0"
+         y="367.68994"
+         x="2053.762"
+         height="5.8000002"
+         width="1.2125063"
+         id="rect5063"
+         style="opacity:1;fill:#ac3232;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       id="g5101"
+       transform="matrix(4,0,0,4,1019.3141,-6301.8912)"
+       inkscape:export-filename="/Users/art/projects/spacesweeper/orig_assets/astronaut/body.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect5533"
+         width="11.850242"
+         height="40.748199"
+         x="-390.11926"
+         y="2042.4332" />
+      <rect
+         style="opacity:1;fill:#ffffff;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect5541"
+         width="13.929232"
+         height="30.976948"
+         x="-379.10065"
+         y="2046.3832" />
+      <rect
+         y="2049.0859"
+         x="-383.88229"
+         height="26.611069"
+         width="4.5737777"
+         id="rect5568"
+         style="opacity:1;fill:#696a6a;fill-opacity:1;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="2044.0272"
+         x="-390.11926"
+         height="2.0789897"
+         width="10.810747"
+         id="rect5570"
+         style="opacity:1;fill:#ac3232;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         ry="0"
+         y="2075.489"
+         x="-388.66397"
+         height="4.3658786"
+         width="9.3554544"
+         id="rect5578"
+         style="opacity:1;fill:#696a6a;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="2063.0728"
+         x="-375.70374"
+         height="7.1018229"
+         width="1.905367"
+         id="rect5057"
+         style="opacity:1;fill:#ac3232;fill-opacity:1;stroke:none;stroke-width:6.8829999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="2062.8997"
+         x="-368.77515"
+         height="5.0232406"
+         width="3.6375189"
+         id="rect5059"
+         style="opacity:1;fill:#696a6a;fill-opacity:1;stroke:none;stroke-width:6.8829999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <circle
+         r="2.3384051"
+         cy="2072.1665"
+         cx="-386.8761"
+         id="path5061"
+         style="opacity:1;fill:#696a6a;fill-opacity:1;stroke:none;stroke-width:6.8829999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#696a6a;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect5547"
+         width="6.8606663"
+         height="5.6132727"
+         x="-377.54126"
+         y="2048.7747"
+         ry="2.1392901" />
+      <ellipse
+         ry="3.4303331"
+         rx="3.5342827"
+         cy="2050.957"
+         cx="-385.30087"
+         id="path5572"
+         style="opacity:1;fill:#306082;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         rx="0"
+         ry="0"
+         y="2049.9084"
+         x="-387.98572"
+         height="0.51964551"
+         width="5.3696709"
+         id="rect5053"
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:6.8829999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
   </g>
 </svg>

@@ -27,7 +27,7 @@ object Assets {
 
     var TURRET_ANIMATION_DUAL = Gdx.files.internal("turret_firing4.png")
     var TURRET_ANIMATION_SINGLE = Gdx.files.internal("turret_firing_single.png")
-    val ASTRO_ANIMATION_MOVING = Gdx.files.internal("astronaut_moving1.png")
+    val ASTRO_ANIMATION_MOVING = Gdx.files.internal("astronaut_moving2.png")
 
     val LOGO = Gdx.files.internal("logo2.png")
     var STAR = Gdx.files.internal("star1.png")
@@ -50,6 +50,7 @@ object Assets {
                             "Shoot the asteroids",
                             "Clear a path",
                             "Keep Going !",
-                            "Don't Panic ! !")
+                            "Don't Panic ! !",
+                            "You can do it !")
 
 }
