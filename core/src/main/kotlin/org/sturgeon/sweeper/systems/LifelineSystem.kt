@@ -45,15 +45,19 @@ class LifelineSystem : EntitySystem() {
 
             if (length > World.LIFELINE_LENGTH) {
                 // snap?
-                engine.removeEntity(line)
-                astronaut.remove(ConnectedComponent::class.java)
-                astronaut.remove(TargetComponent::class.java)
-                World.astronauts--
-                snap.play()
-                engine.getSystem(BigTextSystem::class.java).addBigText("Lifeline Snapped ! !")
+               snap(astronaut, line)
             }
 
-
         }
+    }
+
+    fun snap(astronaut: Entity, line:Entity) {
+        engine.removeEntity(line)
+        astronaut.remove(ConnectedComponent::class.java)
+        astronaut.remove(TargetComponent::class.java)
+        World.astronauts--
+        World.astronautHealth = 0
+        snap.play()
+        engine.getSystem(BigTextSystem::class.java).addBigText("Lifeline Snapped ! !")
     }
 }

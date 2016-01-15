@@ -34,8 +34,8 @@ class AddObjectSystem(i: Float): IntervalSystem(i) {
             }
         }
 
-        thing.add(MovementComponent(MathUtils.random(-100f, -25f),
-                MathUtils.random(-50f, 50f)))
+        thing.add(MovementComponent(MathUtils.random(World.objectSpeedMax, World.objectSpeedMin),
+                MathUtils.random(-World.objectSpeedY, World.objectSpeedY)))
         thing.add(ItemComponent(type))
         thing.add(BoundsCheckComponent())
         thing.add(CollisionComponent())

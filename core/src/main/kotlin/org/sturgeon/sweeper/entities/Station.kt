@@ -334,6 +334,8 @@ class Station(e: Engine) {
         engine.removeEntity(astronaut)
         engine.removeEntity(lifeline)
         entitiesToRemove.remove(astronaut)
+        // reset health
+        World.astronautHealth = 100
     }
 
     fun addLifeLine() {

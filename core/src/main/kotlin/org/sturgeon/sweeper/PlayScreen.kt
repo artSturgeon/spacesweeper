@@ -27,7 +27,7 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
     // lazy init for these so they don't take effect until needed
     val playSystems:Array<EntitySystem> by lazy {
         arrayOf(FiringSystem()
-                , AddAsteroidSystem(5f)
+                , AddAsteroidSystem(World.ASTEROID_INTERVAL)
                 , AddObjectSystem(5f)
                 , CollisionSystem(this)
                 , LifelineSystem()
@@ -117,7 +117,11 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         //addInitialStars()
         //addTurret()
 
-        World.level = 1
+        World.resetWorld()
+
+        var sys = game.engine.getSystem(AddAsteroidSystem::class.java)
+        sys.interval = World.ASTEROID_INTERVAL
+
         //addPanels()
         //addRecallButton()
         // add score
@@ -131,17 +135,17 @@ class PlayScreen(var game: SpaceSweeper) : ScreenAdapter() {
         // add health
         var healthText = Entity()
         healthText.add(PositionComponent(Assets.VIEWPORT_WIDTH - 250, Assets.VIEWPORT_HEIGHT - 80))
-        fun updateHealth() = { "health: " + station.getHealth()  }
+        fun updateHealth() = { "station: " + station.getHealth() + "%" }
         station.add(HealthComponent(World.STATION_HEALTH, { setGameOver() }))
-        healthText.add(UpdatingTextComponent("health : " + World.STATION_HEALTH, false, updateHealth() ))
+        healthText.add(UpdatingTextComponent("station: " + World.STATION_HEALTH + "%", false, updateHealth() ))
         game.engine.addEntity(healthText)
         entitiesToRemove.add(healthText)
 
         // add number of astronauts
         var astroText = Entity()
         astroText.add(PositionComponent(Assets.VIEWPORT_WIDTH - 250, Assets.VIEWPORT_HEIGHT - 120))
-        fun updateAstro() = { "astro : " + World.astronauts }
-        astroText.add(UpdatingTextComponent("astro : " + World.astronauts, false, updateAstro()))
+        fun updateAstro() = { "astro: " + World.astronautHealth + "%" }
+        astroText.add(UpdatingTextComponent("astro: " + World.astronautHealth + "%", false, updateAstro()))
         game.engine.addEntity(astroText)
         entitiesToRemove.add(astroText)
     }

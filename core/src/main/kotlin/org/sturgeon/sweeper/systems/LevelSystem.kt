@@ -30,6 +30,11 @@ class LevelSystem: EntitySystem() {
         World.objectChance -= World.objectDecrement
         if (World.objectChance < 20) World.objectChance = 20
 
+        // faster objects
+        World.objectSpeedMax -= 25f
+        World.objectSpeedMin -= 25f
+        World.objectSpeedY += 10
+
         // add some nice big text
         engine.getSystem(BigTextSystem::class.java).addBigText("Level " + World.level + " ! !")
     }

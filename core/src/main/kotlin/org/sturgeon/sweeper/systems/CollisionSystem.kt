@@ -47,7 +47,7 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
         players = engine!!.getEntitiesFor(Family.all(PlayerComponent::class.java).get())
         bullets = engine!!.getEntitiesFor(Family.all(BulletComponent::class.java).get())
         asteroids = engine!!.getEntitiesFor(Family.all(AsteroidComponent::class.java, CollisionComponent::class.java).get())
-        astronauts = engine!!.getEntitiesFor(Family.all(AstronautComponent::class.java, AliveComponent::class.java).get())
+        astronauts = engine!!.getEntitiesFor(Family.all(AstronautComponent::class.java, AliveComponent::class.java, ConnectedComponent::class.java).get())
         items = engine!!.getEntitiesFor(Family.all(ItemComponent::class.java, CollisionComponent::class.java).get())
     }
 
@@ -109,9 +109,17 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
                 if (r.width > 0) {
                     var asteroidMC = asteroid.getComponent(MovementComponent::class.java)
                     var astronautMC = astronaut.getComponent(MovementComponent::class.java)
+
                     if (astronautMC == null) {
                         astronautMC = MovementComponent(0f, 0f)
                         astronaut.add(asteroidMC)
+                    }
+                    World.astronautHealth -= 50
+                    if (World.astronautHealth <= 0) {
+                        // snap the line, second hit
+                        var lifelines = engine.getEntitiesFor(Family.all(LineComponent::class.java).get())
+                        if (lifelines != null && lifelines.size() > 0)
+                            engine.getSystem(LifelineSystem::class.java).snap(astronaut, lifelines.get(0))
                     }
                     astronautMC.velocityX = asteroidMC.velocityX * 1.5f
                     //astronautMC.velocityY = asteroidMC.velocityY * 2f
@@ -186,8 +194,8 @@ class CollisionSystem(ps:PlayScreen) : EntitySystem() {
                 var bulletPC = bullet.getComponent(PositionComponent::class.java)
                 var r = Rectangle()
                 Intersector.intersectRectangles(bulletPC.rect(), asteroidPC.rect(), r)
-
-                if (r.width > 0.0f) {
+                //println("intersector width: " + r.width + ", height: " + r.height)
+                if (r.width > 0.0f || r.height > 0.0f) {
                     World.score += asteroidAC.points
                     var particle = Particle(asteroidPC.x + asteroidPC.width/2,
                             asteroidPC.y + asteroidPC.height/2, Assets.PART_ASTEROID)
