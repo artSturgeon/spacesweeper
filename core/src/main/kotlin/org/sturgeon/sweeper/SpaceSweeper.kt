@@ -11,9 +11,11 @@ class SpaceSweeper : Game() {
     public val engine: Engine by lazy { Engine() }
 
     override fun create() {
+        /* This didn't seem to work correctly on Windows
         val pm = Pixmap(Gdx.files.internal("cursor1.png"))
         Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, pm.width/2, pm.height/2))
         pm.dispose()
+        */
         setScreen(PlayScreen(this))
     }
 
